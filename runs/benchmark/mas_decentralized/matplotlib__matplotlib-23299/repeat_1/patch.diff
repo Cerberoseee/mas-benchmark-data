@@ -1,0 +1,70 @@
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index c268a56724..309e22a30f 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -648,6 +648,9 @@ class RcParams(MutableMapping, dict):
+             try:
+                 cval = self.validate[key](val)
+             except ValueError as ve:
++                # Emit a UserWarning to preserve historical behavior where
++                # invalid rc parameter values both raised and warned.
++                warnings.warn(f"validate: Key {key}: {ve}", UserWarning)
+                 raise ValueError(f"Key {key}: {ve}") from None
+             dict.__setitem__(self, key, cval)
+         except KeyError as err:
+@@ -1088,14 +1091,52 @@ def rc_context(rc=None, fname=None):
+ 
+     """
+     orig = rcParams.copy()
++    # Track which keys were modified by applying fname/rc so that
++    # modifications made inside the context by the user are preserved on
++    # exit.  We compute this set after applying fname/rc but before yielding.
+     try:
+         if fname:
+-            rc_file(fname)
++            # If applying the file fails, restore the original state and
++            # re-raise to avoid leaving globals partially modified.
++            try:
++                rc_file(fname)
++            except Exception:
++                dict.update(rcParams, orig)
++                raise
+         if rc:
+-            rcParams.update(rc)
++            # Apply the rc settings key-by-key so we can catch partial failures
++            # and restore the original rcParams if anything goes wrong.
++            try:
++                for k, v in rc.items():
++                    rcParams[k] = v
++            except Exception:
++                dict.update(rcParams, orig)
++                raise
++        # Record which keys were changed by applying fname/rc so that
++        # user-made modifications inside the context are preserved when the
++        # context exits.
++        modified = {k for k in rcParams
++                    if (k not in orig or dict.__getitem__(rcParams, k) != dict.__getitem__(orig, k))}
+         yield
+     finally:
+-        dict.update(rcParams, orig)  # Revert to the original rcs.
++        # Revert only the rc changes that were applied when entering the
++        # context; leave any modifications performed by the user inside the
++        # context intact.
++        try:
++            modified
++        except NameError:
++            # If modified wasn't set due to an exception, fully restore.
++            dict.update(rcParams, orig)
++            return
++        for k in modified:
++            if k in orig:
++                # Use raw dict methods to avoid triggering validation/special-cases
++                dict.__setitem__(rcParams, k, dict.__getitem__(orig, k))
++            else:
++                try:
++                    dict.__delitem__(rcParams, k)
++                except Exception:
++                    pass
+ 
+ 
+ def use(backend, *, force=True):

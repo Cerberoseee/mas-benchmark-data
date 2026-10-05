@@ -1,0 +1,20 @@
+Base image sweb.base.py.x86_64:latest already exists, skipping build.
+Base images built successfully.
+No environment images need to be built.
+Running 1 instances...
+Error building image sweb.eval.x86_64.pylint-dev__pylint-7228:latest: The command '/bin/sh -c /bin/bash /root/setup_repo.sh' returned a non-zero code: 1
+Check (logs/build_images/instances/sweb.eval.x86_64.pylint-dev__pylint-7228__latest/build_image.log) for more information.
+All instances run.
+Cleaning cached images...
+Removed 0 images.
+Total instances: 1
+Instances submitted: 1
+Instances completed: 0
+Instances incomplete: 0
+Instances resolved: 0
+Instances unresolved: 0
+Instances with empty patches: 0
+Instances with errors: 1
+Unstopped containers: 2
+Unremoved images: 0
+Report written to mas_decentralized.benchmark.json

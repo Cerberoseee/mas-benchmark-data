@@ -1,0 +1,157 @@
+2026-05-16 19:00:24,125 - INFO - Environment image sweb.env.py.x86_64.6b007979cf533f0f3016e8:latest found for matplotlib__matplotlib-18869
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest for matplotlib__matplotlib-18869
+2026-05-16 19:05:58,697 - INFO - Creating container for matplotlib__matplotlib-18869...
+2026-05-16 19:05:58,760 - INFO - Container for matplotlib__matplotlib-18869 created: 6da000da29e3ef44ab12b18fa8300a0afbb41d3141ab8706cfe2fe8ceff3ad59
+2026-05-16 19:05:58,932 - INFO - Container for matplotlib__matplotlib-18869 started: 6da000da29e3ef44ab12b18fa8300a0afbb41d3141ab8706cfe2fe8ceff3ad59
+2026-05-16 19:05:58,932 - INFO - Intermediate patch for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_decentralized/matplotlib__matplotlib-18869/patch.diff, now applying to container...
+2026-05-16 19:05:59,053 - INFO - >>>>> Applied Patch:
+Checking patch lib/matplotlib/__init__.py...
+Applied patch lib/matplotlib/__init__.py cleanly.
+
+2026-05-16 19:05:59,890 - INFO - Git diff before:
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf..c38f41442 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -104,6 +104,38 @@ import warnings
+ import numpy
+ from packaging.version import parse as parse_version
+ 
++def _parse_to_version_info(version):
++    import re
++    version = str(version)
++    # drop local version segments starting with +
++    version = version.split('+', 1)[0]
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)(.*)$', version)
++    if not m:
++        raise ValueError(f"Cannot parse version: {version!r}")
++    major, minor, micro, rest = m.groups()
++    major, minor, micro = int(major), int(minor), int(micro)
++    stage = 'final'
++    stage_num = 0
++    # rc -> candidate
++    if rest.startswith('rc'):
++        m2 = re.match(r'rc(\d+)', rest)
++        if m2:
++            stage = 'candidate'
++            stage_num = int(m2.group(1))
++    elif '.dev' in rest:
++        m2 = re.search(r'dev(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++    elif '.post' in rest:
++        m2 = re.search(r'post(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++            micro += 1
++    return (major, minor, micro, stage, stage_num)
++
++
+ # cbook must import matplotlib only within function
+ # definitions, so it is safe to import from it here.
+ from . import _api, _version, cbook, docstring, rcsetup
+@@ -131,9 +163,9 @@ __bibtex__ = r"""@Article{Hunter:2007,
+ 
+ 
+ def __getattr__(name):
+-    if name == "__version__":
++    if name in ("__version__", "__version_info__"):
+         import setuptools_scm
+-        global __version__  # cache it.
++        global __version__
+         # Only shell out to a git subprocess if really needed, and not on a
+         # shallow clone, such as those used by CI, as the latter would trigger
+         # a warning from setuptools_scm.
+@@ -147,7 +179,12 @@ def __getattr__(name):
+             )
+         else:  # Get the version from the _version.py setuptools_scm file.
+             __version__ = _version.version
+-        return __version__
++        try:
++            vi = _parse_to_version_info(__version__)
++        except Exception:
++            vi = None
++        globals()['__version_info__'] = vi
++        return __version__ if name == "__version__" else vi
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+2026-05-16 19:05:59,890 - INFO - Eval script for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_decentralized/matplotlib__matplotlib-18869/eval.sh; copying to container...
+2026-05-16 19:06:07,482 - INFO - Test runtime: 7.52 seconds
+2026-05-16 19:06:07,482 - INFO - Test output for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_decentralized/matplotlib__matplotlib-18869/test_output.txt
+2026-05-16 19:06:07,544 - INFO - Git diff after:
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf..c38f41442 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -104,6 +104,38 @@ import warnings
+ import numpy
+ from packaging.version import parse as parse_version
+ 
++def _parse_to_version_info(version):
++    import re
++    version = str(version)
++    # drop local version segments starting with +
++    version = version.split('+', 1)[0]
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)(.*)$', version)
++    if not m:
++        raise ValueError(f"Cannot parse version: {version!r}")
++    major, minor, micro, rest = m.groups()
++    major, minor, micro = int(major), int(minor), int(micro)
++    stage = 'final'
++    stage_num = 0
++    # rc -> candidate
++    if rest.startswith('rc'):
++        m2 = re.match(r'rc(\d+)', rest)
++        if m2:
++            stage = 'candidate'
++            stage_num = int(m2.group(1))
++    elif '.dev' in rest:
++        m2 = re.search(r'dev(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++    elif '.post' in rest:
++        m2 = re.search(r'post(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++            micro += 1
++    return (major, minor, micro, stage, stage_num)
++
++
+ # cbook must import matplotlib only within function
+ # definitions, so it is safe to import from it here.
+ from . import _api, _version, cbook, docstring, rcsetup
+@@ -131,9 +163,9 @@ __bibtex__ = r"""@Article{Hunter:2007,
+ 
+ 
+ def __getattr__(name):
+-    if name == "__version__":
++    if name in ("__version__", "__version_info__"):
+         import setuptools_scm
+-        global __version__  # cache it.
++        global __version__
+         # Only shell out to a git subprocess if really needed, and not on a
+         # shallow clone, such as those used by CI, as the latter would trigger
+         # a warning from setuptools_scm.
+@@ -147,7 +179,12 @@ def __getattr__(name):
+             )
+         else:  # Get the version from the _version.py setuptools_scm file.
+             __version__ = _version.version
+-        return __version__
++        try:
++            vi = _parse_to_version_info(__version__)
++        except Exception:
++            vi = None
++        globals()['__version_info__'] = vi
++        return __version__ if name == "__version__" else vi
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+2026-05-16 19:06:07,544 - INFO - Grading answer for matplotlib__matplotlib-18869...
+2026-05-16 19:06:07,544 - INFO - report: {'matplotlib__matplotlib-18869': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]'], 'failure': []}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home', 'lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends', 'lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-18869: resolved: True
+2026-05-16 19:06:07,545 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-18869.benchmark...
+2026-05-16 19:06:22,819 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-18869.benchmark...
+2026-05-16 19:06:22,859 - INFO - Container sweb.eval.matplotlib__matplotlib-18869.benchmark removed.
+2026-05-16 19:06:22,859 - INFO - Attempting to remove image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest...
+2026-05-16 19:06:23,853 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest removed.

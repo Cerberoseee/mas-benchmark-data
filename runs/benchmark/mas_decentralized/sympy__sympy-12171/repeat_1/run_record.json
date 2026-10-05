@@ -1,0 +1,109 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "sympy__sympy-12171",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-15T18:47:46.395921Z",
+  "completed_at": "2026-05-15T19:08:59.637810Z",
+  "duration_seconds": 1273.2418888228626,
+  "workspace_dir": "runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/grade-result.json",
+  "prompt_sha256": "f9700b4bee1d1e9072991c282f74c8b4a25d5de6427d0fb5b1d7a4657501fbe7",
+  "telemetry": {
+    "total_tokens": 1249886,
+    "prompt_tokens": 1213159,
+    "completion_tokens": 36727,
+    "total_steps": 0,
+    "tool_calls": 29,
+    "tool_failures": 6,
+    "retries": 0,
+    "escalations": 11,
+    "messages": 192,
+    "handoffs": 24,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "1 pass_to_pass test(s) regressed (should still pass)",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "test_Derivative"
+        ],
+        "pass_to_pass_still_passing": [
+          "test_Integer",
+          "test_Rational",
+          "test_Function",
+          "test_Mul",
+          "test_constants",
+          "test_containers",
+          "test_Integral"
+        ],
+        "pass_to_pass_regressions": [
+          "test_Pow"
+        ],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "test_Derivative"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "test_Integer",
+              "test_Rational",
+              "test_Function",
+              "test_Mul",
+              "test_constants",
+              "test_containers",
+              "test_Integral"
+            ],
+            "failure": [
+              "test_Pow"
+            ]
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sympy__sympy-12171/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/sympy__sympy-12171/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T13:54:41.860375Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

@@ -1,0 +1,12 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-db4a6e3f -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/psf__requests-2148/repeat_1:/run_dir:ro            
+docker.io/swebench/sweb.eval.x86_64.psf_1776_requests-2148:latest sleep 2h                                              
+minisweagent.environment: INFO: Started container minisweagent-db4a6e3f with ID                                         
+63283dc888677124a251b8415ba0bc1d34272bcf0edbe9abf2a2c491a097bb34                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA verified all Fail-to-pass tests and Engineer produced a non-empty patch.
+QA notes: Collected all Fail-to-pass IDs and ran them; all passed (returncode=0). The socket.error wrapping into ConnectionError is in place and validated by test_iter_content_handles_socket_error.

@@ -1,0 +1,32 @@
+diff --git a/xarray/core/variable.py b/xarray/core/variable.py
+index 64c1895d..05f3d896 100644
+--- a/xarray/core/variable.py
++++ b/xarray/core/variable.py
+@@ -120,6 +120,16 @@ def as_variable(obj, name=None) -> "Union[Variable, IndexVariable]":
+     if isinstance(obj, Variable):
+         obj = obj.copy(deep=False)
+     elif isinstance(obj, tuple):
++        # Deprecation: passing DataArray inside a tuple to as_variable is
++        # deprecated. Warn to preserve existing test expectations.
++        from .dataarray import DataArray
++        if len(obj) >= 2 and isinstance(obj[1], DataArray):
++            warnings.warn(
++                "Passing a DataArray inside a tuple to as_variable is deprecated; "
++                "use a DataArray or Variable directly.",
++                DeprecationWarning,
++                stacklevel=3,
++            )
+         try:
+             obj = Variable(*obj)
+         except (TypeError, ValueError) as error:
+@@ -201,6 +211,10 @@ def as_compatible_data(data, fastpath=False):
+         # can't use fastpath (yet) for scalars
+         return _maybe_wrap_data(data)
+ 
++    from .dataarray import DataArray
++    if isinstance(data, DataArray):
++        return data.data
++
+     if isinstance(data, Variable):
+         return data.data
+ 

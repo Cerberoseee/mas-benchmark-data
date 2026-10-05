@@ -1,0 +1,163 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "pytest-dev__pytest-5227",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-11T16:50:47.326331Z",
+  "completed_at": "2026-05-11T16:52:07.000346Z",
+  "duration_seconds": 79.67401531949987,
+  "workspace_dir": "runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/grade-result.json",
+  "prompt_sha256": "d2269ac789878326cea8acd55d338297232b434de6819856d03ff42cddc5816a",
+  "telemetry": {
+    "total_tokens": 44376,
+    "prompt_tokens": 41814,
+    "completion_tokens": 2562,
+    "total_steps": 0,
+    "tool_calls": 11,
+    "tool_failures": 0,
+    "retries": 0,
+    "escalations": 1,
+    "messages": 42,
+    "handoffs": 3,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved \u2014 no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "testing/logging/test_reporting.py::test_log_cli_enabled_disabled[True]",
+          "testing/logging/test_reporting.py::test_log_cli_default_level",
+          "testing/logging/test_reporting.py::test_sections_single_new_line_after_test_outcome"
+        ],
+        "pass_to_pass_still_passing": [
+          "[100%]",
+          "[",
+          "[100%]------------------------------",
+          "testing/logging/test_reporting.py::test_live_logging_suspends_capture[True]",
+          "testing/logging/test_reporting.py::test_live_logging_suspends_capture[False]",
+          "testing/logging/test_reporting.py::test_nothing_logged",
+          "testing/logging/test_reporting.py::test_messages_logged",
+          "testing/logging/test_reporting.py::test_root_logger_affected",
+          "testing/logging/test_reporting.py::test_log_cli_level_log_level_interaction",
+          "testing/logging/test_reporting.py::test_setup_logging",
+          "testing/logging/test_reporting.py::test_teardown_logging",
+          "testing/logging/test_reporting.py::test_disable_log_capturing",
+          "testing/logging/test_reporting.py::test_disable_log_capturing_ini",
+          "testing/logging/test_reporting.py::test_log_cli_enabled_disabled[False]",
+          "testing/logging/test_reporting.py::test_log_cli_default_level_multiple_tests",
+          "testing/logging/test_reporting.py::test_log_cli_default_level_sections",
+          "testing/logging/test_reporting.py::test_live_logs_unknown_sections",
+          "testing/logging/test_reporting.py::test_log_cli_level",
+          "testing/logging/test_reporting.py::test_log_cli_ini_level",
+          "testing/logging/test_reporting.py::test_log_cli_auto_enable[]",
+          "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-level=WARNING]",
+          "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-file-level=WARNING]",
+          "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-cli-level=WARNING]",
+          "testing/logging/test_reporting.py::test_log_file_cli",
+          "testing/logging/test_reporting.py::test_log_file_cli_level",
+          "testing/logging/test_reporting.py::test_log_level_not_changed_by_default",
+          "testing/logging/test_reporting.py::test_log_file_ini",
+          "testing/logging/test_reporting.py::test_log_file_ini_level",
+          "testing/logging/test_reporting.py::test_log_file_unicode",
+          "testing/logging/test_reporting.py::test_collection_live_logging",
+          "testing/logging/test_reporting.py::test_collection_logging_to_file",
+          "testing/logging/test_reporting.py::test_log_in_hooks",
+          "testing/logging/test_reporting.py::test_log_in_runtest_logreport",
+          "testing/logging/test_reporting.py::test_log_set_path"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "testing/logging/test_reporting.py::test_log_cli_enabled_disabled[True]",
+              "testing/logging/test_reporting.py::test_log_cli_default_level",
+              "testing/logging/test_reporting.py::test_sections_single_new_line_after_test_outcome"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "[100%]",
+              "[",
+              "[100%]------------------------------",
+              "testing/logging/test_reporting.py::test_live_logging_suspends_capture[True]",
+              "testing/logging/test_reporting.py::test_live_logging_suspends_capture[False]",
+              "testing/logging/test_reporting.py::test_nothing_logged",
+              "testing/logging/test_reporting.py::test_messages_logged",
+              "testing/logging/test_reporting.py::test_root_logger_affected",
+              "testing/logging/test_reporting.py::test_log_cli_level_log_level_interaction",
+              "testing/logging/test_reporting.py::test_setup_logging",
+              "testing/logging/test_reporting.py::test_teardown_logging",
+              "testing/logging/test_reporting.py::test_disable_log_capturing",
+              "testing/logging/test_reporting.py::test_disable_log_capturing_ini",
+              "testing/logging/test_reporting.py::test_log_cli_enabled_disabled[False]",
+              "testing/logging/test_reporting.py::test_log_cli_default_level_multiple_tests",
+              "testing/logging/test_reporting.py::test_log_cli_default_level_sections",
+              "testing/logging/test_reporting.py::test_live_logs_unknown_sections",
+              "testing/logging/test_reporting.py::test_log_cli_level",
+              "testing/logging/test_reporting.py::test_log_cli_ini_level",
+              "testing/logging/test_reporting.py::test_log_cli_auto_enable[]",
+              "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-level=WARNING]",
+              "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-file-level=WARNING]",
+              "testing/logging/test_reporting.py::test_log_cli_auto_enable[--log-cli-level=WARNING]",
+              "testing/logging/test_reporting.py::test_log_file_cli",
+              "testing/logging/test_reporting.py::test_log_file_cli_level",
+              "testing/logging/test_reporting.py::test_log_level_not_changed_by_default",
+              "testing/logging/test_reporting.py::test_log_file_ini",
+              "testing/logging/test_reporting.py::test_log_file_ini_level",
+              "testing/logging/test_reporting.py::test_log_file_unicode",
+              "testing/logging/test_reporting.py::test_collection_live_logging",
+              "testing/logging/test_reporting.py::test_collection_logging_to_file",
+              "testing/logging/test_reporting.py::test_log_in_hooks",
+              "testing/logging/test_reporting.py::test_log_in_runtest_logreport",
+              "testing/logging/test_reporting.py::test_log_set_path"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pytest-dev__pytest-5227/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/pytest-dev__pytest-5227/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T13:07:00.552054Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

@@ -1,0 +1,452 @@
+2026-05-16 16:33:32,015 - INFO - Building image sweb.eval.x86_64.mwaskom__seaborn-3190:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.py.x86_64.a0efca7a0fe6719dbf65c2:latest
+
+COPY ./setup_repo.sh /root/
+RUN sed -i -e 's/\r$//' /root/setup_repo.sh
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2026-05-16 16:33:32,015 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin  --single-branch https://github.com/mwaskom/seaborn /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard 4a9e54962a29c12a8b103d75f838e0e795a6974d
+git remote remove origin
+TARGET_TIMESTAMP=$(git show -s --format=%ci 4a9e54962a29c12a8b103d75f838e0e795a6974d)
+git tag -l | while read tag; do TAG_COMMIT=$(git rev-list -n 1 "$tag"); TAG_TIME=$(git show -s --format=%ci "$TAG_COMMIT"); if [[ "$TAG_TIME" > "$TARGET_TIMESTAMP" ]]; then git tag -d "$tag"; fi; done
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+AFTER_TIMESTAMP=$(date -d "$TARGET_TIMESTAMP + 1 second" '+%Y-%m-%d %H:%M:%S')
+COMMIT_COUNT=$(git log --oneline --all --since="$AFTER_TIMESTAMP" | wc -l)
+[ "$COMMIT_COUNT" -eq 0 ] || exit 1
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .[dev]
+git config --global user.email setup@swebench.config
+git config --global user.name SWE-bench
+git commit --allow-empty -am SWE-bench
+
+2026-05-16 16:33:32,015 - INFO - Building docker image sweb.eval.x86_64.mwaskom__seaborn-3190:latest in logs/build_images/instances/sweb.eval.x86_64.mwaskom__seaborn-3190__latest with platform linux/x86_64
+2026-05-16 16:33:32,019 - INFO - Step 1/5 : FROM --platform=linux/x86_64 sweb.env.py.x86_64.a0efca7a0fe6719dbf65c2:latest
+2026-05-16 16:33:32,019 - INFO - 
+2026-05-16 16:33:32,030 - INFO - ---> 4914ed1db7f2
+2026-05-16 16:33:32,031 - INFO - Step 2/5 : COPY ./setup_repo.sh /root/
+2026-05-16 16:33:32,031 - INFO - 
+2026-05-16 16:33:35,964 - INFO - ---> 974d94c4fb50
+2026-05-16 16:33:35,964 - INFO - Step 3/5 : RUN sed -i -e 's/\r$//' /root/setup_repo.sh
+2026-05-16 16:33:35,964 - INFO - 
+2026-05-16 16:33:36,062 - INFO - ---> Running in 8a9c40f205ef
+2026-05-16 16:33:40,325 - INFO - ---> Removed intermediate container 8a9c40f205ef
+2026-05-16 16:33:40,326 - INFO - ---> 12c417a63e09
+2026-05-16 16:33:40,326 - INFO - Step 4/5 : RUN /bin/bash /root/setup_repo.sh
+2026-05-16 16:33:40,326 - INFO - 
+2026-05-16 16:33:40,426 - INFO - ---> Running in 2f5cf96b94d5
+2026-05-16 16:33:40,619 - INFO - + git clone -o origin --single-branch https://github.com/mwaskom/seaborn /testbed
+2026-05-16 16:33:40,620 - INFO - Cloning into '/testbed'...
+2026-05-16 16:33:46,113 - INFO - + chmod -R 777 /testbed
+2026-05-16 16:33:46,115 - INFO - + cd /testbed
++ git reset --hard 4a9e54962a29c12a8b103d75f838e0e795a6974d
+2026-05-16 16:33:46,149 - INFO - HEAD is now at 4a9e5496 Improve user feedback for errors during plot compilation (#3203)
+2026-05-16 16:33:46,150 - INFO - + git remote remove origin
+2026-05-16 16:33:46,152 - INFO - ++ git show -s --format=%ci 4a9e54962a29c12a8b103d75f838e0e795a6974d
+2026-05-16 16:33:46,153 - INFO - + TARGET_TIMESTAMP='2022-12-27 20:09:15 -0500'
+2026-05-16 16:33:46,153 - INFO - + git tag -l
+2026-05-16 16:33:46,153 - INFO - + read tag
+2026-05-16 16:33:46,154 - INFO - ++ git rev-list -n 1 v0.1
+2026-05-16 16:33:46,155 - INFO - + TAG_COMMIT=27afe0120138b8e97e44608d46448c84dbf497ef
+2026-05-16 16:33:46,155 - INFO - ++ git show -s --format=%ci 27afe0120138b8e97e44608d46448c84dbf497ef
+2026-05-16 16:33:46,156 - INFO - + TAG_TIME='2013-10-28 15:56:51 -0700'
++ [[ 2013-10-28 15:56:51 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,157 - INFO - ++ git rev-list -n 1 v0.10.0
+2026-05-16 16:33:46,157 - INFO - + TAG_COMMIT=72d6c2ab8c2c538212eab50b3e32aea8d5a71caf
+2026-05-16 16:33:46,158 - INFO - ++ git show -s --format=%ci 72d6c2ab8c2c538212eab50b3e32aea8d5a71caf
+2026-05-16 16:33:46,159 - INFO - + TAG_TIME='2020-01-24 08:11:00 -0500'
++ [[ 2020-01-24 08:11:00 -0500 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,159 - INFO - ++ git rev-list -n 1 v0.10.0.rc0
+2026-05-16 16:33:46,160 - INFO - + TAG_COMMIT=7618fbd04b76f93fea5952339c1b374f42300dd1
+2026-05-16 16:33:46,160 - INFO - ++ git show -s --format=%ci 7618fbd04b76f93fea5952339c1b374f42300dd1
+2026-05-16 16:33:46,161 - INFO - + TAG_TIME='2020-01-22 16:07:21 -0500'
++ [[ 2020-01-22 16:07:21 -0500 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,161 - INFO - ++ git rev-list -n 1 v0.2.0
+2026-05-16 16:33:46,162 - INFO - + TAG_COMMIT=e569cb9cbb6eb49bddf1ef242d94f2cf4b0c85a5
+2026-05-16 16:33:46,162 - INFO - ++ git show -s --format=%ci e569cb9cbb6eb49bddf1ef242d94f2cf4b0c85a5
+2026-05-16 16:33:46,163 - INFO - + TAG_TIME='2013-12-23 11:50:05 -0800'
++ [[ 2013-12-23 11:50:05 -0800 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,163 - INFO - ++ git rev-list -n 1 v0.3.0
+2026-05-16 16:33:46,164 - INFO - + TAG_COMMIT=1187367d25c1c0245bd10508212d82cca513bb51
+2026-05-16 16:33:46,165 - INFO - ++ git show -s --format=%ci 1187367d25c1c0245bd10508212d82cca513bb51
+2026-05-16 16:33:46,166 - INFO - + TAG_TIME='2014-03-22 17:51:02 -0700'
++ [[ 2014-03-22 17:51:02 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,166 - INFO - ++ git rev-list -n 1 v0.3.1
+2026-05-16 16:33:46,167 - INFO - + TAG_COMMIT=b4af266604949b172737e02f359c311c09d6223b
+2026-05-16 16:33:46,167 - INFO - ++ git show -s --format=%ci b4af266604949b172737e02f359c311c09d6223b
+2026-05-16 16:33:46,168 - INFO - + TAG_TIME='2014-04-21 09:04:59 -0700'
++ [[ 2014-04-21 09:04:59 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,168 - INFO - ++ git rev-list -n 1 v0.4.0
+2026-05-16 16:33:46,169 - INFO - + TAG_COMMIT=0e4ceaf19da65be00ee812d1bc8b728f97ddf601
+2026-05-16 16:33:46,169 - INFO - ++ git show -s --format=%ci 0e4ceaf19da65be00ee812d1bc8b728f97ddf601
+2026-05-16 16:33:46,170 - INFO - + TAG_TIME='2014-09-02 21:35:08 -0700'
++ [[ 2014-09-02 21:35:08 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,170 - INFO - ++ git rev-list -n 1 v0.5.0
+2026-05-16 16:33:46,171 - INFO - + TAG_COMMIT=c4656289d1a9d34a8dc81edbaf497092b07f7056
+2026-05-16 16:33:46,171 - INFO - ++ git show -s --format=%ci c4656289d1a9d34a8dc81edbaf497092b07f7056
+2026-05-16 16:33:46,172 - INFO - + TAG_TIME='2014-11-14 10:34:01 -0800'
++ [[ 2014-11-14 10:34:01 -0800 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,173 - INFO - ++ git rev-list -n 1 v0.5.1
+2026-05-16 16:33:46,173 - INFO - + TAG_COMMIT=eb9cdb7c57636eb335f07aa4dade0155400f8fca
+2026-05-16 16:33:46,174 - INFO - ++ git show -s --format=%ci eb9cdb7c57636eb335f07aa4dade0155400f8fca
+2026-05-16 16:33:46,175 - INFO - + TAG_TIME='2014-11-22 12:51:34 -0800'
++ [[ 2014-11-22 12:51:34 -0800 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,175 - INFO - ++ git rev-list -n 1 v0.6.0
+2026-05-16 16:33:46,176 - INFO - + TAG_COMMIT=9664247bbe209dee807d3dff5b8c259236e5a66b
+2026-05-16 16:33:46,176 - INFO - ++ git show -s --format=%ci 9664247bbe209dee807d3dff5b8c259236e5a66b
+2026-05-16 16:33:46,177 - INFO - + TAG_TIME='2015-06-29 07:51:08 -0700'
++ [[ 2015-06-29 07:51:08 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,177 - INFO - ++ git rev-list -n 1 v0.7.0
+2026-05-16 16:33:46,178 - INFO - + TAG_COMMIT=22a886b3563de4d9080ae21244bc5325a6fdf16a
+2026-05-16 16:33:46,178 - INFO - ++ git show -s --format=%ci 22a886b3563de4d9080ae21244bc5325a6fdf16a
+2026-05-16 16:33:46,179 - INFO - + TAG_TIME='2016-01-24 19:54:14 -0800'
++ [[ 2016-01-24 19:54:14 -0800 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,180 - INFO - ++ git rev-list -n 1 v0.7.1
+2026-05-16 16:33:46,181 - INFO - + TAG_COMMIT=b618cc745060b18f55e3d7140c64535fe0c70c4c
+2026-05-16 16:33:46,181 - INFO - ++ git show -s --format=%ci b618cc745060b18f55e3d7140c64535fe0c70c4c
+2026-05-16 16:33:46,182 - INFO - + TAG_TIME='2016-06-04 19:22:35 -0700'
++ [[ 2016-06-04 19:22:35 -0700 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,182 - INFO - ++ git rev-list -n 1 v0.8.0
+2026-05-16 16:33:46,183 - INFO - + TAG_COMMIT=9a7d8367d54b3f1197320aaa0654a5b38df465aa
+2026-05-16 16:33:46,183 - INFO - ++ git show -s --format=%ci 9a7d8367d54b3f1197320aaa0654a5b38df465aa
+2026-05-16 16:33:46,184 - INFO - + TAG_TIME='2017-07-08 18:40:57 -0400'
++ [[ 2017-07-08 18:40:57 -0400 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,184 - INFO - ++ git rev-list -n 1 v0.8.1
+2026-05-16 16:33:46,185 - INFO - + TAG_COMMIT=9aba35ced1a9ad9c9c66006d623d9f93d76f7796
+2026-05-16 16:33:46,186 - INFO - ++ git show -s --format=%ci 9aba35ced1a9ad9c9c66006d623d9f93d76f7796
+2026-05-16 16:33:46,187 - INFO - + TAG_TIME='2017-09-03 12:21:28 -0400'
++ [[ 2017-09-03 12:21:28 -0400 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,187 - INFO - ++ git rev-list -n 1 v0.9.0
+2026-05-16 16:33:46,188 - INFO - + TAG_COMMIT=3eb463a2cd32db196b6e71d1f72d64057804ed76
+2026-05-16 16:33:46,188 - INFO - ++ git show -s --format=%ci 3eb463a2cd32db196b6e71d1f72d64057804ed76
+2026-05-16 16:33:46,189 - INFO - + TAG_TIME='2018-07-16 16:26:23 -0400'
++ [[ 2018-07-16 16:26:23 -0400 > 2022-12-27 20:09:15 -0500 ]]
++ read tag
+2026-05-16 16:33:46,189 - INFO - + git reflog expire --expire=now --all
+2026-05-16 16:33:46,190 - INFO - + git gc --prune=now --aggressive
+2026-05-16 16:33:56,016 - INFO - ++ date -d '2022-12-27 20:09:15 -0500 + 1 second' '+%Y-%m-%d %H:%M:%S'
+2026-05-16 16:33:56,017 - INFO - + AFTER_TIMESTAMP='2022-12-28 01:09:16'
+2026-05-16 16:33:56,017 - INFO - ++ git log --oneline --all '--since=2022-12-28 01:09:16'
+2026-05-16 16:33:56,017 - INFO - ++ wc -l
+2026-05-16 16:33:56,019 - INFO - + COMMIT_COUNT=0
++ '[' 0 -eq 0 ']'
++ source /opt/miniconda3/bin/activate
+++ _CONDA_ROOT=/opt/miniconda3
+2026-05-16 16:33:56,019 - INFO - ++ . /opt/miniconda3/etc/profile.d/conda.sh
++++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+2026-05-16 16:33:56,019 - INFO - +++ '[' -z '' ']'
++++ export CONDA_SHLVL=0
++++ CONDA_SHLVL=0
++++ '[' -n '' ']'
+2026-05-16 16:33:56,020 - INFO - +++++ dirname /opt/miniconda3/bin/conda
+2026-05-16 16:33:56,021 - INFO - ++++ dirname /opt/miniconda3/bin
+2026-05-16 16:33:56,021 - INFO - +++ PATH=/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export PATH
++++ '[' -z '' ']'
++++ PS1=
+2026-05-16 16:33:56,021 - INFO - ++ conda activate
+++ local cmd=activate
+++ case "$cmd" in
+++ __conda_activate activate
+++ '[' -n '' ']'
+++ local ask_conda
+2026-05-16 16:33:56,022 - INFO - +++ PS1=
++++ __conda_exe shell.posix activate
+2026-05-16 16:33:56,022 - INFO - +++ /opt/miniconda3/bin/conda shell.posix activate
+2026-05-16 16:33:56,116 - INFO - ++ ask_conda='PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ eval 'PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++++ PS1='(base) '
++++ export PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export CONDA_PREFIX=/opt/miniconda3
++++ CONDA_PREFIX=/opt/miniconda3
++++ export CONDA_SHLVL=1
++++ CONDA_SHLVL=1
++++ export CONDA_DEFAULT_ENV=base
++++ CONDA_DEFAULT_ENV=base
++++ export 'CONDA_PROMPT_MODIFIER=(base) '
++++ CONDA_PROMPT_MODIFIER='(base) '
++++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ __conda_hashr
+2026-05-16 16:33:56,116 - INFO - ++ '[' -n '' ']'
+++ '[' -n '' ']'
+++ hash -r
++ conda activate testbed
++ local cmd=activate
++ case "$cmd" in
+2026-05-16 16:33:56,116 - INFO - + __conda_activate activate testbed
++ '[' -n '' ']'
++ local ask_conda
+2026-05-16 16:33:56,117 - INFO - ++ PS1='(base) '
+++ __conda_exe shell.posix activate testbed
+2026-05-16 16:33:56,117 - INFO - ++ /opt/miniconda3/bin/conda shell.posix activate testbed
+2026-05-16 16:33:56,220 - INFO - + ask_conda='PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++ eval 'PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ PS1='(testbed) '
+++ export PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ export CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ export CONDA_SHLVL=2
+++ CONDA_SHLVL=2
+++ export CONDA_DEFAULT_ENV=testbed
+++ CONDA_DEFAULT_ENV=testbed
+++ export 'CONDA_PROMPT_MODIFIER=(testbed) '
+++ CONDA_PROMPT_MODIFIER='(testbed) '
+++ export CONDA_PREFIX_1=/opt/miniconda3
+++ CONDA_PREFIX_1=/opt/miniconda3
+++ export CONDA_EXE=/opt/miniconda3/bin/conda
+++ CONDA_EXE=/opt/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++ __conda_hashr
++ '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
+2026-05-16 16:33:56,220 - INFO - Current environment: testbed
+2026-05-16 16:33:56,220 - INFO - + echo 'Current environment: testbed'
+2026-05-16 16:33:56,220 - INFO - + python -m pip install -e '.[dev]'
+2026-05-16 16:33:56,435 - INFO - Obtaining file:///testbed
+2026-05-16 16:33:56,439 - INFO - Installing build dependencies: started
+2026-05-16 16:33:57,155 - INFO - Installing build dependencies: finished with status 'done'
+2026-05-16 16:33:57,156 - INFO - Checking if build backend supports build_editable: started
+2026-05-16 16:33:57,238 - INFO - Checking if build backend supports build_editable: finished with status 'done'
+2026-05-16 16:33:57,239 - INFO - Getting requirements to build editable: started
+2026-05-16 16:33:57,306 - INFO - Getting requirements to build editable: finished with status 'done'
+2026-05-16 16:33:57,308 - INFO - Preparing editable metadata (pyproject.toml): started
+2026-05-16 16:33:57,373 - INFO - Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-05-16 16:33:57,380 - INFO - Requirement already satisfied: numpy!=1.24.0,>=1.17 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from seaborn==0.12.2.dev0) (1.25.2)
+2026-05-16 16:33:57,381 - INFO - Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from seaborn==0.12.2.dev0) (2.0.0)
+2026-05-16 16:33:57,381 - INFO - Requirement already satisfied: matplotlib!=3.6.1,>=3.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from seaborn==0.12.2.dev0) (3.7.2)
+2026-05-16 16:33:57,382 - INFO - Requirement already satisfied: pytest in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from seaborn==0.12.2.dev0) (8.4.2)
+2026-05-16 16:33:57,506 - INFO - Collecting pytest-cov (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:57,606 - INFO - Downloading pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+2026-05-16 16:33:57,692 - INFO - Collecting pytest-xdist (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:57,721 - INFO - Downloading pytest_xdist-3.8.0-py3-none-any.whl.metadata (3.0 kB)
+2026-05-16 16:33:57,799 - INFO - Collecting flake8 (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:57,829 - INFO - Downloading flake8-7.3.0-py2.py3-none-any.whl.metadata (3.8 kB)
+2026-05-16 16:33:58,037 - INFO - Collecting mypy (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,066 - INFO - Downloading mypy-1.19.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.2 kB)
+2026-05-16 16:33:58,144 - INFO - Collecting pandas-stubs (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,175 - INFO - Downloading pandas_stubs-2.2.2.240807-py3-none-any.whl.metadata (10 kB)
+2026-05-16 16:33:58,254 - INFO - Collecting pre-commit (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,283 - INFO - Downloading pre_commit-4.3.0-py2.py3-none-any.whl.metadata (1.2 kB)
+2026-05-16 16:33:58,347 - INFO - Collecting flit (from seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,376 - INFO - Downloading flit-3.12.0-py3-none-any.whl.metadata (3.7 kB)
+2026-05-16 16:33:58,394 - INFO - Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (1.1.0)
+2026-05-16 16:33:58,394 - INFO - Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (0.11.0)
+2026-05-16 16:33:58,394 - INFO - Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (4.42.1)
+2026-05-16 16:33:58,394 - INFO - Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (1.4.5)
+2026-05-16 16:33:58,395 - INFO - Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (23.1)
+2026-05-16 16:33:58,395 - INFO - Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (10.0.0)
+2026-05-16 16:33:58,396 - INFO - Requirement already satisfied: pyparsing<3.1,>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (3.0.9)
+2026-05-16 16:33:58,396 - INFO - Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (2.8.2)
+2026-05-16 16:33:58,397 - INFO - Requirement already satisfied: importlib-resources>=3.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (6.0.1)
+2026-05-16 16:33:58,407 - INFO - Requirement already satisfied: zipp>=3.1.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from importlib-resources>=3.2.0->matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (3.16.2)
+2026-05-16 16:33:58,422 - INFO - Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pandas>=0.25->seaborn==0.12.2.dev0) (2023.3.post1)
+2026-05-16 16:33:58,422 - INFO - Requirement already satisfied: tzdata>=2022.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pandas>=0.25->seaborn==0.12.2.dev0) (2023.1)
+2026-05-16 16:33:58,426 - INFO - Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from python-dateutil>=2.7->matplotlib!=3.6.1,>=3.1->seaborn==0.12.2.dev0) (1.16.0)
+2026-05-16 16:33:58,477 - INFO - Collecting mccabe<0.8.0,>=0.7.0 (from flake8->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,507 - INFO - Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+2026-05-16 16:33:58,576 - INFO - Collecting pycodestyle<2.15.0,>=2.14.0 (from flake8->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,607 - INFO - Downloading pycodestyle-2.14.0-py2.py3-none-any.whl.metadata (4.5 kB)
+2026-05-16 16:33:58,671 - INFO - Collecting pyflakes<3.5.0,>=3.4.0 (from flake8->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,701 - INFO - Downloading pyflakes-3.4.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-05-16 16:33:58,758 - INFO - Collecting flit_core>=3.12.0 (from flit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,760 - INFO - Using cached flit_core-3.12.0-py3-none-any.whl.metadata (888 bytes)
+2026-05-16 16:33:58,816 - INFO - Collecting requests (from flit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,848 - INFO - Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+2026-05-16 16:33:58,912 - INFO - Collecting docutils (from flit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:58,944 - INFO - Downloading docutils-0.22.4-py3-none-any.whl.metadata (15 kB)
+2026-05-16 16:33:59,007 - INFO - Collecting tomli-w (from flit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,037 - INFO - Downloading tomli_w-1.2.0-py3-none-any.whl.metadata (5.7 kB)
+2026-05-16 16:33:59,053 - INFO - Requirement already satisfied: pip in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from flit->seaborn==0.12.2.dev0) (26.0.1)
+2026-05-16 16:33:59,055 - INFO - Requirement already satisfied: typing_extensions>=4.6.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from mypy->seaborn==0.12.2.dev0) (4.15.0)
+2026-05-16 16:33:59,102 - INFO - Collecting mypy_extensions>=1.0.0 (from mypy->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,131 - INFO - Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-05-16 16:33:59,192 - INFO - Collecting pathspec>=0.9.0 (from mypy->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,231 - INFO - Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-05-16 16:33:59,249 - INFO - Requirement already satisfied: tomli>=1.1.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from mypy->seaborn==0.12.2.dev0) (2.4.1)
+2026-05-16 16:33:59,375 - INFO - Collecting librt>=0.6.2 (from mypy->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,406 - INFO - Downloading librt-0.11.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-05-16 16:33:59,477 - INFO - Collecting types-pytz>=2022.1.1 (from pandas-stubs->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,510 - INFO - Downloading types_pytz-2025.2.0.20251108-py3-none-any.whl.metadata (1.7 kB)
+2026-05-16 16:33:59,574 - INFO - Collecting cfgv>=2.0.0 (from pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,604 - INFO - Downloading cfgv-3.4.0-py2.py3-none-any.whl.metadata (8.5 kB)
+2026-05-16 16:33:59,687 - INFO - Collecting identify>=1.0.0 (from pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,716 - INFO - Downloading identify-2.6.15-py2.py3-none-any.whl.metadata (4.4 kB)
+2026-05-16 16:33:59,781 - INFO - Collecting nodeenv>=0.11.1 (from pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,810 - INFO - Downloading nodeenv-1.10.0-py2.py3-none-any.whl.metadata (24 kB)
+2026-05-16 16:33:59,895 - INFO - Collecting pyyaml>=5.1 (from pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:33:59,924 - INFO - Downloading pyyaml-6.0.3-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-05-16 16:34:00,029 - INFO - Collecting virtualenv>=20.10.0 (from pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,061 - INFO - Downloading virtualenv-21.3.3-py3-none-any.whl.metadata (3.5 kB)
+2026-05-16 16:34:00,126 - INFO - Collecting distlib<1,>=0.3.7 (from virtualenv>=20.10.0->pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,155 - INFO - Downloading distlib-0.4.0-py2.py3-none-any.whl.metadata (5.2 kB)
+2026-05-16 16:34:00,223 - INFO - Collecting filelock<=3.19.1,>=3.16.1 (from virtualenv>=20.10.0->pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,252 - INFO - Downloading filelock-3.19.1-py3-none-any.whl.metadata (2.1 kB)
+2026-05-16 16:34:00,319 - INFO - Collecting platformdirs<5,>=3.9.1 (from virtualenv>=20.10.0->pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,347 - INFO - Downloading platformdirs-4.4.0-py3-none-any.whl.metadata (12 kB)
+2026-05-16 16:34:00,419 - INFO - Collecting python-discovery>=1.3.1 (from virtualenv>=20.10.0->pre-commit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,449 - INFO - Downloading python_discovery-1.3.1-py3-none-any.whl.metadata (5.6 kB)
+2026-05-16 16:34:00,474 - INFO - Requirement already satisfied: exceptiongroup>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->seaborn==0.12.2.dev0) (1.3.1)
+2026-05-16 16:34:00,475 - INFO - Requirement already satisfied: iniconfig>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->seaborn==0.12.2.dev0) (2.1.0)
+2026-05-16 16:34:00,476 - INFO - Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->seaborn==0.12.2.dev0) (1.6.0)
+2026-05-16 16:34:00,476 - INFO - Requirement already satisfied: pygments>=2.7.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->seaborn==0.12.2.dev0) (2.20.0)
+2026-05-16 16:34:00,864 - INFO - Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,891 - INFO - Downloading coverage-7.10.7-cp39-cp39-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.9 kB)
+2026-05-16 16:34:00,956 - INFO - Collecting execnet>=2.1 (from pytest-xdist->seaborn==0.12.2.dev0)
+2026-05-16 16:34:00,985 - INFO - Downloading execnet-2.1.2-py3-none-any.whl.metadata (2.9 kB)
+2026-05-16 16:34:01,112 - INFO - Collecting charset_normalizer<4,>=2 (from requests->flit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:01,140 - INFO - Downloading charset_normalizer-3.4.7-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-05-16 16:34:01,214 - INFO - Collecting idna<4,>=2.5 (from requests->flit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:01,242 - INFO - Downloading idna-3.15-py3-none-any.whl.metadata (7.7 kB)
+2026-05-16 16:34:01,318 - INFO - Collecting urllib3<3,>=1.21.1 (from requests->flit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:01,347 - INFO - Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+2026-05-16 16:34:01,434 - INFO - Collecting certifi>=2017.4.17 (from requests->flit->seaborn==0.12.2.dev0)
+2026-05-16 16:34:01,464 - INFO - Downloading certifi-2026.4.22-py3-none-any.whl.metadata (2.5 kB)
+2026-05-16 16:34:01,516 - INFO - Downloading flake8-7.3.0-py2.py3-none-any.whl (57 kB)
+2026-05-16 16:34:01,569 - INFO - Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+2026-05-16 16:34:01,613 - INFO - Downloading pycodestyle-2.14.0-py2.py3-none-any.whl (31 kB)
+2026-05-16 16:34:01,662 - INFO - Downloading pyflakes-3.4.0-py2.py3-none-any.whl (63 kB)
+2026-05-16 16:34:01,712 - INFO - Downloading flit-3.12.0-py3-none-any.whl (50 kB)
+2026-05-16 16:34:01,731 - INFO - Using cached flit_core-3.12.0-py3-none-any.whl (45 kB)
+2026-05-16 16:34:01,759 - INFO - Downloading docutils-0.22.4-py3-none-any.whl (633 kB)
+2026-05-16 16:34:01,839 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 633.2/633.2 kB 8.3 MB/s  0:00:00
+2026-05-16 16:34:01,867 - INFO - Downloading mypy-1.19.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (13.5 MB)
+2026-05-16 16:34:02,279 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.5/13.5 MB 32.6 MB/s  0:00:00
+2026-05-16 16:34:02,279 - INFO - 
+2026-05-16 16:34:02,313 - INFO - Downloading librt-0.11.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (496 kB)
+2026-05-16 16:34:02,362 - INFO - Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-05-16 16:34:02,404 - INFO - Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-05-16 16:34:02,448 - INFO - Downloading pandas_stubs-2.2.2.240807-py3-none-any.whl (157 kB)
+2026-05-16 16:34:02,495 - INFO - Downloading types_pytz-2025.2.0.20251108-py3-none-any.whl (10 kB)
+2026-05-16 16:34:02,539 - INFO - Downloading pre_commit-4.3.0-py2.py3-none-any.whl (220 kB)
+2026-05-16 16:34:02,583 - INFO - Downloading cfgv-3.4.0-py2.py3-none-any.whl (7.2 kB)
+2026-05-16 16:34:02,625 - INFO - Downloading identify-2.6.15-py2.py3-none-any.whl (99 kB)
+2026-05-16 16:34:02,668 - INFO - Downloading nodeenv-1.10.0-py2.py3-none-any.whl (23 kB)
+2026-05-16 16:34:02,709 - INFO - Downloading pyyaml-6.0.3-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (750 kB)
+2026-05-16 16:34:02,735 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 750.8/750.8 kB 22.4 MB/s  0:00:00
+2026-05-16 16:34:02,735 - INFO - 
+2026-05-16 16:34:02,763 - INFO - Downloading virtualenv-21.3.3-py3-none-any.whl (7.6 MB)
+2026-05-16 16:34:02,937 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.6/7.6 MB 43.3 MB/s  0:00:00
+2026-05-16 16:34:02,966 - INFO - Downloading distlib-0.4.0-py2.py3-none-any.whl (469 kB)
+2026-05-16 16:34:03,015 - INFO - Downloading filelock-3.19.1-py3-none-any.whl (15 kB)
+2026-05-16 16:34:03,058 - INFO - Downloading platformdirs-4.4.0-py3-none-any.whl (18 kB)
+2026-05-16 16:34:03,102 - INFO - Downloading python_discovery-1.3.1-py3-none-any.whl (33 kB)
+2026-05-16 16:34:03,145 - INFO - Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+2026-05-16 16:34:03,189 - INFO - Downloading coverage-7.10.7-cp39-cp39-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (246 kB)
+2026-05-16 16:34:03,236 - INFO - Downloading pytest_xdist-3.8.0-py3-none-any.whl (46 kB)
+2026-05-16 16:34:03,279 - INFO - Downloading execnet-2.1.2-py3-none-any.whl (40 kB)
+2026-05-16 16:34:03,323 - INFO - Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+2026-05-16 16:34:03,366 - INFO - Downloading charset_normalizer-3.4.7-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (208 kB)
+2026-05-16 16:34:03,410 - INFO - Downloading idna-3.15-py3-none-any.whl (72 kB)
+2026-05-16 16:34:03,453 - INFO - Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+2026-05-16 16:34:03,496 - INFO - Downloading certifi-2026.4.22-py3-none-any.whl (135 kB)
+2026-05-16 16:34:03,542 - INFO - Downloading tomli_w-1.2.0-py3-none-any.whl (6.7 kB)
+2026-05-16 16:34:03,598 - INFO - Building wheels for collected packages: seaborn
+2026-05-16 16:34:03,599 - INFO - Building editable for seaborn (pyproject.toml): started
+2026-05-16 16:34:03,659 - INFO - Building editable for seaborn (pyproject.toml): finished with status 'done'
+2026-05-16 16:34:03,660 - INFO - Created wheel for seaborn: filename=seaborn-0.12.2.dev0-py3-none-any.whl size=3961 sha256=b19b559ee976baf4a0f7ba8897e7890035163d004fc2c060c1035e0e73b49339
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ab3efl56/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+2026-05-16 16:34:03,661 - INFO - Successfully built seaborn
+2026-05-16 16:34:03,706 - INFO - Installing collected packages: distlib, urllib3, types-pytz, tomli-w, pyyaml, pyflakes, pycodestyle, platformdirs, pathspec, nodeenv, mypy_extensions, mccabe, librt, idna, identify, flit_core, filelock, execnet, docutils, coverage, charset_normalizer, cfgv, certifi, requests, python-discovery, pandas-stubs, mypy, flake8, virtualenv, seaborn, pytest-xdist, pytest-cov, flit, pre-commit
+2026-05-16 16:34:06,222 - INFO - 
+2026-05-16 16:34:06,229 - INFO - Successfully installed certifi-2026.4.22 cfgv-3.4.0 charset_normalizer-3.4.7 coverage-7.10.7 distlib-0.4.0 docutils-0.22.4 execnet-2.1.2 filelock-3.19.1 flake8-7.3.0 flit-3.12.0 flit_core-3.12.0 identify-2.6.15 idna-3.15 librt-0.11.0 mccabe-0.7.0 mypy-1.19.1 mypy_extensions-1.1.0 nodeenv-1.10.0 pandas-stubs-2.2.2.240807 pathspec-1.1.1 platformdirs-4.4.0 pre-commit-4.3.0 pycodestyle-2.14.0 pyflakes-3.4.0 pytest-cov-7.1.0 pytest-xdist-3.8.0 python-discovery-1.3.1 pyyaml-6.0.3 requests-2.32.5 seaborn-0.12.2.dev0 tomli-w-1.2.0 types-pytz-2025.2.0.20251108 urllib3-2.6.3 virtualenv-21.3.3
+2026-05-16 16:34:06,229 - INFO - WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-05-16 16:34:06,493 - INFO - + git config --global user.email setup@swebench.config
+2026-05-16 16:34:06,494 - INFO - + git config --global user.name SWE-bench
+2026-05-16 16:34:06,495 - INFO - + git commit --allow-empty -am SWE-bench
+2026-05-16 16:34:06,513 - INFO - [master 6c97215c] SWE-bench
+2026-05-16 16:34:15,276 - INFO - ---> Removed intermediate container 2f5cf96b94d5
+2026-05-16 16:34:15,276 - INFO - ---> 7bc29d275569
+2026-05-16 16:34:15,276 - INFO - Step 5/5 : WORKDIR /testbed/
+2026-05-16 16:34:15,276 - INFO - 
+2026-05-16 16:34:15,590 - INFO - ---> Running in 38c5ece9e408
+2026-05-16 16:34:20,250 - INFO - ---> Removed intermediate container 38c5ece9e408
+2026-05-16 16:34:20,250 - INFO - ---> bc2c2f946b1c
+2026-05-16 16:34:20,263 - INFO - Successfully built bc2c2f946b1c
+2026-05-16 16:34:20,281 - INFO - Successfully tagged sweb.eval.x86_64.mwaskom__seaborn-3190:latest
+2026-05-16 16:34:20,281 - INFO - Image built successfully!

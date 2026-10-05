@@ -1,0 +1,112 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "sphinx-doc__sphinx-7686",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-16T16:46:23.843836Z",
+  "completed_at": "2026-05-16T16:53:39.526612Z",
+  "duration_seconds": 435.682776,
+  "workspace_dir": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/grade-result.json",
+  "prompt_sha256": "84794410ef0efc0b5877681d38a8e6adf2dec8914a6685f60f997a56de4821fa",
+  "telemetry": {
+    "total_tokens": 70408,
+    "prompt_tokens": 65856,
+    "completion_tokens": 4552,
+    "total_steps": 0,
+    "tool_calls": 10,
+    "tool_failures": 0,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 51,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "2 fail_to_pass test(s) still failing (expected to pass); 15 pass_to_pass test(s) regressed (should still pass)",
+        "fail_to_pass_still_failing": [
+          "tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module",
+          "tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module_skipped"
+        ],
+        "fail_to_pass_now_passing": [],
+        "pass_to_pass_still_passing": [],
+        "pass_to_pass_regressions": [
+          "tests/test_ext_autosummary.py::test_mangle_signature",
+          "tests/test_ext_autosummary.py::test_escaping",
+          "tests/test_ext_autosummary.py::test_autosummary_generate",
+          "tests/test_ext_autosummary.py::test_autosummary_generate_overwrite1",
+          "tests/test_ext_autosummary.py::test_autosummary_generate_overwrite2",
+          "tests/test_ext_autosummary.py::test_autosummary_recursive",
+          "tests/test_ext_autosummary.py::test_autosummary_latex_table_colspec",
+          "tests/test_ext_autosummary.py::test_import_by_name",
+          "tests/test_ext_autosummary.py::test_autosummary_imported_members",
+          "tests/test_ext_autosummary.py::test_generate_autosummary_docs_property",
+          "tests/test_ext_autosummary.py::test_autosummary_skip_member",
+          "tests/test_ext_autosummary.py::test_autosummary_template",
+          "tests/test_ext_autosummary.py::test_empty_autosummary_generate",
+          "tests/test_ext_autosummary.py::test_invalid_autosummary_generate",
+          "tests/test_ext_autosummary.py::test_autogen"
+        ],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [],
+            "failure": [
+              "tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module",
+              "tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module_skipped"
+            ]
+          },
+          "PASS_TO_PASS": {
+            "success": [],
+            "failure": [
+              "tests/test_ext_autosummary.py::test_mangle_signature",
+              "tests/test_ext_autosummary.py::test_escaping",
+              "tests/test_ext_autosummary.py::test_autosummary_generate",
+              "tests/test_ext_autosummary.py::test_autosummary_generate_overwrite1",
+              "tests/test_ext_autosummary.py::test_autosummary_generate_overwrite2",
+              "tests/test_ext_autosummary.py::test_autosummary_recursive",
+              "tests/test_ext_autosummary.py::test_autosummary_latex_table_colspec",
+              "tests/test_ext_autosummary.py::test_import_by_name",
+              "tests/test_ext_autosummary.py::test_autosummary_imported_members",
+              "tests/test_ext_autosummary.py::test_generate_autosummary_docs_property",
+              "tests/test_ext_autosummary.py::test_autosummary_skip_member",
+              "tests/test_ext_autosummary.py::test_autosummary_template",
+              "tests/test_ext_autosummary.py::test_empty_autosummary_generate",
+              "tests/test_ext_autosummary.py::test_invalid_autosummary_generate",
+              "tests/test_ext_autosummary.py::test_autogen"
+            ]
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/logs/run_evaluation/benchmark/mas_centralize/sphinx-doc__sphinx-7686/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T17:13:40.779294Z"
+  }
+}

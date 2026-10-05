@@ -1,0 +1,126 @@
+SWE-bench dataset: SWE-bench/SWE-bench_Lite (test)
+Instance ID: sympy__sympy-11870
+Repository: sympy/sympy
+Base commit: 5c2e1f96a7ff562d4a778f4ca9ffc9c81557197e
+Version: 1.1
+Workspace path: runs/benchmark/mas_decentralized/sympy__sympy-11870/repeat_1/workspace
+
+Problem statement:
+simplifying exponential -> trig identities
+```
+f = 1 / 2 * (-I*exp(I*k) + I*exp(-I*k))
+trigsimp(f)
+```
+
+Ideally, this would yield `sin(k)`. Is there a way to do this?
+
+As a corollary, it would be awesome if 
+
+```
+f = 1 / 2 / k* (-I*exp(I*k) + I*exp(-I*k))
+trigsimp(f)
+```
+
+could yield `sinc(k)`. Thank you for your consideration!
+
+
+Hints:
+rewrite can be used:
+
+```
+>>> f = S(1) / 2 * (-I*exp(I*k) + I*exp(-I*k))
+>>> f.rewrite(sin).simplify()
+sin(k)
+```
+
+Thank you for that suggestion!
+
+> On Nov 17, 2016, at 01:06, Kalevi Suominen notifications@github.com wrote:
+> 
+> rewrite can be used:
+> 
+> > > > f = S(1) / 2 \* (-I_exp(I_k) + I_exp(-I_k))
+> > > > f.rewrite(sin).simplify()
+> > > > sin(k)
+> 
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+Too bad this doesn't work as expected:
+
+```
+ω = sym.symbols('ω', real=True)
+k = sym.symbols('k', real=True)
+f = 1 / 2 / π * sym.exp(sym.I * ω * k)
+F = sym.integrate(f, (ω, -π, π))
+F.rewrite(sym.sinc).simplify()
+```
+
+It does not produce the desired sinc function in the equation.
+
+It seems that rewrite for sinc has not been implemented.
+
+
+Fail-to-pass tests:
+- test_sinc
+
+Pass-to-pass tests:
+- test_sin
+- test_sin_cos
+- test_sin_series
+- test_sin_rewrite
+- test_sin_expansion
+- test_sin_AccumBounds
+- test_trig_symmetry
+- test_cos
+- test_issue_6190
+- test_cos_series
+- test_cos_rewrite
+- test_cos_expansion
+- test_cos_AccumBounds
+- test_tan
+- test_tan_series
+- test_tan_rewrite
+- test_tan_subs
+- test_tan_expansion
+- test_tan_AccumBounds
+- test_cot
+- test_cot_series
+- test_cot_rewrite
+- test_cot_subs
+- test_cot_expansion
+- test_cot_AccumBounds
+- test_asin
+- test_asin_series
+- test_asin_rewrite
+- test_acos
+- test_acos_series
+- test_acos_rewrite
+- test_atan
+- test_atan_rewrite
+- test_atan2
+- test_acot
+- test_acot_rewrite
+- test_attributes
+- test_sincos_rewrite
+- test_evenodd_rewrite
+- test_issue_4547
+- test_as_leading_term_issue_5272
+- test_leading_terms
+- test_atan2_expansion
+- test_aseries
+- test_issue_4420
+- test_inverses
+- test_real_imag
+- test_sec
+- test_sec_rewrite
+- test_csc
+- test_asec
+- test_asec_is_real
+- test_acsc
+- test_csc_rewrite
+- test_issue_8653
+- test_issue_9157
+- test_trig_period
+- test_issue_7171

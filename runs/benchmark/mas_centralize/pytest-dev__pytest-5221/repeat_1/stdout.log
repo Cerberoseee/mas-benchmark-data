@@ -1,0 +1,12 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-28a7c62b -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pytest-dev__pytest-5221/repeat_1:/run_dir:ro  
+docker.io/swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5221:latest sleep 2h                                         
+minisweagent.environment: INFO: Started container minisweagent-28a7c62b with ID                                         
+c636f2ec29070c2ea96b9235222f48f7f8f0b60807fdabe48740eea1e1f8654a                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA verified all Fail-to-pass tests and Engineer produced a non-empty patch.
+QA notes: Both Fail-to-pass tests were collected and executed; they passed (returncode=0).
+Code review: Adds fixture scope display to both --fixtures outputs (per-test and global) with minimal, targeted formatting changes.

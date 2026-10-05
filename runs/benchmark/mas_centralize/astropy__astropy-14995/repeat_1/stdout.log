@@ -1,0 +1,12 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-76aae76d -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14995/repeat_1:/run_dir:ro   
+docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14995:latest sleep 2h                                          
+minisweagent.environment: INFO: Started container minisweagent-76aae76d with ID                                         
+939be4b26eb70b5e8e281de6bcea55d6fb3d08a2a94d3ea0dc048eba3b35ed60                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA verified all Fail-to-pass tests and Engineer produced a non-empty patch.
+QA notes: Collected test IDs checked and the Fail-to-pass test astropy/nddata/mixins/tests/test_ndarithmetic.py::test_nddata_bitmask_arithmetic passes after the one-line conditional fix to mask propagation.
+Code review: Restores correct behavior for mask propagation when the other operand has mask==None; minimal one-line fix that addresses the failing bitmask arithmetic test.

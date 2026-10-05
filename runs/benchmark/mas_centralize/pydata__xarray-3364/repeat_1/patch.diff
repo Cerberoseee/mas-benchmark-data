@@ -1,0 +1,34 @@
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index ecae2566..9b9c02d4 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -311,16 +311,21 @@ def _dataset_concat(
+     if variables_to_merge:
+         to_merge = {var: [] for var in variables_to_merge}
+ 
++        # collect variables that should be merged; some datasets may not have
++        # all of these variables, so only append those that exist on each
++        # dataset. This allows concatenating datasets with different variables
++        # (missing variables will be handled by unique_variable from the
++        # available ones).
+         for ds in datasets:
+-            absent_merge_vars = variables_to_merge - set(ds.variables)
+-            if absent_merge_vars:
+-                raise ValueError(
+-                    "variables %r are present in some datasets but not others. "
+-                    % absent_merge_vars
+-                )
+-
+             for var in variables_to_merge:
+-                to_merge[var].append(ds.variables[var])
++                if var in ds.variables:
++                    to_merge[var].append(ds.variables[var])
++
++        # Sanity check: each variable_to_merge should be present in at least
++        # one dataset (by construction this should hold), otherwise raise.
++        for var, lst in list(to_merge.items()):
++            if not lst:
++                raise ValueError("variable %r is not present in any datasets." % var)
+ 
+         for var in variables_to_merge:
+             result_vars[var] = unique_variable(

@@ -1,0 +1,89 @@
+2026-05-16 20:27:31,775 - INFO - Environment image sweb.env.py.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-11040
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-11040:latest for scikit-learn__scikit-learn-11040
+2026-05-16 20:31:34,468 - INFO - Creating container for scikit-learn__scikit-learn-11040...
+2026-05-16 20:31:34,537 - INFO - Container for scikit-learn__scikit-learn-11040 created: 766eda84f2592508a7a340a6cd87c079ac4b5d498885b697eb41bfe945469f87
+2026-05-16 20:31:34,757 - INFO - Container for scikit-learn__scikit-learn-11040 started: 766eda84f2592508a7a340a6cd87c079ac4b5d498885b697eb41bfe945469f87
+2026-05-16 20:31:34,758 - INFO - Intermediate patch for scikit-learn__scikit-learn-11040 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-11040/patch.diff, now applying to container...
+2026-05-16 20:31:34,860 - INFO - >>>>> Applied Patch:
+Checking patch sklearn/neighbors/base.py...
+Applied patch sklearn/neighbors/base.py cleanly.
+
+2026-05-16 20:31:35,034 - INFO - Git diff before:
+diff --git a/sklearn/neighbors/base.py b/sklearn/neighbors/base.py
+index 3e5e729c2..1abda8216 100644
+--- a/sklearn/neighbors/base.py
++++ b/sklearn/neighbors/base.py
+@@ -155,6 +155,11 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
+             raise ValueError("p must be greater than one for minkowski metric")
+ 
+     def _fit(self, X):
++        # Validate n_neighbors type: floats are not accepted. We allow construction
++        # with float but raise at fit time to provide a clearer error message.
++        if self.n_neighbors is not None and (isinstance(self.n_neighbors, float) or
++                                              (hasattr(self.n_neighbors, 'dtype') and __import__('numpy').issubdtype(self.n_neighbors.dtype, __import__('numpy').floating))):
++            raise TypeError("n_neighbors does not take float value, enter integer value")
+         self._check_algorithm_metric()
+         if self.metric_params is None:
+             self.effective_metric_params_ = {}
+@@ -323,6 +328,16 @@ class KNeighborsMixin(object):
+                [2]]...)
+ 
+         """
++        # Validate n_neighbors argument early so that errors about
++        # invalid types/values are raised even if the estimator is not yet
++        # fitted.
++        if n_neighbors is not None:
++            if (isinstance(n_neighbors, float) or
++                    (hasattr(n_neighbors, 'dtype') and __import__('numpy').issubdtype(n_neighbors.dtype, __import__('numpy').floating))):
++                raise TypeError("n_neighbors does not take float value, enter integer value")
++            if n_neighbors <= 0:
++                raise ValueError("Expected n_neighbors > 0. Got %d" % n_neighbors)
++
+         check_is_fitted(self, "_fit_method")
+ 
+         if n_neighbors is None:
+2026-05-16 20:31:35,034 - INFO - Eval script for scikit-learn__scikit-learn-11040 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-11040/eval.sh; copying to container...
+2026-05-16 20:31:38,133 - INFO - Test runtime: 3.04 seconds
+2026-05-16 20:31:38,134 - INFO - Test output for scikit-learn__scikit-learn-11040 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-11040/test_output.txt
+2026-05-16 20:31:38,210 - INFO - Git diff after:
+diff --git a/sklearn/neighbors/base.py b/sklearn/neighbors/base.py
+index 3e5e729c2..1abda8216 100644
+--- a/sklearn/neighbors/base.py
++++ b/sklearn/neighbors/base.py
+@@ -155,6 +155,11 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
+             raise ValueError("p must be greater than one for minkowski metric")
+ 
+     def _fit(self, X):
++        # Validate n_neighbors type: floats are not accepted. We allow construction
++        # with float but raise at fit time to provide a clearer error message.
++        if self.n_neighbors is not None and (isinstance(self.n_neighbors, float) or
++                                              (hasattr(self.n_neighbors, 'dtype') and __import__('numpy').issubdtype(self.n_neighbors.dtype, __import__('numpy').floating))):
++            raise TypeError("n_neighbors does not take float value, enter integer value")
+         self._check_algorithm_metric()
+         if self.metric_params is None:
+             self.effective_metric_params_ = {}
+@@ -323,6 +328,16 @@ class KNeighborsMixin(object):
+                [2]]...)
+ 
+         """
++        # Validate n_neighbors argument early so that errors about
++        # invalid types/values are raised even if the estimator is not yet
++        # fitted.
++        if n_neighbors is not None:
++            if (isinstance(n_neighbors, float) or
++                    (hasattr(n_neighbors, 'dtype') and __import__('numpy').issubdtype(n_neighbors.dtype, __import__('numpy').floating))):
++                raise TypeError("n_neighbors does not take float value, enter integer value")
++            if n_neighbors <= 0:
++                raise ValueError("Expected n_neighbors > 0. Got %d" % n_neighbors)
++
+         check_is_fitted(self, "_fit_method")
+ 
+         if n_neighbors is None:
+2026-05-16 20:31:38,210 - INFO - Grading answer for scikit-learn__scikit-learn-11040...
+2026-05-16 20:31:38,211 - INFO - report: {'scikit-learn__scikit-learn-11040': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/neighbors/tests/test_neighbors.py::test_n_neighbors_datatype'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/neighbors/tests/test_neighbors.py::test_unsupervised_kneighbors', 'sklearn/neighbors/tests/test_neighbors.py::test_unsupervised_inputs', 'sklearn/neighbors/tests/test_neighbors.py::test_precomputed', 'sklearn/neighbors/tests/test_neighbors.py::test_precomputed_cross_validation', 'sklearn/neighbors/tests/test_neighbors.py::test_unsupervised_radius_neighbors', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_classifier', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_classifier_float_labels', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_classifier_predict_proba', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_classifier', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_classifier_when_no_neighbors', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_classifier_outlier_labeling', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_classifier_zero_distance', 'sklearn/neighbors/tests/test_neighbors.py::test_neighbors_regressors_zero_distance', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_boundary_handling', 'sklearn/neighbors/tests/test_neighbors.py::test_RadiusNeighborsClassifier_multioutput', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_classifier_sparse', 'sklearn/neighbors/tests/test_neighbors.py::test_KNeighborsClassifier_multioutput', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_regressor', 'sklearn/neighbors/tests/test_neighbors.py::test_KNeighborsRegressor_multioutput_uniform_weight', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_regressor_multioutput', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_regressor', 'sklearn/neighbors/tests/test_neighbors.py::test_RadiusNeighborsRegressor_multioutput_with_uniform_weight', 'sklearn/neighbors/tests/test_neighbors.py::test_RadiusNeighborsRegressor_multioutput', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_regressor_sparse', 'sklearn/neighbors/tests/test_neighbors.py::test_neighbors_iris', 'sklearn/neighbors/tests/test_neighbors.py::test_neighbors_digits', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_graph', 'sklearn/neighbors/tests/test_neighbors.py::test_kneighbors_graph_sparse', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_graph', 'sklearn/neighbors/tests/test_neighbors.py::test_radius_neighbors_graph_sparse', 'sklearn/neighbors/tests/test_neighbors.py::test_neighbors_badargs', 'sklearn/neighbors/tests/test_neighbors.py::test_neighbors_metrics', 'sklearn/neighbors/tests/test_neighbors.py::test_callable_metric', 'sklearn/neighbors/tests/test_neighbors.py::test_valid_brute_metric_for_auto_algorithm', 'sklearn/neighbors/tests/test_neighbors.py::test_metric_params_interface', 'sklearn/neighbors/tests/test_neighbors.py::test_predict_sparse_ball_kd_tree', 'sklearn/neighbors/tests/test_neighbors.py::test_non_euclidean_kneighbors', 'sklearn/neighbors/tests/test_neighbors.py::test_k_and_radius_neighbors_train_is_not_query', 'sklearn/neighbors/tests/test_neighbors.py::test_k_and_radius_neighbors_X_None', 'sklearn/neighbors/tests/test_neighbors.py::test_k_and_radius_neighbors_duplicates', 'sklearn/neighbors/tests/test_neighbors.py::test_include_self_neighbors_graph', 'sklearn/neighbors/tests/test_neighbors.py::test_dtype_convert', 'sklearn/neighbors/tests/test_neighbors.py::test_sparse_metric_callable', 'sklearn/neighbors/tests/test_neighbors.py::test_pairwise_boolean_distance'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-11040: resolved: True
+2026-05-16 20:31:38,211 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-11040.benchmark...
+2026-05-16 20:31:53,494 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-11040.benchmark...
+2026-05-16 20:31:53,530 - INFO - Container sweb.eval.scikit-learn__scikit-learn-11040.benchmark removed.
+2026-05-16 20:31:53,530 - INFO - Attempting to remove image sweb.eval.x86_64.scikit-learn__scikit-learn-11040:latest...
+2026-05-16 20:31:53,654 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-11040:latest removed.

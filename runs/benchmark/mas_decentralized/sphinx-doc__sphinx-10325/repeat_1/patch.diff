@@ -1,0 +1,32 @@
+diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
+index 62631f7ff..461690078 100644
+--- a/sphinx/ext/autodoc/__init__.py
++++ b/sphinx/ext/autodoc/__init__.py
+@@ -681,10 +681,25 @@ class Documenter:
+         """
+         def is_filtered_inherited_member(name: str, obj: Any) -> bool:
+             if inspect.isclass(self.object):
++                # determine target inherited class names to filter
++                targets = self.options.inherited_members
++                # accept a comma-separated string like 'Base, list' or any iterable
++                if isinstance(targets, str):
++                    targets = {t.strip() for t in targets.split(',') if t.strip()}
++                elif targets is None:
++                    targets = set()
++                else:
++                    try:
++                        targets = set(targets)
++                    except Exception:
++                        targets = {str(targets)}
++
+                 for cls in self.object.__mro__:
+-                    if cls.__name__ == self.options.inherited_members and cls != self.object:
+-                        # given member is a member of specified *super class*
++                    # if this class is one of the specified classes to filter
++                    if cls.__name__ in targets and cls != self.object:
++                        # given member is considered inherited from a filtered super class
+                         return True
++                    # if the member is defined on this class, it's not filtered
+                     elif name in cls.__dict__:
+                         return False
+                     elif name in self.get_attr(cls, '__annotations__', {}):

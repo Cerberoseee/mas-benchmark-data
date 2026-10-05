@@ -1,0 +1,12 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-c037c61d -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pytest-dev__pytest-11143/repeat_1:/run_dir:ro 
+docker.io/swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-11143:latest sleep 2h                                        
+minisweagent.environment: INFO: Started container minisweagent-c037c61d with ID                                         
+021ef198b9d35c5c527862c75bc130bc3c3498cc54174143cb696198c38c7021                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA verified all Fail-to-pass tests and Engineer produced a non-empty patch.
+QA notes: Collected and ran the Fail-to-pass test; it passed. The change in src/_pytest/assertion/rewrite.py (guarding non-string docstrings) resolves the TypeError when a module's first expression is a numeric literal.
+Code review: Guarded is_rewrite_disabled against non-string module docstrings to avoid TypeError when the first module expression is a non-string constant (e.g. 0); change is minimal and appropriate.

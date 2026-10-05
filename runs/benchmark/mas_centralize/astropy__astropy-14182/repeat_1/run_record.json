@@ -1,0 +1,98 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "astropy__astropy-14182",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-13T16:40:06.368926Z",
+  "completed_at": "2026-05-13T16:44:56.595893Z",
+  "duration_seconds": 290.226967,
+  "workspace_dir": "runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/grade-result.json",
+  "prompt_sha256": "5e28f75629ec6457774f413ea092b5ef5975da9fb275d866ae0fbb3969ef0ff0",
+  "telemetry": {
+    "total_tokens": 59933,
+    "prompt_tokens": 55356,
+    "completion_tokens": 4577,
+    "total_steps": 0,
+    "tool_calls": 10,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 46,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows"
+        ],
+        "pass_to_pass_still_passing": [
+          "astropy/io/ascii/tests/test_rst.py::test_read_normal",
+          "astropy/io/ascii/tests/test_rst.py::test_read_normal_names",
+          "astropy/io/ascii/tests/test_rst.py::test_read_normal_names_include",
+          "astropy/io/ascii/tests/test_rst.py::test_read_normal_exclude",
+          "astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column",
+          "astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header",
+          "astropy/io/ascii/tests/test_rst.py::test_read_right_indented_table",
+          "astropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition",
+          "astropy/io/ascii/tests/test_rst.py::test_write_normal"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "astropy/io/ascii/tests/test_rst.py::test_read_normal",
+              "astropy/io/ascii/tests/test_rst.py::test_read_normal_names",
+              "astropy/io/ascii/tests/test_rst.py::test_read_normal_names_include",
+              "astropy/io/ascii/tests/test_rst.py::test_read_normal_exclude",
+              "astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column",
+              "astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header",
+              "astropy/io/ascii/tests/test_rst.py::test_read_right_indented_table",
+              "astropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition",
+              "astropy/io/ascii/tests/test_rst.py::test_write_normal"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14182/repeat_1/logs/run_evaluation/benchmark/mas_centralize/astropy__astropy-14182/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T06:35:45.822658Z"
+  }
+}

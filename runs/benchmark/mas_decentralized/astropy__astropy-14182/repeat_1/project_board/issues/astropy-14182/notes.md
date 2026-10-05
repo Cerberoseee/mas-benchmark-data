@@ -1,0 +1,1 @@
+Engineer: Implemented support for header_rows in ascii.rst writer and reader. Patched astropy/io/ascii/rst.py to accept header_rows argument and propagate it to header/data; adjusted data.start_line; improved separator detection when writing. Committed changes. Ran targeted tests; all specified tests in test_rst.py passed.

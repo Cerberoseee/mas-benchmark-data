@@ -1,0 +1,45 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-8bfdb208 -w /testbed
+--rm -v                                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/matplotlib__matplotlib-23299/repeat_1:/run_dir:ro     
+docker.io/swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-23299:latest sleep 2h                                    
+minisweagent.environment: INFO: Started container minisweagent-8bfdb208 with ID                                         
+8edcc69f42df859aa2145ec6082eccf45e180d7137dc429ba45eba9bf56a452b                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+Summary
+- Bug: Exiting rc_context could reset the backend sentinel and cause a later backend re-resolution (via get_backend()) to switch/clear backends, which removed figures from Gcf.figs when those figures were created inside rc_context.
+- Root cause: rc_context restored orig rcParams wholesale on exit and thereby lost any backend explicitly set inside the context; lazy backend resolution later reacted to the reset.
+- Fix: Preserve any backend set inside rc_context by saving rcParams['backend'] before restoring orig and restoring it afterwards.
+
+Implementation
+- Commit: lib/matplotlib/__init__.py
+- Change: In rc_context(...).finally:
+  - backend_value = dict.__getitem__(rcParams, 'backend')
+  - dict.update(rcParams, orig)
+  - dict.__setitem__(rcParams, 'backend', backend_value)
+
+Engineering & review
+- Engineer: implemented the minimal change and produced a non-empty patch (diff inspected).
+- Code review: Approved. REVIEW_VERDICT: blocking_findings: false. Minor stylistic nit: could use rcParams['backend'] / assignment for readability, not functionally necessary.
+
+QA
+- QA ran the failing test lib/matplotlib/tests/test_rcparams.py::test_no_backend_reset_rccontext and the rcparams test module; the tests passed.
+
+QA_VERDICT:
+  verified: true
+  notes: test_no_backend_reset_rccontext and the rcparams test module executed and passed; the change prevents the Gcf-clearing regression.
+
+Acceptance checks completed
+- Non-empty patch confirmed (read_patch_diff showed the committed diff).
+- Engineer implemented change and handed off.
+- CodeReviewer approved.
+- QA validated tests and verified the fix.
+
+Follow-ups (optional)
+- Small stylistic cleanup: replace dict.__getitem__/__setitem__ with rcParams['backend'] / rcParams['backend'] = backend_value for readability.
+- Optional explicit unit test asserting that a backend set in rc_context persists after exit (existing failing test covers the regression).
+
+Status
+- The issue is fixed, reviewed, and QA-verified. Ready to merge.

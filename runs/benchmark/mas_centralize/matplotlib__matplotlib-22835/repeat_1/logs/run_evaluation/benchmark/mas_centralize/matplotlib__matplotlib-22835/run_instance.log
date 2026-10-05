@@ -1,0 +1,119 @@
+2026-05-16 16:04:02,911 - INFO - Environment image sweb.env.py.x86_64.7037e8c448a4b8ebfe9b13:latest found for matplotlib__matplotlib-22835
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest for matplotlib__matplotlib-22835
+2026-05-16 16:10:46,930 - INFO - Creating container for matplotlib__matplotlib-22835...
+2026-05-16 16:10:47,041 - INFO - Container for matplotlib__matplotlib-22835 created: 8a078739e32e3ea835da1dd808bae6b90ed9706f426810e752a1a2df50fb07d5
+2026-05-16 16:10:47,246 - INFO - Container for matplotlib__matplotlib-22835 started: 8a078739e32e3ea835da1dd808bae6b90ed9706f426810e752a1a2df50fb07d5
+2026-05-16 16:10:47,247 - INFO - Intermediate patch for matplotlib__matplotlib-22835 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-22835/patch.diff, now applying to container...
+2026-05-16 16:10:47,372 - INFO - >>>>> Applied Patch:
+Checking patch lib/matplotlib/artist.py...
+Applied patch lib/matplotlib/artist.py cleanly.
+
+2026-05-16 16:10:48,261 - INFO - Git diff before:
+diff --git a/lib/matplotlib/artist.py b/lib/matplotlib/artist.py
+index 1f33b9d3ec..6f84c6cd27 100644
+--- a/lib/matplotlib/artist.py
++++ b/lib/matplotlib/artist.py
+@@ -1304,10 +1304,39 @@ class Artist:
+             normed = self.norm(data)
+             if np.isfinite(normed):
+                 # Midpoints of neighboring color intervals.
+-                neighbors = self.norm.inverse(
+-                    (int(self.norm(data) * n) + np.array([0, 1])) / n)
+-                delta = abs(neighbors - data).max()
+-                g_sig_digits = cbook._g_sig_digits(data, delta)
++                try:
++                    neighbors = self.norm.inverse(
++                        (int(normed * n) + np.array([0, 1])) / n)
++                    delta = abs(neighbors - data).max()
++                    g_sig_digits = cbook._g_sig_digits(data, delta)
++                except Exception:
++                    # Handle non-invertible norms (e.g., BoundaryNorm).
++                    try:
++                        from . import colors as mcolors
++                        if isinstance(self.norm, mcolors.BoundaryNorm):
++                            b = np.asarray(self.norm.boundaries)
++                            # Find the region (bin) that contains data.
++                            # np.digitize returns index of the bin to the right,
++                            # so subtract 1 to get left boundary index.
++                            idx = np.digitize([data], b)[0] - 1
++                            # clamp to valid region indices
++                            idx = max(0, min(idx, len(b) - 2))
++                            left = b[idx]
++                            right = b[idx + 1]
++                            neighbors = np.array([left, right])
++                            # Use the width of the bin as the characteristic
++                            # delta for formatting significant digits. This
++                            # matches how coarse boundaries should affect
++                            # formatting (see tests).
++                            delta = right - left
++                            if not np.isfinite(delta) or delta <= 0:
++                                g_sig_digits = 3
++                            else:
++                                g_sig_digits = cbook._g_sig_digits(data, delta)
++                        else:
++                            g_sig_digits = 3
++                    except Exception:
++                        g_sig_digits = 3
+             else:
+                 g_sig_digits = 3  # Consistent with default below.
+             return "[{:-#.{}g}]".format(data, g_sig_digits)
+2026-05-16 16:10:48,261 - INFO - Eval script for matplotlib__matplotlib-22835 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-22835/eval.sh; copying to container...
+2026-05-16 16:11:28,768 - INFO - Test runtime: 40.44 seconds
+2026-05-16 16:11:28,768 - INFO - Test output for matplotlib__matplotlib-22835 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-22835/test_output.txt
+2026-05-16 16:11:28,837 - INFO - Git diff after:
+diff --git a/lib/matplotlib/artist.py b/lib/matplotlib/artist.py
+index 1f33b9d3ec..6f84c6cd27 100644
+--- a/lib/matplotlib/artist.py
++++ b/lib/matplotlib/artist.py
+@@ -1304,10 +1304,39 @@ class Artist:
+             normed = self.norm(data)
+             if np.isfinite(normed):
+                 # Midpoints of neighboring color intervals.
+-                neighbors = self.norm.inverse(
+-                    (int(self.norm(data) * n) + np.array([0, 1])) / n)
+-                delta = abs(neighbors - data).max()
+-                g_sig_digits = cbook._g_sig_digits(data, delta)
++                try:
++                    neighbors = self.norm.inverse(
++                        (int(normed * n) + np.array([0, 1])) / n)
++                    delta = abs(neighbors - data).max()
++                    g_sig_digits = cbook._g_sig_digits(data, delta)
++                except Exception:
++                    # Handle non-invertible norms (e.g., BoundaryNorm).
++                    try:
++                        from . import colors as mcolors
++                        if isinstance(self.norm, mcolors.BoundaryNorm):
++                            b = np.asarray(self.norm.boundaries)
++                            # Find the region (bin) that contains data.
++                            # np.digitize returns index of the bin to the right,
++                            # so subtract 1 to get left boundary index.
++                            idx = np.digitize([data], b)[0] - 1
++                            # clamp to valid region indices
++                            idx = max(0, min(idx, len(b) - 2))
++                            left = b[idx]
++                            right = b[idx + 1]
++                            neighbors = np.array([left, right])
++                            # Use the width of the bin as the characteristic
++                            # delta for formatting significant digits. This
++                            # matches how coarse boundaries should affect
++                            # formatting (see tests).
++                            delta = right - left
++                            if not np.isfinite(delta) or delta <= 0:
++                                g_sig_digits = 3
++                            else:
++                                g_sig_digits = cbook._g_sig_digits(data, delta)
++                        else:
++                            g_sig_digits = 3
++                    except Exception:
++                        g_sig_digits = 3
+             else:
+                 g_sig_digits = 3  # Consistent with default below.
+             return "[{:-#.{}g}]".format(data, g_sig_digits)
+2026-05-16 16:11:28,838 - INFO - Grading answer for matplotlib__matplotlib-22835...
+2026-05-16 16:11:28,838 - INFO - report: {'matplotlib__matplotlib-22835': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['lib/matplotlib/tests/test_artist.py::test_format_cursor_data_BoundaryNorm'], 'failure': []}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_artist.py::test_patch_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_collection_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_clipping[png]', 'lib/matplotlib/tests/test_artist.py::test_clipping[pdf]', 'lib/matplotlib/tests/test_artist.py::test_clipping_zoom[png]', 'lib/matplotlib/tests/test_artist.py::test_cull_markers', 'lib/matplotlib/tests/test_artist.py::test_hatching[png]', 'lib/matplotlib/tests/test_artist.py::test_hatching[pdf]', 'lib/matplotlib/tests/test_artist.py::test_remove', 'lib/matplotlib/tests/test_artist.py::test_default_edges[png]', 'lib/matplotlib/tests/test_artist.py::test_properties', 'lib/matplotlib/tests/test_artist.py::test_setp', 'lib/matplotlib/tests/test_artist.py::test_None_zorder', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[-unknown]', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[ACCEPTS:', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[..', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[*arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_aliases', 'lib/matplotlib/tests/test_artist.py::test_set_alpha', 'lib/matplotlib/tests/test_artist.py::test_set_alpha_for_array', 'lib/matplotlib/tests/test_artist.py::test_callbacks', 'lib/matplotlib/tests/test_artist.py::test_set_signature', 'lib/matplotlib/tests/test_artist.py::test_set_is_overwritten'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-22835: resolved: True
+2026-05-16 16:11:28,838 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-22835.benchmark...
+2026-05-16 16:11:44,136 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-22835.benchmark...
+2026-05-16 16:11:44,187 - INFO - Container sweb.eval.matplotlib__matplotlib-22835.benchmark removed.
+2026-05-16 16:11:44,187 - INFO - Attempting to remove image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest...
+2026-05-16 16:11:45,241 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest removed.

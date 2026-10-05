@@ -1,0 +1,7 @@
+--- Engineer patch diff ---
+
+See read_patch_diff in run logs for the committed changes to xarray/core/variable.py
+
+(Short summary)
+- Add handling in as_variable to detect tuple form where the data item is a DataArray and replace it with DataArray.data to preserve dask-laziness. Emit DeprecationWarning.
+- Add similar replacement in a second code path where a DeprecationWarning was already present.

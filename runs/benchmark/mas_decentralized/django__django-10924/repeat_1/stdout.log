@@ -1,0 +1,35 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-3ecdfc0d -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-10924/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-3ecdfc0d with ID                                         
+960cc86458643f5db88bef3cb83b7f432f4d1a1647c39002137525f6b1d2635b                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-1030152e -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-10924/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-1030152e with ID                                         
+74f7244ec619f626780714cd825bf5830e4da92981a06fa8c828c1fb3264867c                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-8e7922f5 -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-10924/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-8e7922f5 with ID                                         
+bb9c6eedff0f86c5f0dae3518f673c90086d972f6be71bd25aa9e4c9053c8fbd                                                        
+
+=== SWE-bench result ===
+diff --git a/django/forms/fields.py b/django/forms/fields.py
+index a977256525..e48f253f33 100644
+--- a/django/forms/fields.py
++++ b/django/forms/fields.py
+@@ -1078,7 +1078,8 @@ class MultiValueField(Field):
+ class FilePathField(ChoiceField):
+     def __init__(self, path, *, match=None, recursive=False, allow_files=True,
+                  allow_folders=False, **kwargs):
+-        self.path, self.match, self.recursive = path, match, recursive
++        self.path = path() if callable(path) else path
++        self.match, self.recursive = match, recursive
+         self.allow_files, self.allow_folders = allow_files, allow_folders
+         super().__init__(choices=(), **kwargs)
+ 
+

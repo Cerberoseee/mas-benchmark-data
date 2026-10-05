@@ -1,0 +1,2 @@
+status: fixed
+notes: Display fixture scopes in --fixtures output. Patch applied to src/_pytest/python.py. Tests testing/python/fixtures.py::TestShowFixtures::test_show_fixtures and test_show_fixtures_verbose now pass. Committed as 731e789f1.

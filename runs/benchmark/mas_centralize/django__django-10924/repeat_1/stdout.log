@@ -1,0 +1,18 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-e42de54b -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/django__django-10924/repeat_1:/run_dir:ro     
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-e42de54b with ID                                         
+a689f82d0ea74f261cea93d2441b157180d1f01f57cc2ee9ea18bfe7102f7672                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-31a8f3e9 -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/django__django-10924/repeat_1:/run_dir:ro     
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-31a8f3e9 with ID                                         
+ea8d664a4582a0ea3cf37222e80a8bada58ab8aee0cbe3ddaa1b46c2f69f5e3f                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-ff108b97 -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/django__django-10924/repeat_1:/run_dir:ro     
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-10924:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-ff108b97 with ID                                         
+1329409ffe4919e902564fb4846febf87f39d67d64f6d88d4dbd819ed9a095af                                                        
+
+=== SWE-bench result ===
+Project closed as BLOCKED/FAILED.

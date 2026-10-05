@@ -1,0 +1,14 @@
+diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
+index 1edc712358..e886467702 100644
+--- a/sympy/printing/latex.py
++++ b/sympy/printing/latex.py
+@@ -237,8 +237,7 @@ def _needs_mul_brackets(self, expr, first=False, last=False):
+                 return True
+         if any([expr.has(x) for x in (Mod,)]):
+             return True
+-        if (not last and
+-            any([expr.has(x) for x in (Integral, Piecewise, Product, Sum)])):
++        if any([expr.has(x) for x in (Integral, Piecewise, Product, Sum)]):
+             return True
+ 
+         return False

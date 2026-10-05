@@ -1,0 +1,127 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "pallets__flask-4992",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-14T11:23:37.935497Z",
+  "completed_at": "2026-05-14T11:34:25.014615Z",
+  "duration_seconds": 647.0791177800926,
+  "workspace_dir": "runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/grade-result.json",
+  "prompt_sha256": "4b1821f29330d12c2f4d880a0dca1a9c34c09f39a1bc72220bedfe0777cf10c0",
+  "telemetry": {
+    "total_tokens": 1540014,
+    "prompt_tokens": 1495516,
+    "completion_tokens": 44498,
+    "total_steps": 0,
+    "tool_calls": 10,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 128,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved \u2014 no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "tests/test_config.py::test_config_from_file_toml"
+        ],
+        "pass_to_pass_still_passing": [
+          "tests/test_config.py::test_config_from_pyfile",
+          "tests/test_config.py::test_config_from_object",
+          "tests/test_config.py::test_config_from_file_json",
+          "tests/test_config.py::test_from_prefixed_env",
+          "tests/test_config.py::test_from_prefixed_env_custom_prefix",
+          "tests/test_config.py::test_from_prefixed_env_nested",
+          "tests/test_config.py::test_config_from_mapping",
+          "tests/test_config.py::test_config_from_class",
+          "tests/test_config.py::test_config_from_envvar",
+          "tests/test_config.py::test_config_from_envvar_missing",
+          "tests/test_config.py::test_config_missing",
+          "tests/test_config.py::test_config_missing_file",
+          "tests/test_config.py::test_custom_config_class",
+          "tests/test_config.py::test_session_lifetime",
+          "tests/test_config.py::test_get_namespace",
+          "tests/test_config.py::test_from_pyfile_weird_encoding[utf-8]",
+          "tests/test_config.py::test_from_pyfile_weird_encoding[iso-8859-15]",
+          "tests/test_config.py::test_from_pyfile_weird_encoding[latin-1]"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "tests/test_config.py::test_config_from_file_toml"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "tests/test_config.py::test_config_from_pyfile",
+              "tests/test_config.py::test_config_from_object",
+              "tests/test_config.py::test_config_from_file_json",
+              "tests/test_config.py::test_from_prefixed_env",
+              "tests/test_config.py::test_from_prefixed_env_custom_prefix",
+              "tests/test_config.py::test_from_prefixed_env_nested",
+              "tests/test_config.py::test_config_from_mapping",
+              "tests/test_config.py::test_config_from_class",
+              "tests/test_config.py::test_config_from_envvar",
+              "tests/test_config.py::test_config_from_envvar_missing",
+              "tests/test_config.py::test_config_missing",
+              "tests/test_config.py::test_config_missing_file",
+              "tests/test_config.py::test_custom_config_class",
+              "tests/test_config.py::test_session_lifetime",
+              "tests/test_config.py::test_get_namespace",
+              "tests/test_config.py::test_from_pyfile_weird_encoding[utf-8]",
+              "tests/test_config.py::test_from_pyfile_weird_encoding[iso-8859-15]",
+              "tests/test_config.py::test_from_pyfile_weird_encoding[latin-1]"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pallets__flask-4992/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/pallets__flask-4992/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T12:44:55.243977Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

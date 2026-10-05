@@ -1,0 +1,127 @@
+2026-05-16 14:11:19,010 - INFO - Environment image sweb.env.py.x86_64.6b007979cf533f0f3016e8:latest found for matplotlib__matplotlib-18869
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest for matplotlib__matplotlib-18869
+2026-05-16 14:17:29,568 - INFO - Creating container for matplotlib__matplotlib-18869...
+2026-05-16 14:17:29,679 - INFO - Container for matplotlib__matplotlib-18869 created: 24186293e21dbb8f596c9703ed2cc597bc3ad16a89e9ad842c893920796b4bc2
+2026-05-16 14:17:29,908 - INFO - Container for matplotlib__matplotlib-18869 started: 24186293e21dbb8f596c9703ed2cc597bc3ad16a89e9ad842c893920796b4bc2
+2026-05-16 14:17:29,908 - INFO - Intermediate patch for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-18869/patch.diff, now applying to container...
+2026-05-16 14:17:30,000 - INFO - >>>>> Applied Patch:
+Checking patch lib/matplotlib/__init__.py...
+Applied patch lib/matplotlib/__init__.py cleanly.
+
+2026-05-16 14:17:30,815 - INFO - Git diff before:
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf..fb515173e 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -150,6 +150,48 @@ def __getattr__(name):
+         return __version__
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+ 
++def _parse_to_version_info(version):
++    """Parse a version string into a tuple
++
++    Return (major, minor, micro, releaselevel, serial) where
++    releaselevel is one of 'final', 'candidate', 'alpha' and serial is an
++    integer. This is a minimal parser to support test expectations.
++    """
++    import re
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'final', 0)
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)rc(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'candidate', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.dev(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.post(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)) + 1, 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), 0, 'final', 0)
++    raise ValueError(f"Unrecognized version: {version}")
++
++# Expose __version_info__ at import time
++try:
++    ver = __version__
++except Exception:
++    try:
++        ver = _version.version
++    except Exception:
++        ver = None
++if ver is not None:
++    try:
++        __version_info__ = _parse_to_version_info(ver)
++    except ValueError:
++        __version_info__ = None
++else:
++    __version_info__ = None
++
++
+ 
+ def _check_versions():
+2026-05-16 14:17:30,815 - INFO - Eval script for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-18869/eval.sh; copying to container...
+2026-05-16 14:17:38,736 - INFO - Test runtime: 7.85 seconds
+2026-05-16 14:17:38,737 - INFO - Test output for matplotlib__matplotlib-18869 written to logs/run_evaluation/benchmark/mas_centralize/matplotlib__matplotlib-18869/test_output.txt
+2026-05-16 14:17:38,785 - INFO - Git diff after:
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf..fb515173e 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -150,6 +150,48 @@ def __getattr__(name):
+         return __version__
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+ 
++def _parse_to_version_info(version):
++    """Parse a version string into a tuple
++
++    Return (major, minor, micro, releaselevel, serial) where
++    releaselevel is one of 'final', 'candidate', 'alpha' and serial is an
++    integer. This is a minimal parser to support test expectations.
++    """
++    import re
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'final', 0)
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)rc(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'candidate', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.dev(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.post(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)) + 1, 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), 0, 'final', 0)
++    raise ValueError(f"Unrecognized version: {version}")
++
++# Expose __version_info__ at import time
++try:
++    ver = __version__
++except Exception:
++    try:
++        ver = _version.version
++    except Exception:
++        ver = None
++if ver is not None:
++    try:
++        __version_info__ = _parse_to_version_info(ver)
++    except ValueError:
++        __version_info__ = None
++else:
++    __version_info__ = None
++
++
+ 
+ def _check_versions():
+2026-05-16 14:17:38,785 - INFO - Grading answer for matplotlib__matplotlib-18869...
+2026-05-16 14:17:38,785 - INFO - report: {'matplotlib__matplotlib-18869': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]'], 'failure': []}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home', 'lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends', 'lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-18869: resolved: True
+2026-05-16 14:17:38,785 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-18869.benchmark...
+2026-05-16 14:17:54,088 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-18869.benchmark...
+2026-05-16 14:17:54,147 - INFO - Container sweb.eval.matplotlib__matplotlib-18869.benchmark removed.
+2026-05-16 14:17:54,147 - INFO - Attempting to remove image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest...
+2026-05-16 14:17:55,209 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest removed.

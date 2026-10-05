@@ -1,0 +1,117 @@
+2026-05-16 20:22:13,989 - INFO - Environment image sweb.env.py.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-10949
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-10949:latest for scikit-learn__scikit-learn-10949
+2026-05-16 20:26:53,967 - INFO - Creating container for scikit-learn__scikit-learn-10949...
+2026-05-16 20:26:54,035 - INFO - Container for scikit-learn__scikit-learn-10949 created: f08183d49bd4d0cb93250e6a3eed5f87c7a36e9540570932b1e4d5f3bbf8f2cd
+2026-05-16 20:26:54,183 - INFO - Container for scikit-learn__scikit-learn-10949 started: f08183d49bd4d0cb93250e6a3eed5f87c7a36e9540570932b1e4d5f3bbf8f2cd
+2026-05-16 20:26:54,184 - INFO - Intermediate patch for scikit-learn__scikit-learn-10949 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-10949/patch.diff, now applying to container...
+2026-05-16 20:26:54,318 - INFO - >>>>> Applied Patch:
+Checking patch sklearn/utils/validation.py...
+Applied patch sklearn/utils/validation.py cleanly.
+
+2026-05-16 20:26:54,507 - INFO - Git diff before:
+diff --git a/sklearn/utils/validation.py b/sklearn/utils/validation.py
+index fe1f7236e..acc4a9db5 100644
+--- a/sklearn/utils/validation.py
++++ b/sklearn/utils/validation.py
+@@ -573,10 +573,38 @@ def check_array(array, accept_sparse=False, accept_large_sparse=True,
+                              % (n_features, shape_repr, ensure_min_features,
+                                 context))
+ 
+-    if warn_on_dtype and dtype_orig is not None and array.dtype != dtype_orig:
+-        msg = ("Data with input dtype %s was converted to %s%s."
+-               % (dtype_orig, array.dtype, context))
+-        warnings.warn(msg, DataConversionWarning)
++    if warn_on_dtype:
++        # Special handling for pandas DataFrame to emit more informative warnings
++        df_dtypes = getattr(array_orig, 'dtypes', None)
++        if df_dtypes is not None:
++            try:
++                # pandas Series of dtypes; get unique dtypes
++                unique_dtypes = np.unique(list(df_dtypes))
++            except Exception:
++                unique_dtypes = None
++            if unique_dtypes is not None and len(unique_dtypes) == 1:
++                # uniform dtype across DataFrame
++                pd_dtype = unique_dtypes[0]
++                try:
++                    pd_dtype_name = getattr(pd_dtype, 'name', str(pd_dtype))
++                except Exception:
++                    pd_dtype_name = str(pd_dtype)
++                if array.dtype != np.dtype(pd_dtype_name):
++                    msg = ("Data with input dtype %s were all converted to %s%s."
++                           % (pd_dtype_name, array.dtype, context))
++                    warnings.warn(msg, DataConversionWarning)
++                    # avoid falling back to the generic warning below
++                    dtype_orig = None
++            else:
++                # mixed dtypes in DataFrame
++                msg = ("Data with mixed input dtypes were converted to %s%s." % (array.dtype, context))
++                warnings.warn(msg, DataConversionWarning)
++                dtype_orig = None
++        # Fallback to original behaviour for non-DataFrame inputs
++        if dtype_orig is not None and array.dtype != dtype_orig:
++            msg = ("Data with input dtype %s was converted to %s%s."
++                   % (dtype_orig, array.dtype, context))
++            warnings.warn(msg, DataConversionWarning)
+ 
+     if copy and np.may_share_memory(array, array_orig):
+         array = np.array(array, dtype=dtype, order=order)
+2026-05-16 20:26:54,507 - INFO - Eval script for scikit-learn__scikit-learn-10949 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-10949/eval.sh; copying to container...
+2026-05-16 20:26:57,455 - INFO - Test runtime: 2.86 seconds
+2026-05-16 20:26:57,455 - INFO - Test output for scikit-learn__scikit-learn-10949 written to logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-10949/test_output.txt
+2026-05-16 20:26:57,526 - INFO - Git diff after:
+diff --git a/sklearn/utils/validation.py b/sklearn/utils/validation.py
+index fe1f7236e..acc4a9db5 100644
+--- a/sklearn/utils/validation.py
++++ b/sklearn/utils/validation.py
+@@ -573,10 +573,38 @@ def check_array(array, accept_sparse=False, accept_large_sparse=True,
+                              % (n_features, shape_repr, ensure_min_features,
+                                 context))
+ 
+-    if warn_on_dtype and dtype_orig is not None and array.dtype != dtype_orig:
+-        msg = ("Data with input dtype %s was converted to %s%s."
+-               % (dtype_orig, array.dtype, context))
+-        warnings.warn(msg, DataConversionWarning)
++    if warn_on_dtype:
++        # Special handling for pandas DataFrame to emit more informative warnings
++        df_dtypes = getattr(array_orig, 'dtypes', None)
++        if df_dtypes is not None:
++            try:
++                # pandas Series of dtypes; get unique dtypes
++                unique_dtypes = np.unique(list(df_dtypes))
++            except Exception:
++                unique_dtypes = None
++            if unique_dtypes is not None and len(unique_dtypes) == 1:
++                # uniform dtype across DataFrame
++                pd_dtype = unique_dtypes[0]
++                try:
++                    pd_dtype_name = getattr(pd_dtype, 'name', str(pd_dtype))
++                except Exception:
++                    pd_dtype_name = str(pd_dtype)
++                if array.dtype != np.dtype(pd_dtype_name):
++                    msg = ("Data with input dtype %s were all converted to %s%s."
++                           % (pd_dtype_name, array.dtype, context))
++                    warnings.warn(msg, DataConversionWarning)
++                    # avoid falling back to the generic warning below
++                    dtype_orig = None
++            else:
++                # mixed dtypes in DataFrame
++                msg = ("Data with mixed input dtypes were converted to %s%s." % (array.dtype, context))
++                warnings.warn(msg, DataConversionWarning)
++                dtype_orig = None
++        # Fallback to original behaviour for non-DataFrame inputs
++        if dtype_orig is not None and array.dtype != dtype_orig:
++            msg = ("Data with input dtype %s was converted to %s%s."
++                   % (dtype_orig, array.dtype, context))
++            warnings.warn(msg, DataConversionWarning)
+ 
+     if copy and np.may_share_memory(array, array_orig):
+         array = np.array(array, dtype=dtype, order=order)
+2026-05-16 20:26:57,526 - INFO - Grading answer for scikit-learn__scikit-learn-10949...
+2026-05-16 20:26:57,528 - INFO - report: {'scikit-learn__scikit-learn-10949': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/utils/tests/test_validation.py::test_check_dataframe_warns_on_dtype'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/utils/tests/test_validation.py::test_as_float_array', 'sklearn/utils/tests/test_validation.py::test_as_float_array_nan[X0]', 'sklearn/utils/tests/test_validation.py::test_as_float_array_nan[X1]', 'sklearn/utils/tests/test_validation.py::test_np_matrix', 'sklearn/utils/tests/test_validation.py::test_memmap', 'sklearn/utils/tests/test_validation.py::test_ordering', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[asarray-inf-False]', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[asarray-nan-allow-nan]', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[asarray-nan-False]', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[csr_matrix-inf-False]', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[csr_matrix-nan-allow-nan]', 'sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite_valid[csr_matrix-nan-False]', 'sklearn/utils/tests/test_validation.py::test_check_array', 'sklearn/utils/tests/test_validation.py::test_check_array_pandas_dtype_object_conversion', 'sklearn/utils/tests/test_validation.py::test_check_array_on_mock_dataframe', 'sklearn/utils/tests/test_validation.py::test_check_array_dtype_stability', 'sklearn/utils/tests/test_validation.py::test_check_array_dtype_warning', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_sparse_type_exception', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_sparse_no_exception', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_no_exception[csr]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_no_exception[csc]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_no_exception[coo]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_no_exception[bsr]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_raise_exception[csr]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_raise_exception[csc]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_raise_exception[coo]', 'sklearn/utils/tests/test_validation.py::test_check_array_accept_large_sparse_raise_exception[bsr]', 'sklearn/utils/tests/test_validation.py::test_check_array_large_indices_non_supported_scipy_version[csr]', 'sklearn/utils/tests/test_validation.py::test_check_array_large_indices_non_supported_scipy_version[csc]', 'sklearn/utils/tests/test_validation.py::test_check_array_large_indices_non_supported_scipy_version[coo]', 'sklearn/utils/tests/test_validation.py::test_check_array_large_indices_non_supported_scipy_version[bsr]', 'sklearn/utils/tests/test_validation.py::test_check_array_min_samples_and_features_messages', 'sklearn/utils/tests/test_validation.py::test_check_array_complex_data_error', 'sklearn/utils/tests/test_validation.py::test_has_fit_parameter', 'sklearn/utils/tests/test_validation.py::test_check_symmetric', 'sklearn/utils/tests/test_validation.py::test_check_is_fitted', 'sklearn/utils/tests/test_validation.py::test_check_consistent_length', 'sklearn/utils/tests/test_validation.py::test_check_dataframe_fit_attribute', 'sklearn/utils/tests/test_validation.py::test_suppress_validation', 'sklearn/utils/tests/test_validation.py::test_check_memory', 'sklearn/utils/tests/test_validation.py::test_check_array_memmap[True]', 'sklearn/utils/tests/test_validation.py::test_check_array_memmap[False]'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-10949: resolved: True
+2026-05-16 20:26:57,528 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-10949.benchmark...
+2026-05-16 20:27:12,743 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-10949.benchmark...
+2026-05-16 20:27:12,780 - INFO - Container sweb.eval.scikit-learn__scikit-learn-10949.benchmark removed.
+2026-05-16 20:27:12,780 - INFO - Attempting to remove image sweb.eval.x86_64.scikit-learn__scikit-learn-10949:latest...
+2026-05-16 20:27:12,905 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-10949:latest removed.

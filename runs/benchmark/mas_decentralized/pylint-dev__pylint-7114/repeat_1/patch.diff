@@ -1,0 +1,27 @@
+diff --git a/pylint/lint/expand_modules.py b/pylint/lint/expand_modules.py
+index 289e1afce..6a1bb8ef3 100644
+--- a/pylint/lint/expand_modules.py
++++ b/pylint/lint/expand_modules.py
+@@ -92,6 +92,13 @@ def expand_modules(
+                 modname = os.path.splitext(basename)[0]
+             if os.path.isdir(something):
+                 filepath = os.path.join(something, "__init__.py")
++                # If the directory is not a package (no __init__.py), it might
++                # contain a module with the same name (e.g. a/ a.py). In that
++                # case prefer that module file when present.
++                if not os.path.exists(filepath):
++                    alt = os.path.join(something, basename + ".py")
++                    if os.path.exists(alt):
++                        filepath = alt
+             else:
+                 filepath = something
+         else:
+@@ -121,7 +128,7 @@ def expand_modules(
+         else:
+             is_namespace = modutils.is_namespace(spec)
+             is_directory = modutils.is_directory(spec)
+-        if not is_namespace:
++        if not is_namespace and os.path.exists(filepath):
+             result.append(
+                 {
+                     "path": filepath,

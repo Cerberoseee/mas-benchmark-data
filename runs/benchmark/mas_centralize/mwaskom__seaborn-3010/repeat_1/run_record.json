@@ -1,0 +1,84 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "mwaskom__seaborn-3010",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-14T10:46:41.737636Z",
+  "completed_at": "2026-05-14T11:02:22.791162Z",
+  "duration_seconds": 941.053526,
+  "workspace_dir": "runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/grade-result.json",
+  "prompt_sha256": "870e0d468ed82983e04f4d4796b97947ee19fd7dffcc28336d157b2fad6ad639",
+  "telemetry": {
+    "total_tokens": 1519818,
+    "prompt_tokens": 1465102,
+    "completion_tokens": 54716,
+    "total_steps": 0,
+    "tool_calls": 12,
+    "tool_failures": 2,
+    "retries": 0,
+    "escalations": 3,
+    "messages": 136,
+    "handoffs": 6,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "tests/_stats/test_regression.py::TestPolyFit::test_missing_data"
+        ],
+        "pass_to_pass_still_passing": [
+          "tests/_stats/test_regression.py::TestPolyFit::test_no_grouper",
+          "tests/_stats/test_regression.py::TestPolyFit::test_one_grouper"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "tests/_stats/test_regression.py::TestPolyFit::test_missing_data"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "tests/_stats/test_regression.py::TestPolyFit::test_no_grouper",
+              "tests/_stats/test_regression.py::TestPolyFit::test_one_grouper"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/logs/run_evaluation/benchmark/mas_centralize/mwaskom__seaborn-3010/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T09:33:25.265461Z"
+  }
+}

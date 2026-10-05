@@ -1,0 +1,116 @@
+diff --git a/pylint/lint/expand_modules.py b/pylint/lint/expand_modules.py
+index 289e1afce..967c8f2ab 100644
+--- a/pylint/lint/expand_modules.py
++++ b/pylint/lint/expand_modules.py
+@@ -91,6 +91,10 @@ def expand_modules(
+             except ImportError:
+                 modname = os.path.splitext(basename)[0]
+             if os.path.isdir(something):
++                # Use the package __init__.py path as reference so that
++                # later calls to os.path.dirname(filepath) yield the
++                # correct directory. We avoid adding a non-existent
++                # __init__.py to the results list below.
+                 filepath = os.path.join(something, "__init__.py")
+             else:
+                 filepath = something
+@@ -122,22 +126,51 @@ def expand_modules(
+             is_namespace = modutils.is_namespace(spec)
+             is_directory = modutils.is_directory(spec)
+         if not is_namespace:
+-            result.append(
+-                {
+-                    "path": filepath,
+-                    "name": modname,
+-                    "isarg": True,
+-                    "basepath": filepath,
+-                    "basename": modname,
+-                }
+-            )
++            # Only add a top-level module entry when we have an actual
++            # __init__.py (i.e. a real package) or when the original
++            # argument was a file. For directories without __init__.py
++            # (namespace packages), skip adding a fake top-level entry to
++            # avoid referencing a non-existent file.
++            if os.path.isdir(something):
++                if os.path.exists(filepath):
++                    result.append(
++                        {
++                            "path": os.path.abspath(filepath),
++                            "name": modname,
++                            "isarg": True,
++                            "basepath": os.path.abspath(filepath),
++                            "basename": modname,
++                        }
++                    )
++            else:
++                result.append(
++                    {
++                        "path": os.path.abspath(filepath),
++                        "name": modname,
++                        "isarg": True,
++                        "basepath": os.path.abspath(filepath),
++                        "basename": modname,
++                    }
++                )
+         has_init = (
+             not (modname.endswith(".__init__") or modname == "__init__")
+             and os.path.basename(filepath) == "__init__.py"
+         )
+         if has_init or is_namespace or is_directory:
++            # Determine the directory to enumerate module files from. If the
++            # original argument was a directory, use it directly; otherwise
++            # use the directory containing the resolved filepath.
++            base_dir = something if os.path.isdir(something) else os.path.dirname(filepath)
++            # We want to list files even when the directory does not contain an
++            # __init__.py (i.e. it is not a package) so treat such directories
++            # as list_all=True. Also keep list_all True for namespace packages.
++            list_all_flag = is_namespace or (
++                os.path.isdir(something) and not os.path.exists(os.path.join(something, "__init__.py"))
++            )
+             for subfilepath in modutils.get_module_files(
+-                os.path.dirname(filepath), ignore_list, list_all=is_namespace
++                base_dir,
++                ignore_list,
++                list_all=list_all_flag,
+             ):
+                 if filepath == subfilepath:
+                     continue
+@@ -152,11 +185,36 @@ def expand_modules(
+                 submodname = ".".join(modpath)
+                 result.append(
+                     {
+-                        "path": subfilepath,
++                        "path": os.path.abspath(subfilepath),
+                         "name": submodname,
+                         "isarg": False,
+-                        "basepath": filepath,
++                        "basepath": os.path.abspath(filepath),
+                         "basename": modname,
+                     }
+                 )
++        # Deduplicate entries by absolute path, preferring entries that were
++    # explicitly provided as arguments (isarg==True). This avoids reporting
++    # the same file twice when it appears both as a package member and as an
++    # explicit argument (e.g. passing a package directory and a file inside
++    # it). We preserve original ordering among entries with the same isarg
++    # preference.
++    unique = {}
++    order = []
++    for entry in result:
++        abs_path = os.path.abspath(entry['path'])
++        if abs_path in unique:
++            # If we already have an entry for this path, prefer the one
++            # that was passed as an argument (isarg True). If the existing
++            # entry is arg and the new one isn't, keep existing. If the new
++            # entry is arg and existing isn't, replace. Otherwise keep
++            # existing (first wins).
++            existing = unique[abs_path]
++            if not existing['isarg'] and entry['isarg']:
++                unique[abs_path] = entry
++        else:
++            unique[abs_path] = entry
++            order.append(abs_path)
++    # Rebuild result preserving order
++    result = [unique[p] for p in order]
++
+     return result, errors

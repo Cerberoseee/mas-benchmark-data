@@ -1,0 +1,35 @@
+{
+  "status": "ok",
+  "final_message": "PROJECT COMPLETE\n\nQA verified all Fail-to-pass tests and Engineer produced a non-empty patch.\nQA notes: Collected tests include the Fail-to-pass ID and it (and related tests) passed after the case-insensitive QDP parsing fix.",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/patch.diff",
+  "completion_valid": true,
+  "completion_failures": [],
+  "qa_verdict": {
+    "verified": true,
+    "failing_ids": [],
+    "notes": "Collected tests include the Fail-to-pass ID and it (and related tests) passed after the case-insensitive QDP parsing fix.",
+    "raw": "verified: true\n  failing_ids: []\n  notes: Collected tests include the Fail-to-pass ID and it (and related tests) passed after the case-insensitive QDP parsing fix."
+  },
+  "review_verdict": null,
+  "review_blocking": null,
+  "patch_present": true,
+  "patch_relevance": {
+    "acceptable": true,
+    "changed_files": [
+      "astropy/io/ascii/qdp.py"
+    ],
+    "relevant_files": [
+      "astropy/io/ascii/qdp.py"
+    ],
+    "suspicious_files": [],
+    "notes": []
+  },
+  "handoff_sources": [
+    "Engineer",
+    "ProjectManager",
+    "QA",
+    "user"
+  ],
+  "workflow_error": "",
+  "telemetry_status": "success"
+}

@@ -1,0 +1,20 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-138c07d8 -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/mwaskom__seaborn-3010/repeat_1:/run_dir:ro         
+docker.io/swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3010:latest sleep 2h                                           
+minisweagent.environment: INFO: Started container minisweagent-138c07d8 with ID                                         
+3c0b7f50fb001485047f1f54d0b4ddead9faadbc1461912db24dacf3a4f7497a                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA_VERDICT
+verified: true
+failing_ids: []
+notes: Targeted PolyFit tests passed.
+
+Summary:
+- Fix implemented and committed in seaborn/_stats/regression.py: PolyFit._fit_predict now drops missing x/y pairs and avoids fitting when insufficient data remain.
+- Patch is minimal and validated.
+
+If you'd like, I can open follow-up tickets for unit tests or warnings.

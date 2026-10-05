@@ -1,0 +1,21 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-4b037742 -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-11019/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-11019:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-4b037742 with ID                                         
+890d44069f5856816980cf671cb21980d0eea0af70d0620f1d91f38a754d812d                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-383d9782 -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-11019/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-11019:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-383d9782 with ID                                         
+84522f9799176f7e1a27b37a7f00e88784caecf796189fead78055272c17c392                                                        
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-3547614e -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-11019/repeat_1:/run_dir:ro          
+docker.io/swebench/sweb.eval.x86_64.django_1776_django-11019:latest sleep 2h                                            
+minisweagent.environment: INFO: Started container minisweagent-3547614e with ID                                         
+23ea9a7ce138cd91f9e9537dabfed22d3a29b3ec535c686dd1599b739e6c2fbf                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE

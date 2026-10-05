@@ -1,0 +1,43 @@
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..8884ea36c 100644
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,10 +57,34 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
++        # If header_rows specified, ensure data.start_line accounts for the
++        # number of header rows in an RST table. The data start line should be
++        # header.start_line + number_of_header_rows + 1 (for the separator line).
++        if header_rows is not None:
++            # Propagate header_rows to header and data (FixedWidth does this for
++            # some cases, but SimpleRSTData has a default start_line that must be
++            # overridden when additional header rows are present).
++            self.header.header_rows = header_rows
++            self.data.header_rows = header_rows
++            self.data.start_line = self.header.start_line + len(header_rows) + 1
+ 
+     def write(self, lines):
+         lines = super().write(lines)
+-        lines = [lines[1]] + lines + [lines[1]]
+-        return lines
++        # Find the separator/position line (composed of the position_char).
++        sep_line = None
++        for ln in lines:
++            s = ln.strip()
++            if s:
++                # Consider separator lines that may include spaces between groups of
++                # position characters, e.g. '===== ======='.  Remove spaces before
++                # checking.
++                s_ns = s.replace(' ', '')
++                if s_ns and all(ch == self.header.position_char for ch in s_ns):
++                    sep_line = ln
++                    break
++        if sep_line is None:
++            # Fallback: return as-is
++            return lines
++        return [sep_line] + lines + [sep_line]

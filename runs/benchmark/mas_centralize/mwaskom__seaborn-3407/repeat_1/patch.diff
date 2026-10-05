@@ -1,0 +1,47 @@
+diff --git a/seaborn/axisgrid.py b/seaborn/axisgrid.py
+index 75349099..ab7b82d1 100644
+--- a/seaborn/axisgrid.py
++++ b/seaborn/axisgrid.py
+@@ -1472,7 +1472,7 @@ class PairGrid(Grid):
+                 for ax in diag_axes[1:]:
+                     share_axis(diag_axes[0], ax, "y")
+ 
+-            self.diag_vars = np.array(diag_vars, np.object_)
++            self.diag_vars = [tuple(v.tolist()) if isinstance(v, np.ndarray) else v for v in diag_vars]
+             self.diag_axes = np.array(diag_axes, np.object_)
+ 
+         if "hue" not in signature(func).parameters:
+@@ -1487,6 +1487,8 @@ class PairGrid(Grid):
+             else:
+                 plt.sca(ax)
+ 
++            if isinstance(var, np.ndarray):
++                var = tuple(var.tolist())
+             vector = self.data[var]
+             if self._hue_var is not None:
+                 hue = self.data[self._hue_var]
+@@ -1516,6 +1518,8 @@ class PairGrid(Grid):
+         fixed_color = kwargs.pop("color", None)
+ 
+         for var, ax in zip(self.diag_vars, self.diag_axes):
++            if isinstance(var, np.ndarray):
++                var = tuple(var.tolist())
+             hue_grouped = self.data[var].groupby(self.hue_vals)
+ 
+             plot_kwargs = kwargs.copy()
+@@ -1665,6 +1669,15 @@ class PairGrid(Grid):
+         """Find which variables in a DataFrame are numeric."""
+         numeric_cols = []
+         for col in data:
++            # Ensure that MultiIndex column labels are represented as tuples
++            if isinstance(col, (list, tuple)) and not isinstance(col, tuple):
++                col = tuple(col)
++            elif hasattr(col, 'dtype') and getattr(col, 'dtype').kind == 'O' and hasattr(col, '__iter__') and not isinstance(col, tuple):
++                # Handle cases where pandas yields a numpy array for the column label
++                try:
++                    col = tuple(col.tolist())
++                except Exception:
++                    pass
+             if variable_type(data[col]) == "numeric":
+                 numeric_cols.append(col)
+         return numeric_cols

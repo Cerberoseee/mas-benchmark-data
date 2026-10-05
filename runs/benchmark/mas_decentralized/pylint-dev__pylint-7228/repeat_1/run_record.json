@@ -1,0 +1,57 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "pylint-dev__pylint-7228",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-15T21:15:36.974495Z",
+  "completed_at": "2026-05-15T21:21:05.520734Z",
+  "duration_seconds": 328.54623904155903,
+  "workspace_dir": "runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/grade-result.json",
+  "prompt_sha256": "d90a3a83bbaebdc668d06de8d6d60cdf5b022b914d6dc9e005751941e8d8ddc2",
+  "telemetry": {
+    "total_tokens": 100547,
+    "prompt_tokens": 97296,
+    "completion_tokens": 3251,
+    "total_steps": 0,
+    "tool_calls": 14,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 1,
+    "messages": 60,
+    "handoffs": 4,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/pylint-dev__pylint-7228/repeat_1/mas_decentralized.benchmark.json"
+    },
+    "graded_at": "2026-05-16T13:01:26.363785Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

@@ -1,0 +1,61 @@
+2026-05-16 17:29:43,422 - INFO - Environment image sweb.env.py.x86_64.042cc8c7538a70394bfed6:latest found for pylint-dev__pylint-6506
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-6506:latest for pylint-dev__pylint-6506
+2026-05-16 17:30:08,817 - INFO - Creating container for pylint-dev__pylint-6506...
+2026-05-16 17:30:08,880 - INFO - Container for pylint-dev__pylint-6506 created: 51e8c49e680d7a5f41fb0b668e6b6060f8cfbc9d15863fb539d1aedba4079eac
+2026-05-16 17:30:09,045 - INFO - Container for pylint-dev__pylint-6506 started: 51e8c49e680d7a5f41fb0b668e6b6060f8cfbc9d15863fb539d1aedba4079eac
+2026-05-16 17:30:09,046 - INFO - Intermediate patch for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-6506/patch.diff, now applying to container...
+2026-05-16 17:30:09,145 - INFO - >>>>> Applied Patch:
+Checking patch pylint/config/config_initialization.py...
+Applied patch pylint/config/config_initialization.py cleanly.
+
+2026-05-16 17:30:09,317 - INFO - Git diff before:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a7..6e563d89 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,13 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a short error to stderr and exit with error so callers
++        # (and tests) receive a SystemExit instead of an internal exception
++        # and avoid showing a traceback to end users.
++        print(linter.help(), file=sys.stderr)
++        # Also print a concise error mentioning the unrecognized options.
++        print(f"Unrecognized option{'s' if len(unrecognized_options)>1 else ''}: {msg}", file=sys.stderr)
++        sys.exit(32)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
+2026-05-16 17:30:09,318 - INFO - Eval script for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-6506/eval.sh; copying to container...
+2026-05-16 17:30:12,229 - INFO - Test runtime: 2.85 seconds
+2026-05-16 17:30:12,230 - INFO - Test output for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-6506/test_output.txt
+2026-05-16 17:30:12,278 - INFO - Git diff after:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a7..6e563d89 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,13 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a short error to stderr and exit with error so callers
++        # (and tests) receive a SystemExit instead of an internal exception
++        # and avoid showing a traceback to end users.
++        print(linter.help(), file=sys.stderr)
++        # Also print a concise error mentioning the unrecognized options.
++        print(f"Unrecognized option{'s' if len(unrecognized_options)>1 else ''}: {msg}", file=sys.stderr)
++        sys.exit(32)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
+2026-05-16 17:30:12,278 - INFO - Grading answer for pylint-dev__pylint-6506...
+2026-05-16 17:30:12,281 - INFO - report: {'pylint-dev__pylint-6506': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_unknown_option_name', 'tests/config/test_config.py::test_unknown_short_option_name']}, 'PASS_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_can_read_toml_env_variable', 'tests/config/test_config.py::test_unknown_message_id', 'tests/config/test_config.py::test_unknown_confidence', 'tests/config/test_config.py::test_unknown_yes_no', 'tests/config/test_config.py::test_unknown_py_version', 'tests/config/test_config.py::test_short_verbose']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-6506: resolved: False
+2026-05-16 17:30:12,282 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-6506.benchmark...
+2026-05-16 17:30:27,543 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-6506.benchmark...
+2026-05-16 17:30:27,574 - INFO - Container sweb.eval.pylint-dev__pylint-6506.benchmark removed.
+2026-05-16 17:30:27,574 - INFO - Attempting to remove image sweb.eval.x86_64.pylint-dev__pylint-6506:latest...
+2026-05-16 17:30:27,690 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-6506:latest removed.

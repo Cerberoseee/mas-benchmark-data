@@ -1,0 +1,21 @@
+Base image sweb.base.py.x86_64:latest already exists, skipping build.
+Base images built successfully.
+No environment images need to be built.
+Found 1 existing instance images. Will reuse them.
+Running 1 instances...
+Error building image psf__requests-2317: 409 Client Error for http+docker://localhost/v1.54/containers/create?name=sweb.eval.psf__requests-2317.benchmark&platform=linux%2Fx86_64: Conflict ("Conflict. The container name "/sweb.eval.psf__requests-2317.benchmark" is already in use by container "f4d003d8066049fc574a9ad29c6a6054748d5d058b6b448da4dca575859e6162". You have to remove (or rename) that container to be able to reuse that name.")
+Check (logs/run_evaluation/benchmark/mas_decentralized/psf__requests-2317/run_instance.log) for more information.
+All instances run.
+Cleaning cached images...
+Removed 0 images.
+Total instances: 1
+Instances submitted: 1
+Instances completed: 0
+Instances incomplete: 0
+Instances resolved: 0
+Instances unresolved: 0
+Instances with empty patches: 0
+Instances with errors: 1
+Unstopped containers: 2
+Unremoved images: 1
+Report written to mas_decentralized.benchmark.json

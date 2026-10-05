@@ -1,0 +1,105 @@
+2026-05-16 13:32:43,451 - INFO - Environment image sweb.env.py.x86_64.428468730904ff6b4232aa:latest found for astropy__astropy-14182
+Building instance image sweb.eval.x86_64.astropy__astropy-14182:latest for astropy__astropy-14182
+2026-05-16 13:34:38,980 - INFO - Creating container for astropy__astropy-14182...
+2026-05-16 13:34:39,094 - INFO - Container for astropy__astropy-14182 created: cd2500115264df997238e54eda5fd34336dacf3709e639fa647222f8e03722c4
+2026-05-16 13:34:39,303 - INFO - Container for astropy__astropy-14182 started: cd2500115264df997238e54eda5fd34336dacf3709e639fa647222f8e03722c4
+2026-05-16 13:34:39,303 - INFO - Intermediate patch for astropy__astropy-14182 written to logs/run_evaluation/benchmark/mas_centralize/astropy__astropy-14182/patch.diff, now applying to container...
+2026-05-16 13:34:39,401 - INFO - >>>>> Applied Patch:
+Checking patch astropy/io/ascii/rst.py...
+Applied patch astropy/io/ascii/rst.py cleanly.
+
+2026-05-16 13:34:39,727 - INFO - Git diff before:
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..8e8788b4f 100644
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,10 +57,32 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
++        # Adjust data start line when custom header_rows are provided for RST
++        if header_rows is not None:
++            # Ensure header and data know about the header rows
++            self.header.header_rows = header_rows
++            self.data.header_rows = header_rows
++            # For RST tables there is a top border (position_line), then the header_rows,
++            # then a separating border before data. So data starts at position_line + len(header_rows) + 2.
++            if self.header.position_line is not None:
++                self.data.start_line = self.header.position_line + len(header_rows) + 2
++
+ 
+     def write(self, lines):
++        # Adjust writing to support multiple header_rows.
++        # The FixedWidthData.write implementation returns header rows followed by a single
++        # position line, then data lines. For RST we need a top border, the header rows,
++        # a separating border, the data lines, and a bottom border.
+         lines = super().write(lines)
+-        lines = [lines[1]] + lines + [lines[1]]
+-        return lines
++        # Determine number of header rows (default to 1 if not set)
++        header_rows = getattr(self.header, 'header_rows', ['name'])
++        pos_index = len(header_rows)
++        # If the returned lines are shorter than expected just return them
++        if len(lines) <= pos_index:
++            return lines
++        pos_line = lines[pos_index]
++        # Compose: top position, header rows, position, data lines, bottom position
++        new_lines = [pos_line] + lines[:pos_index] + [pos_line] + lines[pos_index+1:] + [pos_line]
++        return new_lines
+2026-05-16 13:34:39,727 - INFO - Eval script for astropy__astropy-14182 written to logs/run_evaluation/benchmark/mas_centralize/astropy__astropy-14182/eval.sh; copying to container...
+2026-05-16 13:35:26,996 - INFO - Test runtime: 47.22 seconds
+2026-05-16 13:35:26,996 - INFO - Test output for astropy__astropy-14182 written to logs/run_evaluation/benchmark/mas_centralize/astropy__astropy-14182/test_output.txt
+2026-05-16 13:35:27,044 - INFO - Git diff after:
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..8e8788b4f 100644
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,10 +57,32 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
++        # Adjust data start line when custom header_rows are provided for RST
++        if header_rows is not None:
++            # Ensure header and data know about the header rows
++            self.header.header_rows = header_rows
++            self.data.header_rows = header_rows
++            # For RST tables there is a top border (position_line), then the header_rows,
++            # then a separating border before data. So data starts at position_line + len(header_rows) + 2.
++            if self.header.position_line is not None:
++                self.data.start_line = self.header.position_line + len(header_rows) + 2
++
+ 
+     def write(self, lines):
++        # Adjust writing to support multiple header_rows.
++        # The FixedWidthData.write implementation returns header rows followed by a single
++        # position line, then data lines. For RST we need a top border, the header rows,
++        # a separating border, the data lines, and a bottom border.
+         lines = super().write(lines)
+-        lines = [lines[1]] + lines + [lines[1]]
+-        return lines
++        # Determine number of header rows (default to 1 if not set)
++        header_rows = getattr(self.header, 'header_rows', ['name'])
++        pos_index = len(header_rows)
++        # If the returned lines are shorter than expected just return them
++        if len(lines) <= pos_index:
++            return lines
++        pos_line = lines[pos_index]
++        # Compose: top position, header rows, position, data lines, bottom position
++        new_lines = [pos_line] + lines[:pos_index] + [pos_line] + lines[pos_index+1:] + [pos_line]
++        return new_lines
+2026-05-16 13:35:27,044 - INFO - Grading answer for astropy__astropy-14182...
+2026-05-16 13:35:27,046 - INFO - report: {'astropy__astropy-14182': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows'], 'failure': []}, 'PASS_TO_PASS': {'success': ['astropy/io/ascii/tests/test_rst.py::test_read_normal', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_names_include', 'astropy/io/ascii/tests/test_rst.py::test_read_normal_exclude', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column', 'astropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header', 'astropy/io/ascii/tests/test_rst.py::test_read_right_indented_table', 'astropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition', 'astropy/io/ascii/tests/test_rst.py::test_write_normal'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-14182: resolved: True
+2026-05-16 13:35:27,046 - INFO - Attempting to stop container sweb.eval.astropy__astropy-14182.benchmark...
+2026-05-16 13:35:42,325 - INFO - Attempting to remove container sweb.eval.astropy__astropy-14182.benchmark...
+2026-05-16 13:35:42,383 - INFO - Container sweb.eval.astropy__astropy-14182.benchmark removed.
+2026-05-16 13:35:42,383 - INFO - Attempting to remove image sweb.eval.x86_64.astropy__astropy-14182:latest...
+2026-05-16 13:35:42,557 - INFO - Image sweb.eval.x86_64.astropy__astropy-14182:latest removed.

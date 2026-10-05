@@ -1,0 +1,13 @@
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index 2ad720d35a..cef34e6216 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -1557,7 +1557,7 @@ def _eval_rewrite(self, pattern, rule, **hints):
+                         if isinstance(a, Basic) else a
+                         for a in self.args]
+         else:
+-            args = self.args
++            args = list(self.args)
+ 
+         if pattern is None or isinstance(self, pattern):
+             if hasattr(self, rule):

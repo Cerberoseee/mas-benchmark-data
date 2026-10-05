@@ -1,0 +1,19 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-0b4fbc38 -w /testbed
+--rm -v /home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1:/run_dir:ro    
+docker.io/swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3010:latest sleep 2h                                           
+minisweagent.environment: INFO: Started container minisweagent-0b4fbc38 with ID                                         
+5b1cb5f805c6215d777973fe2aeeda5ca8e71810116a042e0ffa7552f596a1c2                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+Final summary:
+- Problem: PolyFit crashed on inputs with missing data (NaN/None) because numpy.polyfit was called with arrays containing NaNs, raising an SVD LinAlgError.
+- Fix: In seaborn/_stats/regression.py, PolyFit._fit_predict now removes observations with missing x or y before fitting (mask = x.notna() & y.notna()).
+- Commit: ad6cfe302cb15b16e1960c71f04e9be0066c4140
+- Validation:
+  - Non-empty patch confirmed.
+  - Code review: approved.
+  - QA: targeted PolyFit tests passed.
+
+Outcome: Bug fixed.

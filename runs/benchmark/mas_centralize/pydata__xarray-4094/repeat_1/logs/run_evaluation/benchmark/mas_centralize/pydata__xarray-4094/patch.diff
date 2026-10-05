@@ -1,0 +1,21 @@
+diff --git a/xarray/core/dataarray.py b/xarray/core/dataarray.py
+index b0df8749..a807a0e8 100644
+--- a/xarray/core/dataarray.py
++++ b/xarray/core/dataarray.py
+@@ -1961,7 +1961,15 @@ class DataArray(AbstractArray, DataWithCoords):
+         # pull variables out of datarray
+         data_dict = {}
+         for k in variables:
+-            data_dict[k] = self.sel({variable_dim: k}).squeeze(drop=True)
++            # select each variable along the given level and squeeze out the
++            # now-singleton level. If the stacked coordinate `dim` is present
++            # as a scalar coordinate on the resulting DataArray, drop it to
++            # avoid conflicting scalar coordinates when constructing the
++            # resulting Dataset (see GH4049 regression).
++            da = self.sel({variable_dim: k}).squeeze(drop=True)
++            if dim in da.coords:
++                da = da.drop_vars(dim, errors='ignore')
++            data_dict[k] = da
+ 
+         # unstacked dataset
+         return Dataset(data_dict)

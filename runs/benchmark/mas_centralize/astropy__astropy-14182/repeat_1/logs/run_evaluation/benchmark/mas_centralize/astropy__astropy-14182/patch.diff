@@ -1,0 +1,41 @@
+diff --git a/astropy/io/ascii/rst.py b/astropy/io/ascii/rst.py
+index abdeba8ef..8e8788b4f 100644
+--- a/astropy/io/ascii/rst.py
++++ b/astropy/io/ascii/rst.py
+@@ -57,10 +57,32 @@ class RST(FixedWidth):
+     data_class = SimpleRSTData
+     header_class = SimpleRSTHeader
+ 
+-    def __init__(self):
+-        super().__init__(delimiter_pad=None, bookend=False)
++    def __init__(self, header_rows=None):
++        super().__init__(delimiter_pad=None, bookend=False, header_rows=header_rows)
++        # Adjust data start line when custom header_rows are provided for RST
++        if header_rows is not None:
++            # Ensure header and data know about the header rows
++            self.header.header_rows = header_rows
++            self.data.header_rows = header_rows
++            # For RST tables there is a top border (position_line), then the header_rows,
++            # then a separating border before data. So data starts at position_line + len(header_rows) + 2.
++            if self.header.position_line is not None:
++                self.data.start_line = self.header.position_line + len(header_rows) + 2
++
+ 
+     def write(self, lines):
++        # Adjust writing to support multiple header_rows.
++        # The FixedWidthData.write implementation returns header rows followed by a single
++        # position line, then data lines. For RST we need a top border, the header rows,
++        # a separating border, the data lines, and a bottom border.
+         lines = super().write(lines)
+-        lines = [lines[1]] + lines + [lines[1]]
+-        return lines
++        # Determine number of header rows (default to 1 if not set)
++        header_rows = getattr(self.header, 'header_rows', ['name'])
++        pos_index = len(header_rows)
++        # If the returned lines are shorter than expected just return them
++        if len(lines) <= pos_index:
++            return lines
++        pos_line = lines[pos_index]
++        # Compose: top position, header rows, position, data lines, bottom position
++        new_lines = [pos_line] + lines[:pos_index] + [pos_line] + lines[pos_index+1:] + [pos_line]
++        return new_lines

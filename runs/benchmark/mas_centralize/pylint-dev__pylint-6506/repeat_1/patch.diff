@@ -1,0 +1,19 @@
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a73..6e563d899 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,13 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a short error to stderr and exit with error so callers
++        # (and tests) receive a SystemExit instead of an internal exception
++        # and avoid showing a traceback to end users.
++        print(linter.help(), file=sys.stderr)
++        # Also print a concise error mentioning the unrecognized options.
++        print(f"Unrecognized option{'s' if len(unrecognized_options)>1 else ''}: {msg}", file=sys.stderr)
++        sys.exit(32)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from

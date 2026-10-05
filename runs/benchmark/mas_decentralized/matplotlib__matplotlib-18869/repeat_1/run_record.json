@@ -1,0 +1,103 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "matplotlib__matplotlib-18869",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-11T17:08:44.266096Z",
+  "completed_at": "2026-05-11T17:17:39.590789Z",
+  "duration_seconds": 535.3246929310184,
+  "workspace_dir": "runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/grade-result.json",
+  "prompt_sha256": "454c38c101751a44a64e4bbc085a741479156a22dc919f7b28e515615360cd24",
+  "telemetry": {
+    "total_tokens": 95492,
+    "prompt_tokens": 88982,
+    "completion_tokens": 6510,
+    "total_steps": 0,
+    "tool_calls": 14,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 64,
+    "handoffs": 7,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved \u2014 no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]",
+          "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]",
+          "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]",
+          "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]"
+        ],
+        "pass_to_pass_still_passing": [
+          "lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home",
+          "lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends",
+          "lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]",
+              "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]",
+              "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]",
+              "lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home",
+              "lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends",
+              "lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/matplotlib__matplotlib-18869/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/matplotlib__matplotlib-18869/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T12:06:29.887066Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

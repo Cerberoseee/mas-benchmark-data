@@ -1,0 +1,118 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "scikit-learn__scikit-learn-10508",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-14T14:25:15.909817Z",
+  "completed_at": "2026-05-14T14:39:36.325450Z",
+  "duration_seconds": 860.415633,
+  "workspace_dir": "runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/grade-result.json",
+  "prompt_sha256": "ba5e9d3384d05b3c47859c6d532b5941d1f5878e519e1f018fac51fcc1d6ce91",
+  "telemetry": {
+    "total_tokens": 278848,
+    "prompt_tokens": 269533,
+    "completion_tokens": 9315,
+    "total_steps": 0,
+    "tool_calls": 22,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 5,
+    "messages": 109,
+    "handoffs": 11,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "sklearn/preprocessing/tests/test_label.py::test_label_encoder_errors",
+          "sklearn/preprocessing/tests/test_label.py::test_label_encoder_empty_array"
+        ],
+        "pass_to_pass_still_passing": [
+          "sklearn/preprocessing/tests/test_label.py::test_label_binarizer",
+          "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_unseen_labels",
+          "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_set_label_encoding",
+          "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_errors",
+          "sklearn/preprocessing/tests/test_label.py::test_label_encoder",
+          "sklearn/preprocessing/tests/test_label.py::test_label_encoder_fit_transform",
+          "sklearn/preprocessing/tests/test_label.py::test_sparse_output_multilabel_binarizer",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_empty_sample",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_unknown_class",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_given_classes",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_same_length_sequence",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_non_integer_labels",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_non_unique",
+          "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_inverse_validation",
+          "sklearn/preprocessing/tests/test_label.py::test_label_binarize_with_class_order",
+          "sklearn/preprocessing/tests/test_label.py::test_invalid_input_label_binarize",
+          "sklearn/preprocessing/tests/test_label.py::test_inverse_binarize_multiclass"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "sklearn/preprocessing/tests/test_label.py::test_label_encoder_errors",
+              "sklearn/preprocessing/tests/test_label.py::test_label_encoder_empty_array"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "sklearn/preprocessing/tests/test_label.py::test_label_binarizer",
+              "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_unseen_labels",
+              "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_set_label_encoding",
+              "sklearn/preprocessing/tests/test_label.py::test_label_binarizer_errors",
+              "sklearn/preprocessing/tests/test_label.py::test_label_encoder",
+              "sklearn/preprocessing/tests/test_label.py::test_label_encoder_fit_transform",
+              "sklearn/preprocessing/tests/test_label.py::test_sparse_output_multilabel_binarizer",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_empty_sample",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_unknown_class",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_given_classes",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_same_length_sequence",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_non_integer_labels",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_non_unique",
+              "sklearn/preprocessing/tests/test_label.py::test_multilabel_binarizer_inverse_validation",
+              "sklearn/preprocessing/tests/test_label.py::test_label_binarize_with_class_order",
+              "sklearn/preprocessing/tests/test_label.py::test_invalid_input_label_binarize",
+              "sklearn/preprocessing/tests/test_label.py::test_inverse_binarize_multiclass"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/repeat_1/logs/run_evaluation/benchmark/mas_centralize/scikit-learn__scikit-learn-10508/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T10:58:39.057120Z"
+  }
+}

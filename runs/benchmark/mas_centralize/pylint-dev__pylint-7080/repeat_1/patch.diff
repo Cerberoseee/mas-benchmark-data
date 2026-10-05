@@ -1,0 +1,20 @@
+diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
+index e2bbf061..ae143c3b 100644
+--- a/pylint/lint/pylinter.py
++++ b/pylint/lint/pylinter.py
+@@ -593,12 +593,13 @@ class PyLinter(
+             ):
+                 skip_subtrees: list[str] = []
+                 for root, _, files in os.walk(something):
+-                    if any(root.startswith(s) for s in skip_subtrees):
++                    normroot = os.path.normpath(root)
++                    if any(normroot.startswith(s) for s in skip_subtrees):
+                         # Skip subtree of already discovered package.
+                         continue
+ 
+                     if _is_ignored_file(
+-                        root,
++                        os.path.normpath(root) + os.sep,
+                         self.config.ignore,
+                         self.config.ignore_patterns,
+                         self.config.ignore_paths,

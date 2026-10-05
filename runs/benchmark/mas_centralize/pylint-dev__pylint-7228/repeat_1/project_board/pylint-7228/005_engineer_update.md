@@ -1,0 +1,1 @@
+Implemented friendly regex error handling in argparse transformers to catch re.error and raise argparse.ArgumentTypeError with a clear message. Updated _regexp_csv_transfomer and regexp transformer in pylint/config/argument.py. Ran targeted tests for regex error cases and related config tests; all pass. Committed the changes.

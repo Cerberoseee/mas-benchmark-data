@@ -1,0 +1,69 @@
+2026-05-16 16:42:22,432 - INFO - Environment image sweb.env.py.x86_64.34a2704c943706976d0871:latest found for pallets__flask-4992
+Building instance image sweb.eval.x86_64.pallets__flask-4992:latest for pallets__flask-4992
+2026-05-16 16:42:43,352 - INFO - Creating container for pallets__flask-4992...
+2026-05-16 16:42:43,456 - INFO - Container for pallets__flask-4992 created: c128780da5476a402daaafaffd0555dc3e0aba9717f9d11052f1cabda0ab937b
+2026-05-16 16:42:43,660 - INFO - Container for pallets__flask-4992 started: c128780da5476a402daaafaffd0555dc3e0aba9717f9d11052f1cabda0ab937b
+2026-05-16 16:42:43,660 - INFO - Intermediate patch for pallets__flask-4992 written to logs/run_evaluation/benchmark/mas_centralize/pallets__flask-4992/patch.diff, now applying to container...
+2026-05-16 16:42:43,754 - INFO - >>>>> Applied Patch:
+Checking patch src/flask/config.py...
+Applied patch src/flask/config.py cleanly.
+
+2026-05-16 16:42:43,803 - INFO - Git diff before:
+diff --git a/src/flask/config.py b/src/flask/config.py
+index d4fc310f..15534d26 100644
+--- a/src/flask/config.py
++++ b/src/flask/config.py
+@@ -234,6 +234,8 @@ class Config(dict):
+         filename: str,
+         load: t.Callable[[t.IO[t.Any]], t.Mapping],
+         silent: bool = False,
++        *,
++        text: bool = True,
+     ) -> bool:
+         """Update the values in the config from a file that is loaded
+         using the ``load`` parameter. The loaded data is passed to the
+@@ -261,7 +263,8 @@ class Config(dict):
+         filename = os.path.join(self.root_path, filename)
+ 
+         try:
+-            with open(filename) as f:
++            mode = 'r' if text else 'rb'
++            with open(filename, mode=mode) as f:
+                 obj = load(f)
+         except OSError as e:
+             if silent and e.errno in (errno.ENOENT, errno.EISDIR):
+2026-05-16 16:42:43,803 - INFO - Eval script for pallets__flask-4992 written to logs/run_evaluation/benchmark/mas_centralize/pallets__flask-4992/eval.sh; copying to container...
+2026-05-16 16:42:45,966 - INFO - Test runtime: 2.13 seconds
+2026-05-16 16:42:45,966 - INFO - Test output for pallets__flask-4992 written to logs/run_evaluation/benchmark/mas_centralize/pallets__flask-4992/test_output.txt
+2026-05-16 16:42:46,026 - INFO - Git diff after:
+diff --git a/src/flask/config.py b/src/flask/config.py
+index d4fc310f..15534d26 100644
+--- a/src/flask/config.py
++++ b/src/flask/config.py
+@@ -234,6 +234,8 @@ class Config(dict):
+         filename: str,
+         load: t.Callable[[t.IO[t.Any]], t.Mapping],
+         silent: bool = False,
++        *,
++        text: bool = True,
+     ) -> bool:
+         """Update the values in the config from a file that is loaded
+         using the ``load`` parameter. The loaded data is passed to the
+@@ -261,7 +263,8 @@ class Config(dict):
+         filename = os.path.join(self.root_path, filename)
+ 
+         try:
+-            with open(filename) as f:
++            mode = 'r' if text else 'rb'
++            with open(filename, mode=mode) as f:
+                 obj = load(f)
+         except OSError as e:
+             if silent and e.errno in (errno.ENOENT, errno.EISDIR):
+2026-05-16 16:42:46,026 - INFO - Grading answer for pallets__flask-4992...
+2026-05-16 16:42:46,026 - INFO - report: {'pallets__flask-4992': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/test_config.py::test_config_from_file_toml'], 'failure': []}, 'PASS_TO_PASS': {'success': ['tests/test_config.py::test_config_from_pyfile', 'tests/test_config.py::test_config_from_object', 'tests/test_config.py::test_config_from_file_json', 'tests/test_config.py::test_from_prefixed_env', 'tests/test_config.py::test_from_prefixed_env_custom_prefix', 'tests/test_config.py::test_from_prefixed_env_nested', 'tests/test_config.py::test_config_from_mapping', 'tests/test_config.py::test_config_from_class', 'tests/test_config.py::test_config_from_envvar', 'tests/test_config.py::test_config_from_envvar_missing', 'tests/test_config.py::test_config_missing', 'tests/test_config.py::test_config_missing_file', 'tests/test_config.py::test_custom_config_class', 'tests/test_config.py::test_session_lifetime', 'tests/test_config.py::test_get_namespace', 'tests/test_config.py::test_from_pyfile_weird_encoding[utf-8]', 'tests/test_config.py::test_from_pyfile_weird_encoding[iso-8859-15]', 'tests/test_config.py::test_from_pyfile_weird_encoding[latin-1]'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pallets__flask-4992: resolved: True
+2026-05-16 16:42:46,026 - INFO - Attempting to stop container sweb.eval.pallets__flask-4992.benchmark...
+2026-05-16 16:43:01,279 - INFO - Attempting to remove container sweb.eval.pallets__flask-4992.benchmark...
+2026-05-16 16:43:01,328 - INFO - Container sweb.eval.pallets__flask-4992.benchmark removed.
+2026-05-16 16:43:01,328 - INFO - Attempting to remove image sweb.eval.x86_64.pallets__flask-4992:latest...
+2026-05-16 16:43:01,460 - INFO - Image sweb.eval.x86_64.pallets__flask-4992:latest removed.

@@ -1,0 +1,18 @@
+diff --git a/src/_pytest/pathlib.py b/src/_pytest/pathlib.py
+index e43310ef0..99dc9f22c 100644
+--- a/src/_pytest/pathlib.py
++++ b/src/_pytest/pathlib.py
+@@ -523,6 +523,13 @@ def import_path(
+ 
+     if mode is ImportMode.importlib:
+         module_name = module_name_from_path(path, root)
++        # If we've already imported this module previously via importlib mode,
++        # reuse the existing module object from sys.modules instead of
++        # creating a new one. This prevents having multiple distinct module
++        # objects for the same module path when import_path is called
++        # repeatedly (see #10341).
++        if module_name in sys.modules:
++            return sys.modules[module_name]
+ 
+         for meta_importer in sys.meta_path:
+             spec = meta_importer.find_spec(module_name, [str(path.parent)])

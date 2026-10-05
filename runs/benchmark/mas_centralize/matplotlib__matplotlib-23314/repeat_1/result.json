@@ -1,0 +1,36 @@
+{
+  "status": "ok",
+  "final_message": "PROJECT COMPLETE\n\nQA verified all Fail-to-pass tests and Engineer produced a non-empty patch.\nQA notes: The fail-to-pass test lib/mpl_toolkits/tests/test_mplot3d.py::test_invisible_axes[png] was collected and passed. The patch correctly skips drawing invisible 3D axes.",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/matplotlib__matplotlib-23314/repeat_1/patch.diff",
+  "completion_valid": true,
+  "completion_failures": [],
+  "qa_verdict": {
+    "verified": true,
+    "failing_ids": [],
+    "notes": "The fail-to-pass test lib/mpl_toolkits/tests/test_mplot3d.py::test_invisible_axes[png] was collected and passed. The patch correctly skips drawing invisible 3D axes.",
+    "raw": "verified: true\n  failing_ids:\n  notes: The fail-to-pass test lib/mpl_toolkits/tests/test_mplot3d.py::test_invisible_axes[png] was collected and passed. The patch correctly skips drawing invisible 3D axes."
+  },
+  "review_verdict": null,
+  "review_blocking": null,
+  "patch_present": true,
+  "patch_relevance": {
+    "acceptable": true,
+    "changed_files": [
+      "lib/mpl_toolkits/mplot3d/axes3d.py"
+    ],
+    "relevant_files": [
+      "lib/mpl_toolkits/mplot3d/axes3d.py"
+    ],
+    "suspicious_files": [],
+    "notes": []
+  },
+  "handoff_sources": [
+    "CodeReviewer",
+    "Engineer",
+    "ProjectManager",
+    "QA",
+    "user"
+  ],
+  "workflow_error": "",
+  "telemetry_status": "success"
+}

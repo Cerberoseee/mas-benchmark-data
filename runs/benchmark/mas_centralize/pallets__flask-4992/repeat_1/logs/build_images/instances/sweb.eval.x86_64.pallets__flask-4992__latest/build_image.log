@@ -1,0 +1,645 @@
+2026-05-16 16:42:22,434 - INFO - Building image sweb.eval.x86_64.pallets__flask-4992:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.py.x86_64.34a2704c943706976d0871:latest
+
+COPY ./setup_repo.sh /root/
+RUN sed -i -e 's/\r$//' /root/setup_repo.sh
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2026-05-16 16:42:22,434 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin  --single-branch https://github.com/pallets/flask /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard 4c288bc97ea371817199908d0d9b12de9dae327e
+git remote remove origin
+TARGET_TIMESTAMP=$(git show -s --format=%ci 4c288bc97ea371817199908d0d9b12de9dae327e)
+git tag -l | while read tag; do TAG_COMMIT=$(git rev-list -n 1 "$tag"); TAG_TIME=$(git show -s --format=%ci "$TAG_COMMIT"); if [[ "$TAG_TIME" > "$TARGET_TIMESTAMP" ]]; then git tag -d "$tag"; fi; done
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+AFTER_TIMESTAMP=$(date -d "$TARGET_TIMESTAMP + 1 second" '+%Y-%m-%d %H:%M:%S')
+COMMIT_COUNT=$(git log --oneline --all --since="$AFTER_TIMESTAMP" | wc -l)
+[ "$COMMIT_COUNT" -eq 0 ] || exit 1
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .
+git config --global user.email setup@swebench.config
+git config --global user.name SWE-bench
+git commit --allow-empty -am SWE-bench
+
+2026-05-16 16:42:22,434 - INFO - Building docker image sweb.eval.x86_64.pallets__flask-4992:latest in logs/build_images/instances/sweb.eval.x86_64.pallets__flask-4992__latest with platform linux/x86_64
+2026-05-16 16:42:22,437 - INFO - Step 1/5 : FROM --platform=linux/x86_64 sweb.env.py.x86_64.34a2704c943706976d0871:latest
+2026-05-16 16:42:22,437 - INFO - 
+2026-05-16 16:42:22,449 - INFO - ---> 9e2fc0a6bbe5
+2026-05-16 16:42:22,449 - INFO - Step 2/5 : COPY ./setup_repo.sh /root/
+2026-05-16 16:42:22,449 - INFO - 
+2026-05-16 16:42:25,985 - INFO - ---> 2619dbe1888b
+2026-05-16 16:42:25,985 - INFO - Step 3/5 : RUN sed -i -e 's/\r$//' /root/setup_repo.sh
+2026-05-16 16:42:25,985 - INFO - 
+2026-05-16 16:42:26,109 - INFO - ---> Running in 2ed78239c2d5
+2026-05-16 16:42:29,982 - INFO - ---> Removed intermediate container 2ed78239c2d5
+2026-05-16 16:42:29,983 - INFO - ---> 03e79f1bd2c8
+2026-05-16 16:42:29,983 - INFO - Step 4/5 : RUN /bin/bash /root/setup_repo.sh
+2026-05-16 16:42:29,983 - INFO - 
+2026-05-16 16:42:30,083 - INFO - ---> Running in 32431e519a6d
+2026-05-16 16:42:30,271 - INFO - + git clone -o origin --single-branch https://github.com/pallets/flask /testbed
+2026-05-16 16:42:30,272 - INFO - Cloning into '/testbed'...
+2026-05-16 16:42:32,107 - INFO - + chmod -R 777 /testbed
+2026-05-16 16:42:32,110 - INFO - + cd /testbed
++ git reset --hard 4c288bc97ea371817199908d0d9b12de9dae327e
+2026-05-16 16:42:32,128 - INFO - HEAD is now at 4c288bc9 Merge pull request #4998 from pallets/deprecate-locked_cached_property
+2026-05-16 16:42:32,128 - INFO - + git remote remove origin
+2026-05-16 16:42:32,131 - INFO - ++ git show -s --format=%ci 4c288bc97ea371817199908d0d9b12de9dae327e
+2026-05-16 16:42:32,132 - INFO - + TARGET_TIMESTAMP='2023-02-23 10:59:28 -0800'
+2026-05-16 16:42:32,132 - INFO - + git tag -l
+2026-05-16 16:42:32,132 - INFO - + read tag
+2026-05-16 16:42:32,133 - INFO - ++ git rev-list -n 1 0.1
+2026-05-16 16:42:32,134 - INFO - + TAG_COMMIT=8605cc310d260c3b08160881b09da26c2cc95f8d
+++ git show -s --format=%ci 8605cc310d260c3b08160881b09da26c2cc95f8d
+2026-05-16 16:42:32,135 - INFO - + TAG_TIME='2010-04-16 14:25:24 +0200'
++ [[ 2010-04-16 14:25:24 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,135 - INFO - ++ git rev-list -n 1 0.10
+2026-05-16 16:42:32,136 - INFO - + TAG_COMMIT=3b9574fec988fca790ffe78b64ef30b22dd3386a
+2026-05-16 16:42:32,137 - INFO - ++ git show -s --format=%ci 3b9574fec988fca790ffe78b64ef30b22dd3386a
+2026-05-16 16:42:32,138 - INFO - + TAG_TIME='2013-06-13 09:35:35 +0100'
++ [[ 2013-06-13 09:35:35 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,138 - INFO - ++ git rev-list -n 1 0.10.1
+2026-05-16 16:42:32,139 - INFO - + TAG_COMMIT=298334fffc8288b5a9a45ef4150e3c4292e45318
+2026-05-16 16:42:32,139 - INFO - ++ git show -s --format=%ci 298334fffc8288b5a9a45ef4150e3c4292e45318
+2026-05-16 16:42:32,140 - INFO - + TAG_TIME='2013-06-14 09:54:07 +0100'
++ [[ 2013-06-14 09:54:07 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,140 - INFO - ++ git rev-list -n 1 0.11
+2026-05-16 16:42:32,141 - INFO - + TAG_COMMIT=13e6a01ac86f9b8c0cad692d5e5e8d600674fb6d
+2026-05-16 16:42:32,141 - INFO - ++ git show -s --format=%ci 13e6a01ac86f9b8c0cad692d5e5e8d600674fb6d
+2026-05-16 16:42:32,142 - INFO - + TAG_TIME='2016-05-29 11:02:23 +0200'
++ [[ 2016-05-29 11:02:23 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,142 - INFO - ++ git rev-list -n 1 0.11.1
+2026-05-16 16:42:32,143 - INFO - + TAG_COMMIT=d1d82ca8ce7262ad9d27245ce44f86571287810e
+2026-05-16 16:42:32,143 - INFO - ++ git show -s --format=%ci d1d82ca8ce7262ad9d27245ce44f86571287810e
+2026-05-16 16:42:32,144 - INFO - + TAG_TIME='2016-06-07 18:22:43 +0200'
++ [[ 2016-06-07 18:22:43 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,145 - INFO - ++ git rev-list -n 1 0.12
+2026-05-16 16:42:32,145 - INFO - + TAG_COMMIT=1042d9d23f3c61f4474aea568a359337cf450fab
+2026-05-16 16:42:32,146 - INFO - ++ git show -s --format=%ci 1042d9d23f3c61f4474aea568a359337cf450fab
+2026-05-16 16:42:32,147 - INFO - + TAG_TIME='2016-12-21 21:22:08 +0100'
++ [[ 2016-12-21 21:22:08 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,147 - INFO - ++ git rev-list -n 1 0.12.1
+2026-05-16 16:42:32,148 - INFO - + TAG_COMMIT=a34d0e6878c8c8a5fab05a69785c443f3c17075d
+2026-05-16 16:42:32,148 - INFO - ++ git show -s --format=%ci a34d0e6878c8c8a5fab05a69785c443f3c17075d
+2026-05-16 16:42:32,149 - INFO - + TAG_TIME='2017-03-31 18:43:36 +0200'
++ [[ 2017-03-31 18:43:36 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,149 - INFO - ++ git rev-list -n 1 0.12.2
+2026-05-16 16:42:32,151 - INFO - + TAG_COMMIT=571334df8e26333f34873a3dcb84441946e6c64c
+2026-05-16 16:42:32,151 - INFO - ++ git show -s --format=%ci 571334df8e26333f34873a3dcb84441946e6c64c
+2026-05-16 16:42:32,152 - INFO - + TAG_TIME='2017-05-16 08:39:30 +0200'
++ [[ 2017-05-16 08:39:30 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,152 - INFO - ++ git rev-list -n 1 0.12.3
+2026-05-16 16:42:32,153 - INFO - + TAG_COMMIT=1a9e58e8c97c47c969736d46410f724f4e834f54
+2026-05-16 16:42:32,154 - INFO - ++ git show -s --format=%ci 1a9e58e8c97c47c969736d46410f724f4e834f54
+2026-05-16 16:42:32,155 - INFO - + TAG_TIME='2018-04-26 12:12:11 -0700'
++ [[ 2018-04-26 12:12:11 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,155 - INFO - ++ git rev-list -n 1 0.12.4
+2026-05-16 16:42:32,156 - INFO - + TAG_COMMIT=5beb3be536cc743962de6cd2bd95a6e036d11f52
+2026-05-16 16:42:32,156 - INFO - ++ git show -s --format=%ci 5beb3be536cc743962de6cd2bd95a6e036d11f52
+2026-05-16 16:42:32,157 - INFO - + TAG_TIME='2018-04-29 18:23:30 -0700'
++ [[ 2018-04-29 18:23:30 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,157 - INFO - ++ git rev-list -n 1 0.12.5
+2026-05-16 16:42:32,158 - INFO - + TAG_COMMIT=191710cbda616a53533d5e794a787f24c453ac5a
+2026-05-16 16:42:32,158 - INFO - ++ git show -s --format=%ci 191710cbda616a53533d5e794a787f24c453ac5a
+2026-05-16 16:42:32,159 - INFO - + TAG_TIME='2020-02-10 20:30:59 +0100'
++ [[ 2020-02-10 20:30:59 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,160 - INFO - ++ git rev-list -n 1 0.12.x
+2026-05-16 16:42:32,160 - INFO - + TAG_COMMIT=79c71f24e4cb064852e2cbbfef78a0a051eb7ced
+2026-05-16 16:42:32,161 - INFO - ++ git show -s --format=%ci 79c71f24e4cb064852e2cbbfef78a0a051eb7ced
+2026-05-16 16:42:32,162 - INFO - + TAG_TIME='2020-02-10 20:32:11 +0100'
++ [[ 2020-02-10 20:32:11 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,162 - INFO - ++ git rev-list -n 1 0.2
+2026-05-16 16:42:32,163 - INFO - + TAG_COMMIT=e0fa5aec3a13d9c3e8e27b53526fcee56ac0298d
+2026-05-16 16:42:32,163 - INFO - ++ git show -s --format=%ci e0fa5aec3a13d9c3e8e27b53526fcee56ac0298d
+2026-05-16 16:42:32,164 - INFO - + TAG_TIME='2010-05-12 01:30:10 +0200'
++ [[ 2010-05-12 01:30:10 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,164 - INFO - ++ git rev-list -n 1 0.3
+2026-05-16 16:42:32,165 - INFO - + TAG_COMMIT=ce6e4cbd73d57cb8c1bba85c46490f71061f865f
+2026-05-16 16:42:32,165 - INFO - ++ git show -s --format=%ci ce6e4cbd73d57cb8c1bba85c46490f71061f865f
+2026-05-16 16:42:32,166 - INFO - + TAG_TIME='2010-05-28 01:18:29 +0200'
++ [[ 2010-05-28 01:18:29 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,166 - INFO - ++ git rev-list -n 1 0.4
+2026-05-16 16:42:32,167 - INFO - + TAG_COMMIT=1592c53a664c82d9badac81fa0104af226cce5a7
+2026-05-16 16:42:32,167 - INFO - ++ git show -s --format=%ci 1592c53a664c82d9badac81fa0104af226cce5a7
+2026-05-16 16:42:32,168 - INFO - + TAG_TIME='2010-06-18 17:13:32 +0200'
++ [[ 2010-06-18 17:13:32 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,169 - INFO - ++ git rev-list -n 1 0.5
+2026-05-16 16:42:32,169 - INFO - + TAG_COMMIT=4c937be2524de0fddc2d2f7f39b09677497260aa
+2026-05-16 16:42:32,170 - INFO - ++ git show -s --format=%ci 4c937be2524de0fddc2d2f7f39b09677497260aa
+2026-05-16 16:42:32,171 - INFO - + TAG_TIME='2010-07-06 16:25:44 +0200'
++ [[ 2010-07-06 16:25:44 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,171 - INFO - ++ git rev-list -n 1 0.6
+2026-05-16 16:42:32,172 - INFO - + TAG_COMMIT=5cadd9d34da46b909f91a5379d41b90f258d5998
+++ git show -s --format=%ci 5cadd9d34da46b909f91a5379d41b90f258d5998
+2026-05-16 16:42:32,173 - INFO - + TAG_TIME='2010-07-27 14:38:59 +0200'
++ [[ 2010-07-27 14:38:59 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,173 - INFO - ++ git rev-list -n 1 0.7
+2026-05-16 16:42:32,174 - INFO - + TAG_COMMIT=fb1482d3bb1b95803d25247479eb8ca8317a3219
+2026-05-16 16:42:32,174 - INFO - ++ git show -s --format=%ci fb1482d3bb1b95803d25247479eb8ca8317a3219
+2026-05-16 16:42:32,175 - INFO - + TAG_TIME='2011-06-28 14:36:52 +0200'
++ [[ 2011-06-28 14:36:52 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,175 - INFO - ++ git rev-list -n 1 0.8
+2026-05-16 16:42:32,176 - INFO - + TAG_COMMIT=d5e10e4685f54dde5ffc27c4f55a19fb23f7a536
+2026-05-16 16:42:32,176 - INFO - ++ git show -s --format=%ci d5e10e4685f54dde5ffc27c4f55a19fb23f7a536
+2026-05-16 16:42:32,177 - INFO - + TAG_TIME='2011-09-29 23:34:02 +0200'
++ [[ 2011-09-29 23:34:02 +0200 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,178 - INFO - ++ git rev-list -n 1 0.8.1
+2026-05-16 16:42:32,179 - INFO - + TAG_COMMIT=19def9606ac50bd308ea283e283cbcf62498d6c7
+2026-05-16 16:42:32,179 - INFO - ++ git show -s --format=%ci 19def9606ac50bd308ea283e283cbcf62498d6c7
+2026-05-16 16:42:32,180 - INFO - + TAG_TIME='2012-07-01 12:08:38 +0100'
++ [[ 2012-07-01 12:08:38 +0100 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,180 - INFO - ++ git rev-list -n 1 0.9
+2026-05-16 16:42:32,181 - INFO - + TAG_COMMIT=ee3e251f9eb557721517faa6d06a6addd48ebc24
+2026-05-16 16:42:32,181 - INFO - ++ git show -s --format=%ci ee3e251f9eb557721517faa6d06a6addd48ebc24
+2026-05-16 16:42:32,182 - INFO - + TAG_TIME='2012-07-01 12:12:36 +0100'
++ [[ 2012-07-01 12:12:36 +0100 > 2023-02-23 10:59:28 -0800 ]]
+2026-05-16 16:42:32,182 - INFO - + read tag
+2026-05-16 16:42:32,182 - INFO - ++ git rev-list -n 1 1.0
+2026-05-16 16:42:32,183 - INFO - + TAG_COMMIT=291f3c338c4d302dbde01ab9153a7817e5a780f5
+2026-05-16 16:42:32,183 - INFO - ++ git show -s --format=%ci 291f3c338c4d302dbde01ab9153a7817e5a780f5
+2026-05-16 16:42:32,184 - INFO - + TAG_TIME='2018-04-26 12:25:54 -0700'
++ [[ 2018-04-26 12:25:54 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,185 - INFO - ++ git rev-list -n 1 1.0.1
+2026-05-16 16:42:32,186 - INFO - + TAG_COMMIT=a15795c99e24c50e2dc85393a8904f3093742646
+2026-05-16 16:42:32,186 - INFO - ++ git show -s --format=%ci a15795c99e24c50e2dc85393a8904f3093742646
+2026-05-16 16:42:32,187 - INFO - + TAG_TIME='2018-04-29 19:08:16 -0700'
++ [[ 2018-04-29 19:08:16 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,187 - INFO - ++ git rev-list -n 1 1.0.2
+2026-05-16 16:42:32,188 - INFO - + TAG_COMMIT=dfd3619d6f8796d48fc4e32f819cec9e8aa59156
+2026-05-16 16:42:32,189 - INFO - ++ git show -s --format=%ci dfd3619d6f8796d48fc4e32f819cec9e8aa59156
+2026-05-16 16:42:32,189 - INFO - + TAG_TIME='2018-05-02 07:16:14 -0700'
++ [[ 2018-05-02 07:16:14 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,190 - INFO - ++ git rev-list -n 1 1.0.3
+2026-05-16 16:42:32,191 - INFO - + TAG_COMMIT=99660cc40984015cbbcd27d1cdc19376b2536443
+2026-05-16 16:42:32,191 - INFO - ++ git show -s --format=%ci 99660cc40984015cbbcd27d1cdc19376b2536443
+2026-05-16 16:42:32,192 - INFO - + TAG_TIME='2019-05-17 10:57:51 -0700'
++ [[ 2019-05-17 10:57:51 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,192 - INFO - ++ git rev-list -n 1 1.0.4
+2026-05-16 16:42:32,193 - INFO - + TAG_COMMIT=626b5cc166e6151dfe0e86b514b2d9a1f55752a8
+2026-05-16 16:42:32,193 - INFO - ++ git show -s --format=%ci 626b5cc166e6151dfe0e86b514b2d9a1f55752a8
+2026-05-16 16:42:32,194 - INFO - + TAG_TIME='2019-07-04 15:33:46 -0700'
++ [[ 2019-07-04 15:33:46 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,194 - INFO - ++ git rev-list -n 1 1.0.x
+2026-05-16 16:42:32,195 - INFO - + TAG_COMMIT=d92b64aa275841b0c9aea3903aba72fbc4275d91
+2026-05-16 16:42:32,196 - INFO - ++ git show -s --format=%ci d92b64aa275841b0c9aea3903aba72fbc4275d91
+2026-05-16 16:42:32,197 - INFO - + TAG_TIME='2020-02-10 16:36:40 -0800'
++ [[ 2020-02-10 16:36:40 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,197 - INFO - ++ git rev-list -n 1 1.1.0
+2026-05-16 16:42:32,198 - INFO - + TAG_COMMIT=1b4ace9ba5e77679bf9d8e409283654f7589907e
+2026-05-16 16:42:32,198 - INFO - ++ git show -s --format=%ci 1b4ace9ba5e77679bf9d8e409283654f7589907e
+2026-05-16 16:42:32,199 - INFO - + TAG_TIME='2019-07-04 16:04:42 -0700'
++ [[ 2019-07-04 16:04:42 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,199 - INFO - ++ git rev-list -n 1 1.1.1
+2026-05-16 16:42:32,200 - INFO - + TAG_COMMIT=ffc68840f821fb0a4c41a7b2b4eaad6d71f539b7
+2026-05-16 16:42:32,200 - INFO - ++ git show -s --format=%ci ffc68840f821fb0a4c41a7b2b4eaad6d71f539b7
+2026-05-16 16:42:32,201 - INFO - + TAG_TIME='2019-07-08 10:58:12 -0700'
++ [[ 2019-07-08 10:58:12 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,202 - INFO - ++ git rev-list -n 1 1.1.2
+2026-05-16 16:42:32,203 - INFO - + TAG_COMMIT=93dd1709d05a1cf0e886df6223377bdab3b077fb
+2026-05-16 16:42:32,203 - INFO - ++ git show -s --format=%ci 93dd1709d05a1cf0e886df6223377bdab3b077fb
+2026-05-16 16:42:32,204 - INFO - + TAG_TIME='2020-04-03 10:10:38 -0700'
++ [[ 2020-04-03 10:10:38 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,204 - INFO - ++ git rev-list -n 1 1.1.3
+2026-05-16 16:42:32,205 - INFO - + TAG_COMMIT=c04b0de558fe8e1ccb8edb4525d40e725ae9a24d
+2026-05-16 16:42:32,205 - INFO - ++ git show -s --format=%ci c04b0de558fe8e1ccb8edb4525d40e725ae9a24d
+2026-05-16 16:42:32,206 - INFO - + TAG_TIME='2021-05-13 16:24:21 -0700'
++ [[ 2021-05-13 16:24:21 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,206 - INFO - ++ git rev-list -n 1 1.1.4
+2026-05-16 16:42:32,207 - INFO - + TAG_COMMIT=1ca199f9b38b70a4e97cb47a4252ffd7fccc008c
+2026-05-16 16:42:32,207 - INFO - ++ git show -s --format=%ci 1ca199f9b38b70a4e97cb47a4252ffd7fccc008c
+2026-05-16 16:42:32,208 - INFO - + TAG_TIME='2021-05-13 18:44:46 -0700'
++ [[ 2021-05-13 18:44:46 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,208 - INFO - ++ git rev-list -n 1 1.1.x
+2026-05-16 16:42:32,209 - INFO - + TAG_COMMIT=1ca199f9b38b70a4e97cb47a4252ffd7fccc008c
+2026-05-16 16:42:32,210 - INFO - ++ git show -s --format=%ci 1ca199f9b38b70a4e97cb47a4252ffd7fccc008c
+2026-05-16 16:42:32,211 - INFO - + TAG_TIME='2021-05-13 18:44:46 -0700'
++ [[ 2021-05-13 18:44:46 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,211 - INFO - ++ git rev-list -n 1 2.0.0
+2026-05-16 16:42:32,212 - INFO - + TAG_COMMIT=2f0c62f5e6e290843f03c1fa70817c7a3c7fd661
+2026-05-16 16:42:32,212 - INFO - ++ git show -s --format=%ci 2f0c62f5e6e290843f03c1fa70817c7a3c7fd661
+2026-05-16 16:42:32,213 - INFO - + TAG_TIME='2021-05-11 14:43:42 -0700'
++ [[ 2021-05-11 14:43:42 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,213 - INFO - ++ git rev-list -n 1 2.0.0rc1
+2026-05-16 16:42:32,214 - INFO - + TAG_COMMIT=34eb0dad154177825885d0b9d895538f26a8aee8
+2026-05-16 16:42:32,214 - INFO - ++ git show -s --format=%ci 34eb0dad154177825885d0b9d895538f26a8aee8
+2026-05-16 16:42:32,216 - INFO - + TAG_TIME='2021-04-16 08:52:35 -0700'
++ [[ 2021-04-16 08:52:35 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,216 - INFO - ++ git rev-list -n 1 2.0.0rc2
+2026-05-16 16:42:32,217 - INFO - + TAG_COMMIT=d7ac6f5bcf324e7fc588e501b2f18669efd5a12a
+2026-05-16 16:42:32,217 - INFO - ++ git show -s --format=%ci d7ac6f5bcf324e7fc588e501b2f18669efd5a12a
+2026-05-16 16:42:32,218 - INFO - + TAG_TIME='2021-05-03 07:13:43 -0700'
++ [[ 2021-05-03 07:13:43 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,218 - INFO - ++ git rev-list -n 1 2.0.1
+2026-05-16 16:42:32,219 - INFO - + TAG_COMMIT=bc90801c2ada42d3cf112a3b5701bfdbb8b6211c
+2026-05-16 16:42:32,219 - INFO - ++ git show -s --format=%ci bc90801c2ada42d3cf112a3b5701bfdbb8b6211c
+2026-05-16 16:42:32,220 - INFO - + TAG_TIME='2021-05-21 08:52:24 -0700'
++ [[ 2021-05-21 08:52:24 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,221 - INFO - ++ git rev-list -n 1 2.0.2
+2026-05-16 16:42:32,222 - INFO - + TAG_COMMIT=6f7762538bffe3ce9d03508ecab230bfff3e3dcd
+2026-05-16 16:42:32,222 - INFO - ++ git show -s --format=%ci 6f7762538bffe3ce9d03508ecab230bfff3e3dcd
+2026-05-16 16:42:32,223 - INFO - + TAG_TIME='2021-10-04 07:31:29 -0700'
++ [[ 2021-10-04 07:31:29 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,223 - INFO - ++ git rev-list -n 1 2.0.3
+2026-05-16 16:42:32,224 - INFO - + TAG_COMMIT=ef557b3ff2602b9956a2f3ac02c6e134c529fccc
+2026-05-16 16:42:32,224 - INFO - ++ git show -s --format=%ci ef557b3ff2602b9956a2f3ac02c6e134c529fccc
+2026-05-16 16:42:32,225 - INFO - + TAG_TIME='2022-02-14 11:46:23 -0800'
++ [[ 2022-02-14 11:46:23 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,225 - INFO - ++ git rev-list -n 1 2.1.0
+2026-05-16 16:42:32,226 - INFO - + TAG_COMMIT=65b0eef303dfec6b7baa66ff34253e0285e1c3bf
+2026-05-16 16:42:32,226 - INFO - ++ git show -s --format=%ci 65b0eef303dfec6b7baa66ff34253e0285e1c3bf
+2026-05-16 16:42:32,227 - INFO - + TAG_TIME='2022-03-28 12:12:02 -0700'
++ [[ 2022-03-28 12:12:02 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,228 - INFO - ++ git rev-list -n 1 2.1.1
+2026-05-16 16:42:32,229 - INFO - + TAG_COMMIT=188bd17ff1f3e1d9c9ddd015c8765280e95ffb83
+2026-05-16 16:42:32,229 - INFO - ++ git show -s --format=%ci 188bd17ff1f3e1d9c9ddd015c8765280e95ffb83
+2026-05-16 16:42:32,230 - INFO - + TAG_TIME='2022-03-30 14:37:30 -0700'
++ [[ 2022-03-30 14:37:30 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,230 - INFO - ++ git rev-list -n 1 2.1.2
+2026-05-16 16:42:32,231 - INFO - + TAG_COMMIT=50374e3cfe815acd24fd390c861561a0dd17bfbb
+2026-05-16 16:42:32,231 - INFO - ++ git show -s --format=%ci 50374e3cfe815acd24fd390c861561a0dd17bfbb
+2026-05-16 16:42:32,232 - INFO - + TAG_TIME='2022-04-28 10:46:41 -0700'
++ [[ 2022-04-28 10:46:41 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,232 - INFO - ++ git rev-list -n 1 2.1.3
+2026-05-16 16:42:32,233 - INFO - + TAG_COMMIT=187d7179f605d28c3d24e9f4d65d3295fb099afe
+2026-05-16 16:42:32,233 - INFO - ++ git show -s --format=%ci 187d7179f605d28c3d24e9f4d65d3295fb099afe
+2026-05-16 16:42:32,234 - INFO - + TAG_TIME='2022-07-13 13:54:33 -0700'
++ [[ 2022-07-13 13:54:33 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,235 - INFO - ++ git rev-list -n 1 2.1.x
+2026-05-16 16:42:32,236 - INFO - + TAG_COMMIT=ac1bb97679f2b778bd89580fac2f461ff77c716a
+2026-05-16 16:42:32,236 - INFO - ++ git show -s --format=%ci ac1bb97679f2b778bd89580fac2f461ff77c716a
+2026-05-16 16:42:32,237 - INFO - + TAG_TIME='2022-08-01 17:07:27 -0700'
++ [[ 2022-08-01 17:07:27 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,237 - INFO - ++ git rev-list -n 1 2.2.0
+2026-05-16 16:42:32,238 - INFO - + TAG_COMMIT=b17bb9ed563ab2857c0db9a07ec4e6407404c7be
+2026-05-16 16:42:32,238 - INFO - ++ git show -s --format=%ci b17bb9ed563ab2857c0db9a07ec4e6407404c7be
+2026-05-16 16:42:32,239 - INFO - + TAG_TIME='2022-08-01 17:12:09 -0700'
++ [[ 2022-08-01 17:12:09 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,239 - INFO - ++ git rev-list -n 1 2.2.1
+2026-05-16 16:42:32,240 - INFO - + TAG_COMMIT=85f79e1a2360c3589b228410c39e208b8514b5b9
+2026-05-16 16:42:32,240 - INFO - ++ git show -s --format=%ci 85f79e1a2360c3589b228410c39e208b8514b5b9
+2026-05-16 16:42:32,241 - INFO - + TAG_TIME='2022-08-03 16:51:22 -0700'
++ [[ 2022-08-03 16:51:22 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,242 - INFO - ++ git rev-list -n 1 2.2.2
+2026-05-16 16:42:32,243 - INFO - + TAG_COMMIT=a1c478bc93d3dc018a6e7a1ba3cf5409553c9df3
+2026-05-16 16:42:32,243 - INFO - ++ git show -s --format=%ci a1c478bc93d3dc018a6e7a1ba3cf5409553c9df3
+2026-05-16 16:42:32,244 - INFO - + TAG_TIME='2022-08-08 16:24:25 -0700'
++ [[ 2022-08-08 16:24:25 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,244 - INFO - ++ git rev-list -n 1 2.2.3
+2026-05-16 16:42:32,245 - INFO - + TAG_COMMIT=41d4f62909bb426c84e9d057151f7d734695320a
+2026-05-16 16:42:32,245 - INFO - ++ git show -s --format=%ci 41d4f62909bb426c84e9d057151f7d734695320a
+2026-05-16 16:42:32,247 - INFO - + TAG_TIME='2023-02-15 14:33:32 -0800'
++ [[ 2023-02-15 14:33:32 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ read tag
+2026-05-16 16:42:32,247 - INFO - ++ git rev-list -n 1 2.2.4
+2026-05-16 16:42:32,248 - INFO - + TAG_COMMIT=74e03298200e33951ca350a35aa3a8c0b4ff8177
+2026-05-16 16:42:32,248 - INFO - ++ git show -s --format=%ci 74e03298200e33951ca350a35aa3a8c0b4ff8177
+2026-05-16 16:42:32,249 - INFO - + TAG_TIME='2023-04-25 11:41:10 -0600'
++ [[ 2023-04-25 11:41:10 -0600 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.2.4
+2026-05-16 16:42:32,250 - INFO - Deleted tag '2.2.4' (was d04a2a8c)
+2026-05-16 16:42:32,250 - INFO - + read tag
+2026-05-16 16:42:32,250 - INFO - ++ git rev-list -n 1 2.2.5
+2026-05-16 16:42:32,251 - INFO - + TAG_COMMIT=47af817c8fe01045c641b97f8fb784c7ad864eee
+2026-05-16 16:42:32,252 - INFO - ++ git show -s --format=%ci 47af817c8fe01045c641b97f8fb784c7ad864eee
+2026-05-16 16:42:32,253 - INFO - + TAG_TIME='2023-05-02 07:35:27 -0700'
++ [[ 2023-05-02 07:35:27 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.2.5
+2026-05-16 16:42:32,254 - INFO - Deleted tag '2.2.5' (was 9e0a4256)
+2026-05-16 16:42:32,254 - INFO - + read tag
+2026-05-16 16:42:32,254 - INFO - ++ git rev-list -n 1 2.2.x
+2026-05-16 16:42:32,255 - INFO - + TAG_COMMIT=bda08b11c692a5c94124b11749c1af6fa5c0e003
+2026-05-16 16:42:32,255 - INFO - ++ git show -s --format=%ci bda08b11c692a5c94124b11749c1af6fa5c0e003
+2026-05-16 16:42:32,256 - INFO - + TAG_TIME='2023-05-02 07:43:48 -0700'
++ [[ 2023-05-02 07:43:48 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.2.x
+2026-05-16 16:42:32,257 - INFO - Deleted tag '2.2.x' (was c2e84d11)
+2026-05-16 16:42:32,257 - INFO - + read tag
+2026-05-16 16:42:32,257 - INFO - ++ git rev-list -n 1 2.3.0
+2026-05-16 16:42:32,258 - INFO - + TAG_COMMIT=8728c3e4cd4e929a4327d917acd4b96c75f963d0
+2026-05-16 16:42:32,259 - INFO - ++ git show -s --format=%ci 8728c3e4cd4e929a4327d917acd4b96c75f963d0
+2026-05-16 16:42:32,260 - INFO - + TAG_TIME='2023-04-25 12:35:06 -0600'
++ [[ 2023-04-25 12:35:06 -0600 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.3.0
+2026-05-16 16:42:32,261 - INFO - Deleted tag '2.3.0' (was 357b34dc)
+2026-05-16 16:42:32,261 - INFO - + read tag
+2026-05-16 16:42:32,261 - INFO - ++ git rev-list -n 1 2.3.1
+2026-05-16 16:42:32,262 - INFO - + TAG_COMMIT=721abdc3810057269503a72d2db80fb826f3c85c
+2026-05-16 16:42:32,262 - INFO - ++ git show -s --format=%ci 721abdc3810057269503a72d2db80fb826f3c85c
+2026-05-16 16:42:32,263 - INFO - + TAG_TIME='2023-04-25 14:08:38 -0600'
++ [[ 2023-04-25 14:08:38 -0600 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.3.1
+2026-05-16 16:42:32,264 - INFO - Deleted tag '2.3.1' (was 164d2f8b)
+2026-05-16 16:42:32,264 - INFO - + read tag
+2026-05-16 16:42:32,264 - INFO - ++ git rev-list -n 1 2.3.2
+2026-05-16 16:42:32,265 - INFO - + TAG_COMMIT=f3b8f570545200c87465d18386f3fc9f2258307a
+2026-05-16 16:42:32,265 - INFO - ++ git show -s --format=%ci f3b8f570545200c87465d18386f3fc9f2258307a
+2026-05-16 16:42:32,266 - INFO - + TAG_TIME='2023-05-01 08:35:10 -0700'
++ [[ 2023-05-01 08:35:10 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.3.2
+2026-05-16 16:42:32,267 - INFO - Deleted tag '2.3.2' (was 0c0443fe)
+2026-05-16 16:42:32,267 - INFO - + read tag
+2026-05-16 16:42:32,268 - INFO - ++ git rev-list -n 1 2.3.3
+2026-05-16 16:42:32,269 - INFO - + TAG_COMMIT=3205b53c7cf69d17fee49cac6b84978175b7dd73
+2026-05-16 16:42:32,269 - INFO - ++ git show -s --format=%ci 3205b53c7cf69d17fee49cac6b84978175b7dd73
+2026-05-16 16:42:32,270 - INFO - + TAG_TIME='2023-08-21 10:25:35 -0700'
++ [[ 2023-08-21 10:25:35 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.3.3
+2026-05-16 16:42:32,271 - INFO - Deleted tag '2.3.3' (was 96b025d5)
+2026-05-16 16:42:32,271 - INFO - + read tag
+2026-05-16 16:42:32,271 - INFO - ++ git rev-list -n 1 2.3.x
+2026-05-16 16:42:32,272 - INFO - + TAG_COMMIT=a6007373b5c521297e2ec24f820b9c7c32659af8
+2026-05-16 16:42:32,273 - INFO - ++ git show -s --format=%ci a6007373b5c521297e2ec24f820b9c7c32659af8
+2026-05-16 16:42:32,274 - INFO - + TAG_TIME='2023-08-21 12:52:54 -0700'
++ [[ 2023-08-21 12:52:54 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 2.3.x
+2026-05-16 16:42:32,275 - INFO - Deleted tag '2.3.x' (was 5d87f372)
+2026-05-16 16:42:32,275 - INFO - + read tag
+2026-05-16 16:42:32,275 - INFO - ++ git rev-list -n 1 3.0.1
+2026-05-16 16:42:32,276 - INFO - + TAG_COMMIT=f622b1cadea2bed4ea4cc476695e9c181ec5da11
+2026-05-16 16:42:32,276 - INFO - ++ git show -s --format=%ci f622b1cadea2bed4ea4cc476695e9c181ec5da11
+2026-05-16 16:42:32,277 - INFO - + TAG_TIME='2024-01-18 11:57:33 -0800'
++ [[ 2024-01-18 11:57:33 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.0.1
+2026-05-16 16:42:32,278 - INFO - Deleted tag '3.0.1' (was 7593e5c9)
+2026-05-16 16:42:32,278 - INFO - + read tag
+2026-05-16 16:42:32,279 - INFO - ++ git rev-list -n 1 3.0.2
+2026-05-16 16:42:32,280 - INFO - + TAG_COMMIT=d2030595dcdc8ca5701504f00255360fb12a3a2b
+2026-05-16 16:42:32,280 - INFO - ++ git show -s --format=%ci d2030595dcdc8ca5701504f00255360fb12a3a2b
+2026-05-16 16:42:32,281 - INFO - + TAG_TIME='2024-02-03 12:54:41 -0800'
++ [[ 2024-02-03 12:54:41 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.0.2
+2026-05-16 16:42:32,282 - INFO - Deleted tag '3.0.2' (was fe6f3836)
+2026-05-16 16:42:32,282 - INFO - + read tag
+2026-05-16 16:42:32,282 - INFO - ++ git rev-list -n 1 3.0.3
+2026-05-16 16:42:32,283 - INFO - + TAG_COMMIT=c12a5d874c5a014495eb2db8a73f40037bc813ac
+2026-05-16 16:42:32,283 - INFO - ++ git show -s --format=%ci c12a5d874c5a014495eb2db8a73f40037bc813ac
+2026-05-16 16:42:32,284 - INFO - + TAG_TIME='2024-04-07 12:17:41 -0700'
++ [[ 2024-04-07 12:17:41 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.0.3
+2026-05-16 16:42:32,285 - INFO - Deleted tag '3.0.3' (was 85039283)
+2026-05-16 16:42:32,285 - INFO - + read tag
+2026-05-16 16:42:32,286 - INFO - ++ git rev-list -n 1 3.1.0
+2026-05-16 16:42:32,287 - INFO - + TAG_COMMIT=ab8149664182b662453a563161aa89013c806dc9
+2026-05-16 16:42:32,287 - INFO - ++ git show -s --format=%ci ab8149664182b662453a563161aa89013c806dc9
+2026-05-16 16:42:32,288 - INFO - + TAG_TIME='2024-11-13 10:20:07 -0800'
++ [[ 2024-11-13 10:20:07 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.1.0
+2026-05-16 16:42:32,289 - INFO - Deleted tag '3.1.0' (was 2efaec11)
+2026-05-16 16:42:32,289 - INFO - + read tag
+2026-05-16 16:42:32,289 - INFO - ++ git rev-list -n 1 3.1.1
+2026-05-16 16:42:32,290 - INFO - + TAG_COMMIT=7fff56f5172c48b6f3aedf17ee14ef5c2533dfd1
+2026-05-16 16:42:32,290 - INFO - ++ git show -s --format=%ci 7fff56f5172c48b6f3aedf17ee14ef5c2533dfd1
+2026-05-16 16:42:32,291 - INFO - + TAG_TIME='2025-05-13 07:51:12 -0700'
++ [[ 2025-05-13 07:51:12 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.1.1
+2026-05-16 16:42:32,292 - INFO - Deleted tag '3.1.1' (was f7485ed3)
+2026-05-16 16:42:32,292 - INFO - + read tag
+2026-05-16 16:42:32,293 - INFO - ++ git rev-list -n 1 3.1.2
+2026-05-16 16:42:32,294 - INFO - + TAG_COMMIT=2c1b30d0503cfb064f1cb252e6614a06915a362a
+2026-05-16 16:42:32,294 - INFO - ++ git show -s --format=%ci 2c1b30d0503cfb064f1cb252e6614a06915a362a
+2026-05-16 16:42:32,295 - INFO - + TAG_TIME='2025-08-19 13:57:47 -0700'
++ [[ 2025-08-19 13:57:47 -0700 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.1.2
+2026-05-16 16:42:32,296 - INFO - Deleted tag '3.1.2' (was 80be49be)
+2026-05-16 16:42:32,296 - INFO - + read tag
+2026-05-16 16:42:32,296 - INFO - ++ git rev-list -n 1 3.1.3
+2026-05-16 16:42:32,297 - INFO - + TAG_COMMIT=22d924701a6ae2e4cd01e9a15bbaf3946094af65
+2026-05-16 16:42:32,297 - INFO - ++ git show -s --format=%ci 22d924701a6ae2e4cd01e9a15bbaf3946094af65
+2026-05-16 16:42:32,298 - INFO - + TAG_TIME='2026-02-18 19:41:55 -0800'
++ [[ 2026-02-18 19:41:55 -0800 > 2023-02-23 10:59:28 -0800 ]]
++ git tag -d 3.1.3
+2026-05-16 16:42:32,299 - INFO - Deleted tag '3.1.3' (was 8d05782c)
+2026-05-16 16:42:32,299 - INFO - + read tag
+2026-05-16 16:42:32,299 - INFO - + git reflog expire --expire=now --all
+2026-05-16 16:42:32,301 - INFO - + git gc --prune=now --aggressive
+2026-05-16 16:42:34,040 - INFO - ++ date -d '2023-02-23 10:59:28 -0800 + 1 second' '+%Y-%m-%d %H:%M:%S'
+2026-05-16 16:42:34,040 - INFO - + AFTER_TIMESTAMP='2023-02-23 18:59:29'
+2026-05-16 16:42:34,041 - INFO - ++ git log --oneline --all '--since=2023-02-23 18:59:29'
+2026-05-16 16:42:34,041 - INFO - ++ wc -l
+2026-05-16 16:42:34,042 - INFO - + COMMIT_COUNT=0
++ '[' 0 -eq 0 ']'
++ source /opt/miniconda3/bin/activate
+2026-05-16 16:42:34,042 - INFO - ++ _CONDA_ROOT=/opt/miniconda3
+++ . /opt/miniconda3/etc/profile.d/conda.sh
+2026-05-16 16:42:34,042 - INFO - +++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+2026-05-16 16:42:34,043 - INFO - +++ '[' -z '' ']'
++++ export CONDA_SHLVL=0
++++ CONDA_SHLVL=0
++++ '[' -n '' ']'
+2026-05-16 16:42:34,043 - INFO - +++++ dirname /opt/miniconda3/bin/conda
+2026-05-16 16:42:34,043 - INFO - ++++ dirname /opt/miniconda3/bin
+2026-05-16 16:42:34,044 - INFO - +++ PATH=/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export PATH
++++ '[' -z '' ']'
++++ PS1=
+++ conda activate
+2026-05-16 16:42:34,044 - INFO - ++ local cmd=activate
+++ case "$cmd" in
+++ __conda_activate activate
+++ '[' -n '' ']'
+++ local ask_conda
+2026-05-16 16:42:34,044 - INFO - +++ PS1=
++++ __conda_exe shell.posix activate
+2026-05-16 16:42:34,044 - INFO - +++ /opt/miniconda3/bin/conda shell.posix activate
+2026-05-16 16:42:34,120 - INFO - ++ ask_conda='PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ eval 'PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++++ PS1='(base) '
++++ export PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export CONDA_PREFIX=/opt/miniconda3
++++ CONDA_PREFIX=/opt/miniconda3
++++ export CONDA_SHLVL=1
++++ CONDA_SHLVL=1
++++ export CONDA_DEFAULT_ENV=base
++++ CONDA_DEFAULT_ENV=base
++++ export 'CONDA_PROMPT_MODIFIER=(base) '
++++ CONDA_PROMPT_MODIFIER='(base) '
++++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ __conda_hashr
+++ '[' -n '' ']'
+++ '[' -n '' ']'
+++ hash -r
+2026-05-16 16:42:34,120 - INFO - + conda activate testbed
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate testbed
+2026-05-16 16:42:34,120 - INFO - + '[' -n '' ']'
++ local ask_conda
+2026-05-16 16:42:34,120 - INFO - ++ PS1='(base) '
+++ __conda_exe shell.posix activate testbed
+2026-05-16 16:42:34,120 - INFO - ++ /opt/miniconda3/bin/conda shell.posix activate testbed
+2026-05-16 16:42:34,202 - INFO - + ask_conda='PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++ eval 'PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ PS1='(testbed) '
+++ export PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ export CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ export CONDA_SHLVL=2
+++ CONDA_SHLVL=2
+++ export CONDA_DEFAULT_ENV=testbed
+++ CONDA_DEFAULT_ENV=testbed
+++ export 'CONDA_PROMPT_MODIFIER=(testbed) '
+++ CONDA_PROMPT_MODIFIER='(testbed) '
+++ export CONDA_PREFIX_1=/opt/miniconda3
+++ CONDA_PREFIX_1=/opt/miniconda3
+++ export CONDA_EXE=/opt/miniconda3/bin/conda
+++ CONDA_EXE=/opt/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++ __conda_hashr
++ '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
+2026-05-16 16:42:34,202 - INFO - Current environment: testbed
+2026-05-16 16:42:34,202 - INFO - + echo 'Current environment: testbed'
++ python -m pip install -e .
+2026-05-16 16:42:34,389 - INFO - Obtaining file:///testbed
+2026-05-16 16:42:34,391 - INFO - Installing build dependencies: started
+2026-05-16 16:42:34,907 - INFO - Installing build dependencies: finished with status 'done'
+2026-05-16 16:42:34,908 - INFO - Checking if build backend supports build_editable: started
+2026-05-16 16:42:35,089 - INFO - Checking if build backend supports build_editable: finished with status 'done'
+2026-05-16 16:42:35,089 - INFO - Getting requirements to build editable: started
+2026-05-16 16:42:35,294 - INFO - Getting requirements to build editable: finished with status 'done'
+2026-05-16 16:42:35,295 - INFO - Preparing editable metadata (pyproject.toml): started
+2026-05-16 16:42:35,427 - INFO - Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-05-16 16:42:35,429 - INFO - Requirement already satisfied: Werkzeug>=2.2.2 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from Flask==2.3.0.dev0) (2.3.7)
+2026-05-16 16:42:35,430 - INFO - Requirement already satisfied: Jinja2>=3.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from Flask==2.3.0.dev0) (3.1.2)
+2026-05-16 16:42:35,430 - INFO - Requirement already satisfied: itsdangerous>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from Flask==2.3.0.dev0) (2.1.2)
+2026-05-16 16:42:35,430 - INFO - Requirement already satisfied: click>=8.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from Flask==2.3.0.dev0) (8.1.3)
+2026-05-16 16:42:35,432 - INFO - Requirement already satisfied: MarkupSafe>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from Jinja2>=3.0->Flask==2.3.0.dev0) (2.1.1)
+2026-05-16 16:42:35,433 - INFO - Building wheels for collected packages: Flask
+2026-05-16 16:42:35,434 - INFO - Building editable for Flask (pyproject.toml): started
+2026-05-16 16:42:35,581 - INFO - Building editable for Flask (pyproject.toml): finished with status 'done'
+2026-05-16 16:42:35,582 - INFO - Created wheel for Flask: filename=flask-2.3.0.dev0-0.editable-py3-none-any.whl size=3963 sha256=7c1f7b6b08259bec49b1280649f094382dde70c7bddd8808261930ec30bf5c84
+2026-05-16 16:42:35,582 - INFO - Stored in directory: /tmp/pip-ephem-wheel-cache-kyb4b34b/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+2026-05-16 16:42:35,584 - INFO - Successfully built Flask
+2026-05-16 16:42:35,608 - INFO - Installing collected packages: Flask
+2026-05-16 16:42:35,632 - INFO - Successfully installed Flask-2.3.0.dev0
+2026-05-16 16:42:35,633 - INFO - WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-05-16 16:42:35,677 - INFO - + git config --global user.email setup@swebench.config
+2026-05-16 16:42:35,678 - INFO - + git config --global user.name SWE-bench
+2026-05-16 16:42:35,680 - INFO - + git commit --allow-empty -am SWE-bench
+2026-05-16 16:42:35,689 - INFO - [main e6827faa] SWE-bench
+2026-05-16 16:42:39,724 - INFO - ---> Removed intermediate container 32431e519a6d
+2026-05-16 16:42:39,724 - INFO - ---> 38ccb3be823b
+2026-05-16 16:42:39,724 - INFO - Step 5/5 : WORKDIR /testbed/
+2026-05-16 16:42:39,724 - INFO - 
+2026-05-16 16:42:39,830 - INFO - ---> Running in cd0af9a40ae2
+2026-05-16 16:42:43,323 - INFO - ---> Removed intermediate container cd0af9a40ae2
+2026-05-16 16:42:43,323 - INFO - ---> 38781ac8f061
+2026-05-16 16:42:43,335 - INFO - Successfully built 38781ac8f061
+2026-05-16 16:42:43,351 - INFO - Successfully tagged sweb.eval.x86_64.pallets__flask-4992:latest
+2026-05-16 16:42:43,352 - INFO - Image built successfully!

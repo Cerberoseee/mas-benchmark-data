@@ -1,0 +1,16 @@
+diff --git a/seaborn/_oldcore.py b/seaborn/_oldcore.py
+index c9218c1f..bc5a30d3 100644
+--- a/seaborn/_oldcore.py
++++ b/seaborn/_oldcore.py
+@@ -149,6 +149,11 @@ class HueMapping(SemanticMapping):
+             # Use a value that's in the original data vector
+             value = self.lookup_table[key]
+         except KeyError:
++            # If the hue mapping is categorical and the key is not present,
++            # treat the missing key as absent (transparent) instead of
++            # attempting numeric interpolation.
++            if getattr(self, 'map_type', None) == 'categorical':
++                return (0, 0, 0, 0)
+             # Use the colormap to interpolate between existing datapoints
+             # (e.g. in the context of making a continuous legend)
+             try:

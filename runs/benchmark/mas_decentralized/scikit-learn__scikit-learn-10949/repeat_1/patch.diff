@@ -1,0 +1,47 @@
+diff --git a/sklearn/utils/validation.py b/sklearn/utils/validation.py
+index fe1f7236e..acc4a9db5 100644
+--- a/sklearn/utils/validation.py
++++ b/sklearn/utils/validation.py
+@@ -573,10 +573,38 @@ def check_array(array, accept_sparse=False, accept_large_sparse=True,
+                              % (n_features, shape_repr, ensure_min_features,
+                                 context))
+ 
+-    if warn_on_dtype and dtype_orig is not None and array.dtype != dtype_orig:
+-        msg = ("Data with input dtype %s was converted to %s%s."
+-               % (dtype_orig, array.dtype, context))
+-        warnings.warn(msg, DataConversionWarning)
++    if warn_on_dtype:
++        # Special handling for pandas DataFrame to emit more informative warnings
++        df_dtypes = getattr(array_orig, 'dtypes', None)
++        if df_dtypes is not None:
++            try:
++                # pandas Series of dtypes; get unique dtypes
++                unique_dtypes = np.unique(list(df_dtypes))
++            except Exception:
++                unique_dtypes = None
++            if unique_dtypes is not None and len(unique_dtypes) == 1:
++                # uniform dtype across DataFrame
++                pd_dtype = unique_dtypes[0]
++                try:
++                    pd_dtype_name = getattr(pd_dtype, 'name', str(pd_dtype))
++                except Exception:
++                    pd_dtype_name = str(pd_dtype)
++                if array.dtype != np.dtype(pd_dtype_name):
++                    msg = ("Data with input dtype %s were all converted to %s%s."
++                           % (pd_dtype_name, array.dtype, context))
++                    warnings.warn(msg, DataConversionWarning)
++                    # avoid falling back to the generic warning below
++                    dtype_orig = None
++            else:
++                # mixed dtypes in DataFrame
++                msg = ("Data with mixed input dtypes were converted to %s%s." % (array.dtype, context))
++                warnings.warn(msg, DataConversionWarning)
++                dtype_orig = None
++        # Fallback to original behaviour for non-DataFrame inputs
++        if dtype_orig is not None and array.dtype != dtype_orig:
++            msg = ("Data with input dtype %s was converted to %s%s."
++                   % (dtype_orig, array.dtype, context))
++            warnings.warn(msg, DataConversionWarning)
+ 
+     if copy and np.may_share_memory(array, array_orig):
+         array = np.array(array, dtype=dtype, order=order)

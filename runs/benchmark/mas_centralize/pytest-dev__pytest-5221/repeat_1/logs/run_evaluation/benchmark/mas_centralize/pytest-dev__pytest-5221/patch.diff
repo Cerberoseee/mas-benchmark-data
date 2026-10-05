@@ -1,0 +1,54 @@
+diff --git a/src/_pytest/python.py b/src/_pytest/python.py
+index 377357846..4e0323634 100644
+--- a/src/_pytest/python.py
++++ b/src/_pytest/python.py
+@@ -1258,11 +1258,19 @@ def _show_fixtures_per_test(config, session):
+         argname = fixture_def.argname
+         if verbose <= 0 and argname.startswith("_"):
+             return
++        bestrel = None
+         if verbose > 0:
+             bestrel = get_best_relpath(fixture_def.func)
+-            funcargspec = "{} -- {}".format(argname, bestrel)
++        if fixture_def.scope != "function":
++            if verbose > 0:
++                funcargspec = "{} [{} scope] -- {}".format(argname, fixture_def.scope, bestrel)
++            else:
++                funcargspec = "{} [{} scope]".format(argname, fixture_def.scope)
+         else:
+-            funcargspec = argname
++            if verbose > 0:
++                funcargspec = "{} -- {}".format(argname, bestrel)
++            else:
++                funcargspec = argname
+         tw.line(funcargspec, green=True)
+         fixture_doc = fixture_def.func.__doc__
+         if fixture_doc:
+@@ -1310,6 +1318,7 @@ def _showfixtures_main(config, session):
+ 
+     fm = session._fixturemanager
+ 
++
+     available = []
+     seen = set()
+ 
+@@ -1342,10 +1351,16 @@ def _showfixtures_main(config, session):
+                 currentmodule = module
+         if verbose <= 0 and argname[0] == "_":
+             continue
+-        if verbose > 0:
+-            funcargspec = "%s -- %s" % (argname, bestrel)
++        if fixturedef.scope != "function":
++            if verbose > 0:
++                funcargspec = "%s [%s scope] -- %s" % (argname, fixturedef.scope, bestrel)
++            else:
++                funcargspec = "%s [%s scope]" % (argname, fixturedef.scope)
+         else:
+-            funcargspec = argname
++            if verbose > 0:
++                funcargspec = "%s -- %s" % (argname, bestrel)
++            else:
++                funcargspec = argname
+         tw.line(funcargspec, green=True)
+         loc = getlocation(fixturedef.func, curdir)
+         doc = fixturedef.func.__doc__ or ""

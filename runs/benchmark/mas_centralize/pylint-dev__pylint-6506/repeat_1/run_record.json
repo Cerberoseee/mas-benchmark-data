@@ -1,0 +1,94 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "pylint-dev__pylint-6506",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-14T13:06:42.328146Z",
+  "completed_at": "2026-05-14T13:11:00.464205Z",
+  "duration_seconds": 258.136059,
+  "workspace_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/grade-result.json",
+  "prompt_sha256": "f35972d50f08f3123b69d29e695b900bb0910e8455a83ef33492e3567ba4c93e",
+  "telemetry": {
+    "total_tokens": 78150,
+    "prompt_tokens": 73488,
+    "completion_tokens": 4662,
+    "total_steps": 0,
+    "tool_calls": 14,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 61,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "2 fail_to_pass test(s) still failing (expected to pass); 6 pass_to_pass test(s) regressed (should still pass)",
+        "fail_to_pass_still_failing": [
+          "tests/config/test_config.py::test_unknown_option_name",
+          "tests/config/test_config.py::test_unknown_short_option_name"
+        ],
+        "fail_to_pass_now_passing": [],
+        "pass_to_pass_still_passing": [],
+        "pass_to_pass_regressions": [
+          "tests/config/test_config.py::test_can_read_toml_env_variable",
+          "tests/config/test_config.py::test_unknown_message_id",
+          "tests/config/test_config.py::test_unknown_confidence",
+          "tests/config/test_config.py::test_unknown_yes_no",
+          "tests/config/test_config.py::test_unknown_py_version",
+          "tests/config/test_config.py::test_short_verbose"
+        ],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [],
+            "failure": [
+              "tests/config/test_config.py::test_unknown_option_name",
+              "tests/config/test_config.py::test_unknown_short_option_name"
+            ]
+          },
+          "PASS_TO_PASS": {
+            "success": [],
+            "failure": [
+              "tests/config/test_config.py::test_can_read_toml_env_variable",
+              "tests/config/test_config.py::test_unknown_message_id",
+              "tests/config/test_config.py::test_unknown_confidence",
+              "tests/config/test_config.py::test_unknown_yes_no",
+              "tests/config/test_config.py::test_unknown_py_version",
+              "tests/config/test_config.py::test_short_verbose"
+            ]
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-6506/repeat_1/logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-6506/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T10:30:30.650655Z"
+  }
+}

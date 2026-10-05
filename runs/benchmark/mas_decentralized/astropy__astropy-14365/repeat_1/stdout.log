@@ -1,0 +1,12 @@
+minisweagent.environment: DEBUG: Starting container with command: docker run -d --name minisweagent-81fa5dc0 -w /testbed
+--rm --entrypoint '' -v                                                                                                 
+/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/astropy__astropy-14365/repeat_1:/run_dir:ro        
+docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest sleep 2h                                          
+minisweagent.environment: INFO: Started container minisweagent-81fa5dc0 with ID                                         
+bd872e315ed361def57c7eb781972d1eb258e63ab8dbb6663fc909c4f34deae3                                                        
+
+=== SWE-bench result ===
+PROJECT COMPLETE
+
+QA verified all Fail-to-pass tests and Engineer produced a non-empty patch.
+QA notes: The targeted Fail-to-pass test (test_roundtrip[True]) exists and passed after the patch that made QDP parsing case-insensitive.

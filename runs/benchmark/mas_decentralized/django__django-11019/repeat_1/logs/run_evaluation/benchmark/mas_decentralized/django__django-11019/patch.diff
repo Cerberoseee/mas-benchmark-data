@@ -1,0 +1,52 @@
+diff --git a/django/forms/widgets.py b/django/forms/widgets.py
+index 02aa32b207..d85c409152 100644
+--- a/django/forms/widgets.py
++++ b/django/forms/widgets.py
+@@ -70,9 +70,15 @@ class Media:
+ 
+     @property
+     def _js(self):
+-        js = self._js_lists[0]
++        sorted_by_length = list(sorted(
++            filter(None, self._js_lists),
++            key=lambda lst: -len(lst),
++        ))
++        if not sorted_by_length:
++            return []
++        js = sorted_by_length[0]
+         # filter(None, ...) avoids calling merge() with empty lists.
+-        for obj in filter(None, self._js_lists[1:]):
++        for obj in filter(None, sorted_by_length[1:]):
+             js = self.merge(js, obj)
+         return js
+ 
+diff --git a/scripts/tests/media_merge_smoketest.py b/scripts/tests/media_merge_smoketest.py
+new file mode 100755
+index 0000000000..3334dc6d0f
+--- /dev/null
++++ b/scripts/tests/media_merge_smoketest.py
+@@ -0,0 +1,24 @@
++#!/usr/bin/env python3
++"""
++Simple smoke-test for Media._js merging behavior that does not require pytest.
++Prints input js lists and the merged result to help QA validate the heuristic.
++"""
++from django.forms.widgets import Media
++
++
++def show_merge(lists):
++    m = Media()
++    # Directly set the internal lists used by the _js property
++    m._js_lists = lists
++    print('INPUT:', lists)
++    try:
++        print('MERGED:', m._js)
++    except Exception as e:
++        print('ERROR when computing _js:', e)
++    print('-' * 40)
++
++
++if __name__ == '__main__':
++    show_merge([['a.js', 'b.js', 'c.js'], ['b.js', 'd.js'], ['c.js', 'e.js']])
++    show_merge([None, ['a.js', 'b.js'], None, ['b.js', 'c.js']])
++    show_merge([])

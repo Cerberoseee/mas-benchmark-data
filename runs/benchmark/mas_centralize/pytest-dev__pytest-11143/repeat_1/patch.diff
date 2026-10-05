@@ -1,0 +1,20 @@
+diff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py
+index 157903faf..51a142696 100644
+--- a/src/_pytest/assertion/rewrite.py
++++ b/src/_pytest/assertion/rewrite.py
+@@ -742,8 +742,13 @@ class AssertionRewriter(ast.NodeVisitor):
+                     nodes.append(field)
+ 
+     @staticmethod
+-    def is_rewrite_disabled(docstring: str) -> bool:
+-        return "PYTEST_DONT_REWRITE" in docstring
++    def is_rewrite_disabled(docstring: object) -> bool:
++        """Return True if rewriting is disabled for the given module-level docstring.
++
++        Some ASTs may present non-string constants (e.g. a bare integer expression)
++        as the first module-level Expr value. Guard against non-string values here.
++        """
++        return isinstance(docstring, str) and "PYTEST_DONT_REWRITE" in docstring
+ 
+     def variable(self) -> str:
+         """Get a new variable."""

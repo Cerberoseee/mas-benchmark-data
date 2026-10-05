@@ -1,0 +1,3 @@
+- Implemented change in xarray/core/concat.py to allow merging variables present only in a subset of datasets by skipping missing variables when collecting variables to merge.
+- Ran failing tests and they now pass (2 tests).
+- Committed change: fix(concat): allow merging variables present only in subset of datasets by skipping absent ones

@@ -1,0 +1,96 @@
+diff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py
+index 2903b8995..7144f6215 100644
+--- a/src/_pytest/assertion/rewrite.py
++++ b/src/_pytest/assertion/rewrite.py
+@@ -972,6 +972,91 @@ warn_explicit(
+         arg_expls = []
+         new_args = []
+         new_kwargs = []
++        # Special-case: unroll simple generator/list comprehensions passed to builtin all()/any()
++        # by converting them into an explicit for-loop which captures the evaluation
++        # of the individual elements so that assertion reporting can show the
++        # failing element (see test_unroll_expression and related tests).
++        if (
++            isinstance(call.func, ast.Name)
++            and call.func.id in ("all", "any")
++            and len(call.args) == 1
++            and isinstance(call.args[0], (ast.GeneratorExp, ast.ListComp))
++        ):
++            gen = call.args[0]
++            # Create a list to hold the per-item explanations.
++            expl_list = self.assign(ast.List([], ast.Load()))
++            app = ast.Attribute(expl_list, "append", ast.Load())
++            # Result flag for all/any.
++            res_flag = self.variable()
++            if call.func.id == "all":
++                # initialize flag to True
++                self.statements.append(ast.Assign([ast.Name(res_flag, ast.Store())], _NameConstant(True)))
++            else:
++                self.statements.append(ast.Assign([ast.Name(res_flag, ast.Store())], _NameConstant(False)))
++
++            # Build loop body by temporarily collecting statements.
++            saved_statements = self.statements
++            saved_on_failure = self.on_failure
++            loop_body = []
++            self.statements = loop_body
++            # collect on_failure assignments separately so they can be
++            # inserted into the loop body (pop_format_context appends to
++            # self.on_failure).
++            self.on_failure = []
++            self.push_format_context()
++            # Visit the element expression. It will append any necessary
++            # statements into loop_body and return a result expression and
++            # explanation template.
++            elem = gen.elt
++            elem_res, elem_expl = self.visit(elem)
++            # pop_format_context will have appended format assignments into
++            # self.on_failure; capture them for insertion into loop_body.
++            expl_format = self.pop_format_context(ast.Str(elem_expl))
++            collected_on_failure = list(self.on_failure)
++            # restore parent's on_failure and statements
++            self.on_failure = saved_on_failure
++            self.statements = saved_statements
++            # Insert the collected on_failure assignments after the element
++            # evaluation assignments in the loop body.  visit(elem) emitted
++            # those assignments into loop_body, so place the format-related
++            # assignments after them to avoid referencing variables before
++            # they are assigned.
++            insert_at = len(loop_body)
++            loop_body[insert_at:insert_at] = collected_on_failure
++            # Append the formatted explanation for this iteration into expl_list
++            loop_body.append(ast.Expr(ast_Call(app, [expl_format], [])))
++            # For all(): if not elem_res: set flag False and break
++            if call.func.id == "all":
++                cond = ast.UnaryOp(ast.Not(), elem_res)
++                set_false = ast.Assign([ast.Name(res_flag, ast.Store())], _NameConstant(False))
++                loop_body.append(ast.If(cond, [set_false, ast.Break()], []))
++            else:
++                # any(): if elem_res: set flag True and break
++                cond = elem_res
++                set_true = ast.Assign([ast.Name(res_flag, ast.Store())], _NameConstant(True))
++                loop_body.append(ast.If(cond, [set_true, ast.Break()], []))
++
++            # Only support single generator for now.
++            gen0 = gen.generators[0]
++            for_node = ast.For(gen0.target, gen0.iter, loop_body, [])
++            self.statements.append(for_node)
++            # The overall result is the res_flag name
++            res = ast.Name(res_flag, ast.Load())
++            # Prepare explanation using the collected expl_list
++            self.push_format_context()
++            # Use the first collected explanation element directly to avoid
++            # wrapping it in parentheses (which _format_boolop does).  This
++            # produces messages like "assert False" rather than "assert (False)".
++            try:
++                index = ast.Index(ast.Num(0))
++            except Exception:
++                # ast.Index may not exist on some Python versions, fallback
++                # to using ast.Num directly as the slice.
++                index = ast.Num(0)
++            expl_template = ast.Subscript(expl_list, index, ast.Load())
++            expl = self.pop_format_context(expl_template)
++            return res, self.explanation_param(expl)
++
+         for arg in call.args:
+             res, expl = self.visit(arg)
+             arg_expls.append(expl)

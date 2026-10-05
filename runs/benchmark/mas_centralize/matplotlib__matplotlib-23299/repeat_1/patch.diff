@@ -1,0 +1,19 @@
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index c268a56724..a1ebf3f6f0 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -1095,7 +1095,14 @@ def rc_context(rc=None, fname=None):
+             rcParams.update(rc)
+         yield
+     finally:
++        # Preserve backend set inside the rc_context; changing backend inside the context
++        # is a user-level action that should persist after exiting the context manager.
++        backend_value = dict.__getitem__(rcParams, 'backend')
+         dict.update(rcParams, orig)  # Revert to the original rcs.
++        # Restore any backend value that was set inside the context.
++        dict.__setitem__(rcParams, 'backend', backend_value)
++
++
+ 
+ 
+ def use(backend, *, force=True):

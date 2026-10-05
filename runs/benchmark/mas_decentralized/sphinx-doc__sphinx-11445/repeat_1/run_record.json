@@ -1,0 +1,109 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "sphinx-doc__sphinx-11445",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-15T12:52:54.157138Z",
+  "completed_at": "2026-05-15T12:57:44.212624Z",
+  "duration_seconds": 290.05548593015425,
+  "workspace_dir": "runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/grade-result.json",
+  "prompt_sha256": "a29c5c6394f0b1d2854eb1d04541251b104651acd60f8e9492f21e5f095a4346",
+  "telemetry": {
+    "total_tokens": 64369,
+    "prompt_tokens": 60346,
+    "completion_tokens": 4023,
+    "total_steps": 0,
+    "tool_calls": 13,
+    "tool_failures": 2,
+    "retries": 0,
+    "escalations": 1,
+    "messages": 54,
+    "handoffs": 4,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved \u2014 no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline",
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline"
+        ],
+        "pass_to_pass_still_passing": [
+          "tests/test_util_rst.py::test_escape",
+          "tests/test_util_rst.py::test_append_epilog",
+          "tests/test_util_rst.py::test_prepend_prolog",
+          "tests/test_util_rst.py::test_prepend_prolog_with_CR",
+          "tests/test_util_rst.py::test_prepend_prolog_without_CR",
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections",
+          "tests/test_util_rst.py::test_textwidth",
+          "tests/test_util_rst.py::test_heading"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline",
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "tests/test_util_rst.py::test_escape",
+              "tests/test_util_rst.py::test_append_epilog",
+              "tests/test_util_rst.py::test_prepend_prolog",
+              "tests/test_util_rst.py::test_prepend_prolog_with_CR",
+              "tests/test_util_rst.py::test_prepend_prolog_without_CR",
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections",
+              "tests/test_util_rst.py::test_textwidth",
+              "tests/test_util_rst.py::test_heading"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T13:37:26.584037Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

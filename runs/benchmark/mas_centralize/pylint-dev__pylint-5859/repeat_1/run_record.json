@@ -1,0 +1,100 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "pylint-dev__pylint-5859",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-12T17:01:22.952724Z",
+  "completed_at": "2026-05-12T17:03:53.334656Z",
+  "duration_seconds": 150.381932,
+  "workspace_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/grade-result.json",
+  "prompt_sha256": "2abd6c7262f9f13d33e7e32aea3ed2faefc9cc6177f65380e5ac9c4d848d77c9",
+  "telemetry": {
+    "total_tokens": 26568,
+    "prompt_tokens": 24227,
+    "completion_tokens": 2341,
+    "total_steps": 0,
+    "tool_calls": 7,
+    "tool_failures": 0,
+    "retries": 0,
+    "escalations": 1,
+    "messages": 27,
+    "handoffs": 3,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "tests/checkers/unittest_misc.py::TestFixme::test_non_alphanumeric_codetag"
+        ],
+        "pass_to_pass_still_passing": [
+          "tests/checkers/unittest_misc.py::TestFixme::test_fixme_with_message",
+          "tests/checkers/unittest_misc.py::TestFixme::test_todo_without_message",
+          "tests/checkers/unittest_misc.py::TestFixme::test_xxx_without_space",
+          "tests/checkers/unittest_misc.py::TestFixme::test_xxx_middle",
+          "tests/checkers/unittest_misc.py::TestFixme::test_without_space_fixme",
+          "tests/checkers/unittest_misc.py::TestFixme::test_absent_codetag",
+          "tests/checkers/unittest_misc.py::TestFixme::test_other_present_codetag",
+          "tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_not_trigger",
+          "tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_trigger",
+          "tests/checkers/unittest_misc.py::TestFixme::test_dont_trigger_on_todoist"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "tests/checkers/unittest_misc.py::TestFixme::test_non_alphanumeric_codetag"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "tests/checkers/unittest_misc.py::TestFixme::test_fixme_with_message",
+              "tests/checkers/unittest_misc.py::TestFixme::test_todo_without_message",
+              "tests/checkers/unittest_misc.py::TestFixme::test_xxx_without_space",
+              "tests/checkers/unittest_misc.py::TestFixme::test_xxx_middle",
+              "tests/checkers/unittest_misc.py::TestFixme::test_without_space_fixme",
+              "tests/checkers/unittest_misc.py::TestFixme::test_absent_codetag",
+              "tests/checkers/unittest_misc.py::TestFixme::test_other_present_codetag",
+              "tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_not_trigger",
+              "tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_trigger",
+              "tests/checkers/unittest_misc.py::TestFixme::test_dont_trigger_on_todoist"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-5859/repeat_1/logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-5859/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T10:27:34.311967Z"
+  }
+}

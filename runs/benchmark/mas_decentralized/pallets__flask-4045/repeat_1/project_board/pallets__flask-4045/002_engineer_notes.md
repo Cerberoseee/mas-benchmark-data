@@ -1,0 +1,1 @@
+Status: DONE. Implemented ValueError for blueprint names containing dots and for endpoints and view function names containing dots. Adjusted testing utilities to suppress a DeprecationWarning and avoid forwarding removed as_tuple kwarg. All targeted tests passed locally. Handing off to ProjectManager for review and QA.

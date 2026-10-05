@@ -1,0 +1,439 @@
+2026-05-16 13:50:39,830 - INFO - Building image sweb.env.py.x86_64.c70974ae7654c7a2c98577:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.base.py.x86_64:latest
+
+COPY ./setup_env.sh /root/
+RUN sed -i -e 's/\r$//' /root/setup_env.sh
+RUN chmod +x /root/setup_env.sh
+RUN /bin/bash -c "source ~/.bashrc && /root/setup_env.sh"
+
+WORKDIR /testbed/
+
+# Automatically activate the testbed environment
+RUN echo "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate testbed" > /root/.bashrc
+
+Adding (1) setup scripts to image build repo
+2026-05-16 13:50:39,830 - INFO - [SETUP SCRIPT] setup_env.sh:
+#!/bin/bash
+set -euxo pipefail
+source /opt/miniconda3/bin/activate
+conda create -n testbed python=3.6 setuptools==38.2.4 -y
+conda activate testbed
+python -m pip install attrs==17.3.0 exceptiongroup==0.0.0a0 execnet==1.5.0 hypothesis==3.44.2 cython==0.27.3 jinja2==2.10 MarkupSafe==1.0 numpy==1.16.0 packaging==16.8 pluggy==0.6.0 psutil==5.4.2 pyerfa==1.7.0 pytest-arraydiff==0.1 pytest-astropy-header==0.1 pytest-astropy==0.2.1 pytest-cov==2.5.1 pytest-doctestplus==0.1.2 pytest-filter-subpackage==0.1 pytest-forked==0.2 pytest-mock==1.6.3 pytest-openfiles==0.2.0 pytest-remotedata==0.2.0 pytest-xdist==1.20.1 pytest==3.3.1 PyYAML==3.12 sortedcontainers==1.5.9 tomli==0.2.0
+
+2026-05-16 13:50:39,831 - INFO - Building docker image sweb.env.py.x86_64.c70974ae7654c7a2c98577:latest in logs/build_images/env/sweb.env.py.x86_64.c70974ae7654c7a2c98577__latest with platform linux/x86_64
+2026-05-16 13:50:39,834 - INFO - Step 1/7 : FROM --platform=linux/x86_64 sweb.base.py.x86_64:latest
+2026-05-16 13:50:39,834 - INFO - 
+2026-05-16 13:50:39,844 - INFO - ---> 251fb4642ff6
+2026-05-16 13:50:39,844 - INFO - Step 2/7 : COPY ./setup_env.sh /root/
+2026-05-16 13:50:39,844 - INFO - 
+2026-05-16 13:50:42,179 - INFO - ---> 756a041778e0
+2026-05-16 13:50:42,179 - INFO - Step 3/7 : RUN sed -i -e 's/\r$//' /root/setup_env.sh
+2026-05-16 13:50:42,179 - INFO - 
+2026-05-16 13:50:42,304 - INFO - ---> Running in 851b534a39c7
+2026-05-16 13:50:45,090 - INFO - ---> Removed intermediate container 851b534a39c7
+2026-05-16 13:50:45,090 - INFO - ---> 1a0848fd4b1f
+2026-05-16 13:50:45,090 - INFO - Step 4/7 : RUN chmod +x /root/setup_env.sh
+2026-05-16 13:50:45,090 - INFO - 
+2026-05-16 13:50:45,189 - INFO - ---> Running in fa2ebac2948d
+2026-05-16 13:50:47,860 - INFO - ---> Removed intermediate container fa2ebac2948d
+2026-05-16 13:50:47,860 - INFO - ---> 751ba6ed4716
+2026-05-16 13:50:47,860 - INFO - Step 5/7 : RUN /bin/bash -c "source ~/.bashrc && /root/setup_env.sh"
+2026-05-16 13:50:47,860 - INFO - 
+2026-05-16 13:50:47,957 - INFO - ---> Running in 7efda1cf19e2
+2026-05-16 13:50:48,159 - INFO - + source /opt/miniconda3/bin/activate
+++ _CONDA_ROOT=/opt/miniconda3
+++ . /opt/miniconda3/etc/profile.d/conda.sh
+2026-05-16 13:50:48,160 - INFO - +++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+2026-05-16 13:50:48,160 - INFO - +++ '[' -z '' ']'
++++ export CONDA_SHLVL=0
++++ CONDA_SHLVL=0
++++ '[' -n '' ']'
+2026-05-16 13:50:48,160 - INFO - +++++ dirname /opt/miniconda3/bin/conda
+2026-05-16 13:50:48,160 - INFO - ++++ dirname /opt/miniconda3/bin
+2026-05-16 13:50:48,161 - INFO - +++ PATH=/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export PATH
++++ '[' -z '' ']'
++++ PS1=
+++ conda activate
+++ local cmd=activate
+++ case "$cmd" in
+++ __conda_activate activate
+2026-05-16 13:50:48,161 - INFO - ++ '[' -n '' ']'
+++ local ask_conda
+2026-05-16 13:50:48,161 - INFO - +++ PS1=
++++ __conda_exe shell.posix activate
+2026-05-16 13:50:48,162 - INFO - +++ /opt/miniconda3/bin/conda shell.posix activate
+2026-05-16 13:50:48,236 - INFO - ++ ask_conda='PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ eval 'PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++++ PS1='(base) '
++++ export PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ export CONDA_PREFIX=/opt/miniconda3
++++ CONDA_PREFIX=/opt/miniconda3
++++ export CONDA_SHLVL=1
++++ CONDA_SHLVL=1
++++ export CONDA_DEFAULT_ENV=base
++++ CONDA_DEFAULT_ENV=base
++++ export 'CONDA_PROMPT_MODIFIER=(base) '
++++ CONDA_PROMPT_MODIFIER='(base) '
++++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ __conda_hashr
+++ '[' -n '' ']'
+++ '[' -n '' ']'
+++ hash -r
++ conda create -n testbed python=3.6 setuptools==38.2.4 -y
+2026-05-16 13:50:48,236 - INFO - + local cmd=create
++ case "$cmd" in
++ __conda_exe create -n testbed python=3.6 setuptools==38.2.4 -y
+2026-05-16 13:50:48,236 - INFO - + /opt/miniconda3/bin/conda create -n testbed python=3.6 setuptools==38.2.4 -y
+2026-05-16 13:50:48,610 - INFO - Channels:
+ - defaults
+ - conda-forge
+Platform: linux-64
+Collecting package metadata (repodata.json): ...working...
+2026-05-16 13:51:41,405 - INFO - done
+Solving environment: ...working...
+2026-05-16 13:51:42,634 - INFO - done
+2026-05-16 13:51:48,518 - INFO - ## Package Plan ##
+
+  environment location: /opt/miniconda3/envs/testbed
+
+  added / updated specs:
+    - python=3.6
+    - setuptools==38.2.4
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    ca-certificates-2026.3.19  |       h06a4308_0         126 KB
+    certifi-2021.5.30          |   py36h06a4308_0         139 KB
+    ld_impl_linux-64-2.44      |       h9e0c5a2_3         725 KB
+    libffi-3.3                 |       he6710b0_2          50 KB
+    libgcc-15.2.0              |       h69a1729_7         806 KB
+    libgcc-ng-15.2.0           |       h166f726_7          28 KB
+    libgomp-15.2.0             |       h4751f2c_7         436 KB
+    libstdcxx-15.2.0           |       h39759b7_7         3.7 MB
+    libstdcxx-ng-15.2.0        |       hc03a8fd_7          28 KB
+    libxcb-1.17.0              |       h9b100fa_0         430 KB
+    libzlib-1.3.1              |       h47b2149_1          59 KB
+    ncurses-6.5                |       h7934f7d_0         1.1 MB
+    openssl-1.1.1w             |       h7f8727e_0         3.7 MB
+    pip-21.2.2                 |   py36h06a4308_0         1.8 MB
+    pthread-stubs-0.3          |       h0ce48e5_1           5 KB
+    python-3.6.13              |       h12debd9_1        32.5 MB
+    readline-8.3               |       hc2a1206_0         471 KB
+    setuptools-38.2.4          |           py36_0         523 KB  conda-forge
+    sqlite-3.51.2              |       h3e8d24a_0         1.2 MB
+    tk-8.6.15                  |       h54e0aa7_0         3.4 MB
+    wheel-0.37.1               |     pyhd3eb1b0_0          33 KB
+    xorg-libx11-1.8.12         |       h9b100fa_1         895 KB
+    xorg-libxau-1.0.12         |       h9b100fa_0          13 KB
+    xorg-libxdmcp-1.1.5        |       h9b100fa_0          19 KB
+    xorg-xorgproto-2024.1      |       h5eee18b_1         580 KB
+    xz-5.8.2                   |       h448239c_0         621 KB
+    zlib-1.3.1                 |       h47b2149_1          89 KB
+    ------------------------------------------------------------
+                                           Total:        53.4 MB
+
+The following NEW packages will be INSTALLED:
+
+  _libgcc_mutex      pkgs/main/linux-64::_libgcc_mutex-0.1-main 
+  _openmp_mutex      pkgs/main/linux-64::_openmp_mutex-5.1-1_gnu 
+  ca-certificates    pkgs/main/linux-64::ca-certificates-2026.3.19-h06a4308_0 
+  certifi            pkgs/main/linux-64::certifi-2021.5.30-py36h06a4308_0 
+  ld_impl_linux-64   pkgs/main/linux-64::ld_impl_linux-64-2.44-h9e0c5a2_3 
+  libffi             pkgs/main/linux-64::libffi-3.3-he6710b0_2 
+  libgcc             pkgs/main/linux-64::libgcc-15.2.0-h69a1729_7 
+  libgcc-ng          pkgs/main/linux-64::libgcc-ng-15.2.0-h166f726_7 
+  libgomp            pkgs/main/linux-64::libgomp-15.2.0-h4751f2c_7 
+  libstdcxx          pkgs/main/linux-64::libstdcxx-15.2.0-h39759b7_7 
+  libstdcxx-ng       pkgs/main/linux-64::libstdcxx-ng-15.2.0-hc03a8fd_7 
+  libxcb             pkgs/main/linux-64::libxcb-1.17.0-h9b100fa_0 
+  libzlib            pkgs/main/linux-64::libzlib-1.3.1-h47b2149_1 
+  ncurses            pkgs/main/linux-64::ncurses-6.5-h7934f7d_0 
+  openssl            pkgs/main/linux-64::openssl-1.1.1w-h7f8727e_0 
+  pip                pkgs/main/linux-64::pip-21.2.2-py36h06a4308_0 
+  pthread-stubs      pkgs/main/linux-64::pthread-stubs-0.3-h0ce48e5_1 
+  python             pkgs/main/linux-64::python-3.6.13-h12debd9_1 
+  readline           pkgs/main/linux-64::readline-8.3-hc2a1206_0 
+  setuptools         conda-forge/linux-64::setuptools-38.2.4-py36_0 
+  sqlite             pkgs/main/linux-64::sqlite-3.51.2-h3e8d24a_0 
+  tk                 pkgs/main/linux-64::tk-8.6.15-h54e0aa7_0 
+  wheel              pkgs/main/noarch::wheel-0.37.1-pyhd3eb1b0_0 
+  xorg-libx11        pkgs/main/linux-64::xorg-libx11-1.8.12-h9b100fa_1 
+  xorg-libxau        pkgs/main/linux-64::xorg-libxau-1.0.12-h9b100fa_0 
+  xorg-libxdmcp      pkgs/main/linux-64::xorg-libxdmcp-1.1.5-h9b100fa_0 
+  xorg-xorgproto     pkgs/main/linux-64::xorg-xorgproto-2024.1-h5eee18b_1 
+  xz                 pkgs/main/linux-64::xz-5.8.2-h448239c_0 
+  zlib               pkgs/main/linux-64::zlib-1.3.1-h47b2149_1 
+
+
+
+Downloading and Extracting Packages: ...working... done
+Preparing transaction: ...working...
+2026-05-16 13:51:48,655 - INFO - done
+Verifying transaction: ...working...
+2026-05-16 13:51:49,175 - INFO - done
+2026-05-16 13:51:49,175 - INFO - Executing transaction: ...working...
+2026-05-16 13:51:49,833 - INFO - done
+2026-05-16 13:51:49,844 - INFO - #
+# To activate this environment, use
+#
+#     $ conda activate testbed
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+2026-05-16 13:51:49,904 - INFO - + conda activate testbed
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate testbed
++ '[' -n '' ']'
++ local ask_conda
+2026-05-16 13:51:49,904 - INFO - ++ PS1='(base) '
+++ __conda_exe shell.posix activate testbed
+2026-05-16 13:51:49,905 - INFO - ++ /opt/miniconda3/bin/conda shell.posix activate testbed
+2026-05-16 13:51:49,979 - INFO - + ask_conda='PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++ eval 'PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ PS1='(testbed) '
+++ export PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ export CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ export CONDA_SHLVL=2
+++ CONDA_SHLVL=2
+++ export CONDA_DEFAULT_ENV=testbed
+++ CONDA_DEFAULT_ENV=testbed
+++ export 'CONDA_PROMPT_MODIFIER=(testbed) '
+++ CONDA_PROMPT_MODIFIER='(testbed) '
+++ export CONDA_PREFIX_1=/opt/miniconda3
+++ CONDA_PREFIX_1=/opt/miniconda3
+++ export CONDA_EXE=/opt/miniconda3/bin/conda
+++ CONDA_EXE=/opt/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++ __conda_hashr
+2026-05-16 13:51:49,979 - INFO - + '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
+2026-05-16 13:51:49,979 - INFO - + python -m pip install attrs==17.3.0 exceptiongroup==0.0.0a0 execnet==1.5.0 hypothesis==3.44.2 cython==0.27.3 jinja2==2.10 MarkupSafe==1.0 numpy==1.16.0 packaging==16.8 pluggy==0.6.0 psutil==5.4.2 pyerfa==1.7.0 pytest-arraydiff==0.1 pytest-astropy-header==0.1 pytest-astropy==0.2.1 pytest-cov==2.5.1 pytest-doctestplus==0.1.2 pytest-filter-subpackage==0.1 pytest-forked==0.2 pytest-mock==1.6.3 pytest-openfiles==0.2.0 pytest-remotedata==0.2.0 pytest-xdist==1.20.1 pytest==3.3.1 PyYAML==3.12 sortedcontainers==1.5.9 tomli==0.2.0
+2026-05-16 13:51:50,446 - INFO - Collecting attrs==17.3.0
+2026-05-16 13:51:50,642 - INFO - Downloading attrs-17.3.0-py2.py3-none-any.whl (29 kB)
+2026-05-16 13:51:50,746 - INFO - Collecting exceptiongroup==0.0.0a0
+2026-05-16 13:51:50,776 - INFO - Downloading exceptiongroup-0.0.0a0-py3-none-any.whl (16 kB)
+2026-05-16 13:51:50,875 - INFO - Collecting execnet==1.5.0
+2026-05-16 13:51:50,905 - INFO - Downloading execnet-1.5.0-py2.py3-none-any.whl (39 kB)
+2026-05-16 13:51:51,907 - INFO - Collecting hypothesis==3.44.2
+2026-05-16 13:51:51,936 - INFO - Downloading hypothesis-3.44.2-py3-none-any.whl (186 kB)
+2026-05-16 13:51:52,881 - INFO - Collecting cython==0.27.3
+2026-05-16 13:51:52,910 - INFO - Downloading Cython-0.27.3-cp36-cp36m-manylinux1_x86_64.whl (3.1 MB)
+2026-05-16 13:51:53,115 - INFO - Collecting jinja2==2.10
+2026-05-16 13:51:53,144 - INFO - Downloading Jinja2-2.10-py2.py3-none-any.whl (126 kB)
+2026-05-16 13:51:53,396 - INFO - Collecting MarkupSafe==1.0
+2026-05-16 13:51:53,424 - INFO - Downloading MarkupSafe-1.0.tar.gz (14 kB)
+2026-05-16 13:51:54,404 - INFO - Collecting numpy==1.16.0
+2026-05-16 13:51:54,433 - INFO - Downloading numpy-1.16.0-cp36-cp36m-manylinux1_x86_64.whl (17.3 MB)
+2026-05-16 13:51:55,513 - INFO - Collecting packaging==16.8
+2026-05-16 13:51:55,542 - INFO - Downloading packaging-16.8-py2.py3-none-any.whl (23 kB)
+2026-05-16 13:51:55,636 - INFO - Collecting pluggy==0.6.0
+2026-05-16 13:51:55,664 - INFO - Downloading pluggy-0.6.0-py3-none-any.whl (13 kB)
+2026-05-16 13:51:55,963 - INFO - Collecting psutil==5.4.2
+2026-05-16 13:51:55,992 - INFO - Downloading psutil-5.4.2.tar.gz (411 kB)
+2026-05-16 13:51:56,302 - INFO - Collecting pyerfa==1.7.0
+2026-05-16 13:51:56,331 - INFO - Downloading pyerfa-1.7.0-cp36-cp36m-manylinux2010_x86_64.whl (693 kB)
+2026-05-16 13:51:56,426 - INFO - Collecting pytest-arraydiff==0.1
+2026-05-16 13:51:56,454 - INFO - Downloading pytest-arraydiff-0.1.tar.gz (8.8 kB)
+2026-05-16 13:51:56,758 - INFO - Collecting pytest-astropy-header==0.1
+2026-05-16 13:51:56,787 - INFO - Downloading pytest_astropy_header-0.1-py2.py3-none-any.whl (7.3 kB)
+2026-05-16 13:51:57,042 - INFO - Collecting pytest-astropy==0.2.1
+2026-05-16 13:51:57,070 - INFO - Downloading pytest-astropy-0.2.1.tar.gz (3.6 kB)
+2026-05-16 13:51:57,273 - INFO - Collecting pytest-cov==2.5.1
+2026-05-16 13:51:57,302 - INFO - Downloading pytest_cov-2.5.1-py2.py3-none-any.whl (21 kB)
+2026-05-16 13:51:57,394 - INFO - Collecting pytest-doctestplus==0.1.2
+2026-05-16 13:51:57,423 - INFO - Downloading pytest-doctestplus-0.1.2.tar.gz (14 kB)
+2026-05-16 13:51:57,651 - INFO - Collecting pytest-filter-subpackage==0.1
+2026-05-16 13:51:57,680 - INFO - Downloading pytest_filter_subpackage-0.1-py2.py3-none-any.whl (4.9 kB)
+2026-05-16 13:51:57,770 - INFO - Collecting pytest-forked==0.2
+2026-05-16 13:51:57,799 - INFO - Downloading pytest_forked-0.2-py2.py3-none-any.whl (6.1 kB)
+2026-05-16 13:51:57,926 - INFO - Collecting pytest-mock==1.6.3
+2026-05-16 13:51:57,955 - INFO - Downloading pytest_mock-1.6.3-py2.py3-none-any.whl (12 kB)
+2026-05-16 13:51:58,271 - INFO - Collecting pytest-openfiles==0.2.0
+2026-05-16 13:51:58,301 - INFO - Downloading pytest-openfiles-0.2.0.tar.gz (5.2 kB)
+2026-05-16 13:51:58,507 - INFO - Collecting pytest-remotedata==0.2.0
+2026-05-16 13:51:58,535 - INFO - Downloading pytest-remotedata-0.2.0.tar.gz (9.5 kB)
+2026-05-16 13:51:58,801 - INFO - Collecting pytest-xdist==1.20.1
+2026-05-16 13:51:58,830 - INFO - Downloading pytest_xdist-1.20.1-py2.py3-none-any.whl (37 kB)
+2026-05-16 13:51:58,988 - INFO - Collecting pytest==3.3.1
+2026-05-16 13:51:59,017 - INFO - Downloading pytest-3.3.1-py2.py3-none-any.whl (184 kB)
+2026-05-16 13:51:59,204 - INFO - Collecting PyYAML==3.12
+2026-05-16 13:51:59,233 - INFO - Downloading PyYAML-3.12.zip (375 kB)
+2026-05-16 13:51:59,490 - INFO - Collecting sortedcontainers==1.5.9
+2026-05-16 13:51:59,520 - INFO - Downloading sortedcontainers-1.5.9-py2.py3-none-any.whl (31 kB)
+2026-05-16 13:51:59,654 - INFO - Collecting tomli==0.2.0
+2026-05-16 13:51:59,684 - INFO - Downloading tomli-0.2.0-py3-none-any.whl (8.6 kB)
+2026-05-16 13:51:59,784 - INFO - Collecting trio
+2026-05-16 13:51:59,814 - INFO - Downloading trio-0.19.0-py3-none-any.whl (356 kB)
+2026-05-16 13:51:59,913 - INFO - Collecting apipkg>=1.4
+2026-05-16 13:51:59,943 - INFO - Downloading apipkg-2.1.1-py2.py3-none-any.whl (7.1 kB)
+2026-05-16 13:52:01,532 - INFO - Collecting coverage
+2026-05-16 13:52:01,564 - INFO - Downloading coverage-6.2-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (212 kB)
+2026-05-16 13:52:01,665 - INFO - Collecting six
+2026-05-16 13:52:01,694 - INFO - Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-05-16 13:52:01,823 - INFO - Collecting pyparsing
+2026-05-16 13:52:01,852 - INFO - Downloading pyparsing-3.1.4-py3-none-any.whl (104 kB)
+2026-05-16 13:52:02,003 - INFO - Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest==3.3.1) (38.2.4)
+2026-05-16 13:52:02,092 - INFO - Collecting py>=1.5.0
+2026-05-16 13:52:02,122 - INFO - Downloading py-1.11.0-py2.py3-none-any.whl (98 kB)
+2026-05-16 13:52:02,175 - INFO - Collecting trio
+2026-05-16 13:52:02,204 - INFO - Downloading trio-0.18.0-py3-none-any.whl (354 kB)
+2026-05-16 13:52:02,254 - INFO - Downloading trio-0.17.0-py3-none-any.whl (354 kB)
+2026-05-16 13:52:02,303 - INFO - Downloading trio-0.16.0-py3-none-any.whl (337 kB)
+2026-05-16 13:52:02,353 - INFO - Downloading trio-0.15.1-py3-none-any.whl (330 kB)
+2026-05-16 13:52:02,404 - INFO - Downloading trio-0.15.0-py3-none-any.whl (329 kB)
+2026-05-16 13:52:02,455 - INFO - Downloading trio-0.14.0-py3-none-any.whl (327 kB)
+2026-05-16 13:52:02,505 - INFO - Downloading trio-0.13.0-py3-none-any.whl (320 kB)
+2026-05-16 13:52:02,556 - INFO - Downloading trio-0.12.1-py3-none-any.whl (314 kB)
+2026-05-16 13:52:02,650 - INFO - Collecting sniffio
+2026-05-16 13:52:02,677 - INFO - Downloading sniffio-1.2.0-py3-none-any.whl (10 kB)
+2026-05-16 13:52:02,760 - INFO - Collecting contextvars>=2.1
+2026-05-16 13:52:02,790 - INFO - Downloading contextvars-2.4.tar.gz (9.6 kB)
+2026-05-16 13:52:03,005 - INFO - Collecting outcome
+2026-05-16 13:52:03,034 - INFO - Downloading outcome-1.1.0-py2.py3-none-any.whl (9.7 kB)
+2026-05-16 13:52:03,049 - INFO - Collecting trio
+2026-05-16 13:52:03,077 - INFO - Downloading trio-0.12.0-py3-none-any.whl (313 kB)
+2026-05-16 13:52:03,129 - INFO - Downloading trio-0.11.0-py3-none-any.whl (289 kB)
+2026-05-16 13:52:03,178 - INFO - Downloading trio-0.10.0.tar.gz (402 kB)
+2026-05-16 13:52:03,233 - INFO - Installing build dependencies: started
+2026-05-16 13:52:04,956 - INFO - Installing build dependencies: finished with status 'done'
+2026-05-16 13:52:04,957 - INFO - Getting requirements to build wheel: started
+2026-05-16 13:52:05,102 - INFO - Getting requirements to build wheel: finished with status 'done'
+2026-05-16 13:52:05,104 - INFO - Preparing wheel metadata: started
+2026-05-16 13:52:05,257 - INFO - Preparing wheel metadata: finished with status 'done'
+2026-05-16 13:52:05,298 - INFO - Downloading trio-0.9.0-py3-none-any.whl (261 kB)
+2026-05-16 13:52:05,349 - INFO - Downloading trio-0.8.0-py3-none-any.whl (255 kB)
+2026-05-16 13:52:05,445 - INFO - Collecting async-generator>=1.9
+2026-05-16 13:52:05,474 - INFO - Downloading async_generator-1.10-py3-none-any.whl (18 kB)
+2026-05-16 13:52:05,568 - INFO - Collecting idna
+2026-05-16 13:52:05,595 - INFO - Downloading idna-3.10-py3-none-any.whl (70 kB)
+2026-05-16 13:52:05,770 - INFO - Collecting immutables>=0.9
+2026-05-16 13:52:05,798 - INFO - Downloading immutables-0.19-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (116 kB)
+2026-05-16 13:52:05,907 - INFO - Collecting typing-extensions>=3.7.4.3
+2026-05-16 13:52:05,936 - INFO - Downloading typing_extensions-4.1.1-py3-none-any.whl (26 kB)
+2026-05-16 13:52:05,963 - INFO - Collecting outcome
+2026-05-16 13:52:05,992 - INFO - Downloading outcome-1.0.1-py2.py3-none-any.whl (10 kB)
+2026-05-16 13:52:06,033 - INFO - Downloading outcome-1.0.0-py2.py3-none-any.whl (5.1 kB)
+2026-05-16 13:52:06,055 - INFO - Building wheels for collected packages: MarkupSafe, psutil, pytest-arraydiff, pytest-astropy, pytest-doctestplus, pytest-openfiles, pytest-remotedata, PyYAML, contextvars
+2026-05-16 13:52:06,056 - INFO - Building wheel for MarkupSafe (setup.py): started
+2026-05-16 13:52:06,308 - INFO - Building wheel for MarkupSafe (setup.py): finished with status 'done'
+2026-05-16 13:52:06,309 - INFO - Created wheel for MarkupSafe: filename=MarkupSafe-1.0-cp36-cp36m-linux_x86_64.whl size=26127 sha256=7d8f1e9f7031b195a245d5da7b433df5217689a77700740e4f670634b191d407
+  Stored in directory: /root/.cache/pip/wheels/00/5a/67/e7ff93a250c45c5b91636cc8a0660c888bbb7d2829eaa6ca9d
+2026-05-16 13:52:06,311 - INFO - Building wheel for psutil (setup.py): started
+2026-05-16 13:52:07,028 - INFO - Building wheel for psutil (setup.py): finished with status 'done'
+2026-05-16 13:52:07,029 - INFO - Created wheel for psutil: filename=psutil-5.4.2-cp36-cp36m-linux_x86_64.whl size=252893 sha256=9734c4d62c7826f3c47a282706b7427f54d42145edd4dc915b16e3859385d3cf
+2026-05-16 13:52:07,029 - INFO - Stored in directory: /root/.cache/pip/wheels/c5/18/95/569dcfb7e6ef608e2a5f7b874eb54b586e309127eda990022d
+2026-05-16 13:52:07,032 - INFO - Building wheel for pytest-arraydiff (setup.py): started
+2026-05-16 13:52:07,163 - INFO - Building wheel for pytest-arraydiff (setup.py): finished with status 'done'
+2026-05-16 13:52:07,163 - INFO - Created wheel for pytest-arraydiff: filename=pytest_arraydiff-0.1-py3-none-any.whl size=8150 sha256=7c68eac86d3db909649963eef3f2c96a966e76dafb5115807b2bee9d35279e87
+  Stored in directory: /root/.cache/pip/wheels/c4/33/39/28583fdf07c5692bc1e90f0734aa62023afc885bbee2ef6d43
+2026-05-16 13:52:07,166 - INFO - Building wheel for pytest-astropy (setup.py): started
+2026-05-16 13:52:07,294 - INFO - Building wheel for pytest-astropy (setup.py): finished with status 'done'
+2026-05-16 13:52:07,294 - INFO - Created wheel for pytest-astropy: filename=pytest_astropy-0.2.1-py3-none-any.whl size=3182 sha256=ac215cb12ad12f8649f8219eebfca672455f9b0baa794672a9f18d61b67c1441
+  Stored in directory: /root/.cache/pip/wheels/a2/50/0f/5eda04333fc65d224038d57b26fc715369673b5ef43b198742
+2026-05-16 13:52:07,297 - INFO - Building wheel for pytest-doctestplus (setup.py): started
+2026-05-16 13:52:07,437 - INFO - Building wheel for pytest-doctestplus (setup.py): finished with status 'done'
+2026-05-16 13:52:07,438 - INFO - Created wheel for pytest-doctestplus: filename=pytest_doctestplus-0.1.2-py3-none-any.whl size=13564 sha256=9c58019c47802b07c5dd60458e662cce2801cced528ca01a60cdbfe39834690a
+  Stored in directory: /root/.cache/pip/wheels/45/68/8e/7b95453863efb8d0db3e724fe2de7e150127cd91111248c9b7
+2026-05-16 13:52:07,440 - INFO - Building wheel for pytest-openfiles (setup.py): started
+2026-05-16 13:52:07,577 - INFO - Building wheel for pytest-openfiles (setup.py): finished with status 'done'
+2026-05-16 13:52:07,577 - INFO - Created wheel for pytest-openfiles: filename=pytest_openfiles-0.2.0-py3-none-any.whl size=6143 sha256=8e5a1501b557e39c9382235fe2520b25b323dced8cf88b632d96b5759f5c9b5a
+  Stored in directory: /root/.cache/pip/wheels/7a/a4/77/ce43650175f0007e250b0e632132e16e292923420a11c2c890
+2026-05-16 13:52:07,580 - INFO - Building wheel for pytest-remotedata (setup.py): started
+2026-05-16 13:52:07,718 - INFO - Building wheel for pytest-remotedata (setup.py): finished with status 'done'
+2026-05-16 13:52:07,718 - INFO - Created wheel for pytest-remotedata: filename=pytest_remotedata-0.2.0-py3-none-any.whl size=11313 sha256=90a26a4b678a95df1583d7207af6856357d4c2fed466744586e0f620051fd747
+2026-05-16 13:52:07,718 - INFO - Stored in directory: /root/.cache/pip/wheels/82/82/15/e00a2b86dd24ce0e1a315653b10e609567d61465340e3f930a
+2026-05-16 13:52:07,720 - INFO - Building wheel for PyYAML (setup.py): started
+2026-05-16 13:52:07,875 - INFO - Building wheel for PyYAML (setup.py): finished with status 'done'
+2026-05-16 13:52:07,875 - INFO - Created wheel for PyYAML: filename=PyYAML-3.12-cp36-cp36m-linux_x86_64.whl size=43078 sha256=b0239f0950f538e15f2693282d76c456822d1231566678f9eb401f3201d795ad
+  Stored in directory: /root/.cache/pip/wheels/58/13/a4/e672e27a1ba3320d443b791c3a1203c64f5cb17f2a69dc7438
+2026-05-16 13:52:07,877 - INFO - Building wheel for contextvars (setup.py): started
+2026-05-16 13:52:08,013 - INFO - Building wheel for contextvars (setup.py): finished with status 'done'
+2026-05-16 13:52:08,013 - INFO - Created wheel for contextvars: filename=contextvars-2.4-py3-none-any.whl size=7683 sha256=1f2f18dc1e44f7020d1586c6d208d0ca4dcce8cf5f337f3e8a535a92383c87d4
+2026-05-16 13:52:08,013 - INFO - Stored in directory: /root/.cache/pip/wheels/41/11/53/911724983aa48deb94792432e14e518447212dd6c5477d49d3
+2026-05-16 13:52:08,015 - INFO - Successfully built MarkupSafe psutil pytest-arraydiff pytest-astropy pytest-doctestplus pytest-openfiles pytest-remotedata PyYAML contextvars
+2026-05-16 13:52:08,078 - INFO - Installing collected packages: typing-extensions, immutables, six, py, pluggy, contextvars, attrs, sortedcontainers, sniffio, pytest, psutil, outcome, numpy, idna, async-generator, apipkg, trio, pytest-remotedata, pytest-openfiles, pytest-forked, pytest-doctestplus, pytest-arraydiff, pyparsing, MarkupSafe, execnet, coverage, tomli, PyYAML, pytest-xdist, pytest-mock, pytest-filter-subpackage, pytest-cov, pytest-astropy-header, pytest-astropy, pyerfa, packaging, jinja2, hypothesis, exceptiongroup, cython
+2026-05-16 13:52:10,667 - INFO - Successfully installed MarkupSafe-1.0 PyYAML-3.12 apipkg-2.1.1 async-generator-1.10 attrs-17.3.0 contextvars-2.4 coverage-6.2 cython-0.27.3 exceptiongroup-0.0.0a0 execnet-1.5.0 hypothesis-3.44.2 idna-3.10 immutables-0.19 jinja2-2.10 numpy-1.16.0 outcome-1.0.0 packaging-16.8 pluggy-0.6.0 psutil-5.4.2 py-1.11.0 pyerfa-1.7.0 pyparsing-3.1.4 pytest-3.3.1 pytest-arraydiff-0.1 pytest-astropy-0.2.1 pytest-astropy-header-0.1 pytest-cov-2.5.1 pytest-doctestplus-0.1.2 pytest-filter-subpackage-0.1 pytest-forked-0.2 pytest-mock-1.6.3 pytest-openfiles-0.2.0 pytest-remotedata-0.2.0 pytest-xdist-1.20.1 six-1.17.0 sniffio-1.2.0 sortedcontainers-1.5.9 tomli-0.2.0 trio-0.8.0 typing-extensions-4.1.1
+2026-05-16 13:52:10,667 - INFO - WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-05-16 13:52:40,456 - INFO - ---> Removed intermediate container 7efda1cf19e2
+2026-05-16 13:52:40,456 - INFO - ---> c3350fb318d3
+2026-05-16 13:52:40,456 - INFO - Step 6/7 : WORKDIR /testbed/
+2026-05-16 13:52:40,456 - INFO - 
+2026-05-16 13:52:41,597 - INFO - ---> Running in d2ec71e20db3
+2026-05-16 13:52:44,905 - INFO - ---> Removed intermediate container d2ec71e20db3
+2026-05-16 13:52:44,905 - INFO - ---> 6f44226be6f4
+2026-05-16 13:52:44,905 - INFO - Step 7/7 : RUN echo "source /opt/miniconda3/etc/profile.d/conda.sh && conda activate testbed" > /root/.bashrc
+2026-05-16 13:52:44,905 - INFO - 
+2026-05-16 13:52:45,015 - INFO - ---> Running in 7b72d2354c44
+2026-05-16 13:52:49,157 - INFO - ---> Removed intermediate container 7b72d2354c44
+2026-05-16 13:52:49,158 - INFO - ---> 6ce00868640d
+2026-05-16 13:52:49,171 - INFO - Successfully built 6ce00868640d
+2026-05-16 13:52:49,187 - INFO - Successfully tagged sweb.env.py.x86_64.c70974ae7654c7a2c98577:latest
+2026-05-16 13:52:49,187 - INFO - Image built successfully!

@@ -1,0 +1,108 @@
+SWE-bench dataset: SWE-bench/SWE-bench_Lite (test)
+Instance ID: sphinx-doc__sphinx-7686
+Repository: sphinx-doc/sphinx
+Base commit: 752d3285d250bbaf673cff25e83f03f247502021
+Version: 3.1
+Workspace path: runs/benchmark/mas_centralize/sphinx-doc__sphinx-7686/repeat_1/workspace
+
+Problem statement:
+autosummary: The members variable for module template contains imported members
+**Describe the bug**
+autosummary: The members variable for module template contains imported members even if autosummary_imported_members is False.
+
+**To Reproduce**
+
+```
+# _templates/autosummary/module.rst
+{{ fullname | escape | underline }}
+
+.. automodule:: {{ fullname }}
+
+   .. autosummary::
+   {% for item in members %}
+      {{ item }}
+   {%- endfor %}
+
+```
+```
+# example.py
+import os
+```
+```
+# index.rst
+.. autosummary::
+   :toctree: generated
+
+   example
+```
+```
+# conf.py
+autosummary_generate = True
+autosummary_imported_members = False
+```
+
+As a result, I got following output:
+```
+# generated/example.rst
+example
+=======
+
+.. automodule:: example
+
+   .. autosummary::
+
+      __builtins__
+      __cached__
+      __doc__
+      __file__
+      __loader__
+      __name__
+      __package__
+      __spec__
+      os
+```
+
+**Expected behavior**
+The template variable `members` should not contain imported members when `autosummary_imported_members` is False.
+
+**Your project**
+No
+
+**Screenshots**
+No
+
+**Environment info**
+- OS: Mac
+- Python version: 3.8.2
+- Sphinx version: 3.1.0dev
+- Sphinx extensions:  sphinx.ext.autosummary
+- Extra tools: No
+
+**Additional context**
+No
+
+
+
+Hints:
+None
+
+Fail-to-pass tests:
+- tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module
+- tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module_skipped
+
+Pass-to-pass tests:
+- tests/test_ext_autosummary.py::test_mangle_signature
+- tests/test_ext_autosummary.py::test_escaping
+- tests/test_ext_autosummary.py::test_autosummary_generate
+- tests/test_ext_autosummary.py::test_autosummary_generate_overwrite1
+- tests/test_ext_autosummary.py::test_autosummary_generate_overwrite2
+- tests/test_ext_autosummary.py::test_autosummary_recursive
+- tests/test_ext_autosummary.py::test_autosummary_latex_table_colspec
+- tests/test_ext_autosummary.py::test_import_by_name
+- tests/test_ext_autosummary.py::test_autosummary_imported_members
+- tests/test_ext_autosummary.py::test_generate_autosummary_docs_property
+- tests/test_ext_autosummary.py::test_autosummary_skip_member
+- tests/test_ext_autosummary.py::test_autosummary_template
+- tests/test_ext_autosummary.py::test_empty_autosummary_generate
+- tests/test_ext_autosummary.py::test_invalid_autosummary_generate
+- tests/test_ext_autosummary.py::test_autogen

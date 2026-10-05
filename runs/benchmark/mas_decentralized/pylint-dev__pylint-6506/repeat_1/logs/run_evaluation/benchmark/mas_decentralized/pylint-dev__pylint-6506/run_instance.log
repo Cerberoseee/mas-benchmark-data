@@ -1,0 +1,99 @@
+2026-05-16 19:58:04,288 - INFO - Environment image sweb.env.py.x86_64.042cc8c7538a70394bfed6:latest found for pylint-dev__pylint-6506
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-6506:latest for pylint-dev__pylint-6506
+2026-05-16 19:58:32,131 - INFO - Creating container for pylint-dev__pylint-6506...
+2026-05-16 19:58:32,192 - INFO - Container for pylint-dev__pylint-6506 created: 05b0b77a530d2c31daf5735a6841b952aa5c60bc28f078afd8697f3aefa9ef67
+2026-05-16 19:58:32,386 - INFO - Container for pylint-dev__pylint-6506 started: 05b0b77a530d2c31daf5735a6841b952aa5c60bc28f078afd8697f3aefa9ef67
+2026-05-16 19:58:32,386 - INFO - Intermediate patch for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_decentralized/pylint-dev__pylint-6506/patch.diff, now applying to container...
+2026-05-16 19:58:32,464 - INFO - >>>>> Applied Patch:
+Checking patch pylint/config/config_initialization.py...
+Checking patch pylint/testutils/primer.py...
+Applied patch pylint/config/config_initialization.py cleanly.
+Applied patch pylint/testutils/primer.py cleanly.
+
+2026-05-16 19:58:32,590 - INFO - Git diff before:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a7..4b3b4dde 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,10 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a helpful error message to stderr, and exit
++        print(linter.help(), file=sys.stderr)
++        print(f"Unrecognized option found: {msg} (unrecognized-option)", file=sys.stderr)
++        sys.exit(2)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
+diff --git a/pylint/testutils/primer.py b/pylint/testutils/primer.py
+index ec3c4913..536bf110 100644
+--- a/pylint/testutils/primer.py
++++ b/pylint/testutils/primer.py
+@@ -7,8 +7,6 @@ from __future__ import annotations
+ import logging
+ from pathlib import Path
+ 
+-import git
+-
+ PRIMER_DIRECTORY_PATH = Path(".pylint_primer_tests")
+ 
+ 
+@@ -84,6 +82,7 @@ class PackageToLint:
+         primer locally.
+         """
+         logging.info("Lazy cloning %s", self.url)
++        import git
+         if not self.clone_directory.exists():
+             options: dict[str, str | int] = {
+                 "url": self.url,
+2026-05-16 19:58:32,590 - INFO - Eval script for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_decentralized/pylint-dev__pylint-6506/eval.sh; copying to container...
+2026-05-16 19:58:35,494 - INFO - Test runtime: 2.82 seconds
+2026-05-16 19:58:35,494 - INFO - Test output for pylint-dev__pylint-6506 written to logs/run_evaluation/benchmark/mas_decentralized/pylint-dev__pylint-6506/test_output.txt
+2026-05-16 19:58:35,566 - INFO - Git diff after:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a7..4b3b4dde 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,10 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a helpful error message to stderr, and exit
++        print(linter.help(), file=sys.stderr)
++        print(f"Unrecognized option found: {msg} (unrecognized-option)", file=sys.stderr)
++        sys.exit(2)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
+diff --git a/pylint/testutils/primer.py b/pylint/testutils/primer.py
+index ec3c4913..536bf110 100644
+--- a/pylint/testutils/primer.py
++++ b/pylint/testutils/primer.py
+@@ -7,8 +7,6 @@ from __future__ import annotations
+ import logging
+ from pathlib import Path
+ 
+-import git
+-
+ PRIMER_DIRECTORY_PATH = Path(".pylint_primer_tests")
+ 
+ 
+@@ -84,6 +82,7 @@ class PackageToLint:
+         primer locally.
+         """
+         logging.info("Lazy cloning %s", self.url)
++        import git
+         if not self.clone_directory.exists():
+             options: dict[str, str | int] = {
+                 "url": self.url,
+2026-05-16 19:58:35,566 - INFO - Grading answer for pylint-dev__pylint-6506...
+2026-05-16 19:58:35,569 - INFO - report: {'pylint-dev__pylint-6506': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_unknown_option_name', 'tests/config/test_config.py::test_unknown_short_option_name']}, 'PASS_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_can_read_toml_env_variable', 'tests/config/test_config.py::test_unknown_message_id', 'tests/config/test_config.py::test_unknown_confidence', 'tests/config/test_config.py::test_unknown_yes_no', 'tests/config/test_config.py::test_unknown_py_version', 'tests/config/test_config.py::test_short_verbose']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-6506: resolved: False
+2026-05-16 19:58:35,570 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-6506.benchmark...
+2026-05-16 19:58:50,822 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-6506.benchmark...
+2026-05-16 19:58:50,861 - INFO - Container sweb.eval.pylint-dev__pylint-6506.benchmark removed.
+2026-05-16 19:58:50,861 - INFO - Attempting to remove image sweb.eval.x86_64.pylint-dev__pylint-6506:latest...
+2026-05-16 19:58:50,990 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-6506:latest removed.

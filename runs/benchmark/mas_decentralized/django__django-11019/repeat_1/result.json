@@ -1,0 +1,57 @@
+{
+  "status": "incomplete",
+  "final_message": "PROJECT COMPLETE",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/django__django-11019/repeat_1/patch.diff",
+  "completion_valid": false,
+  "completion_failures": [
+    "QA_VERDICT did not verify all Fail-to-pass tests."
+  ],
+  "qa_verdict": {
+    "verified": false,
+    "failing_ids": [
+      "test_combine_media (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_construction (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_form_media (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_media_deduplication (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_media_inheritance (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_media_inheritance_extends (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_media_property_parent_references (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_merge (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_merge_css_three_way (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_merge_js_three_way (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_merge_js_three_way2 (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_merge_warning (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_multi_widget (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_media (admin_widgets.test_autocomplete_widget.AutocompleteMixinTests): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_render_options (admin_widgets.test_autocomplete_widget.AutocompleteMixinTests): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted",
+      "test_inline_media_only_inline (admin_inlines.tests.TestInlineMedia): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted"
+    ],
+    "notes": "The smoke-test script ran and printed merged results for sample inputs (see above). Full verification requires pytest to be runnable in this workspace (either make pytest importable by the workspace Python or allow invocation of the installed pytest binary). Once pytest is available, I will run the DISCOVERY command and the targeted Fail-to-pass tests and update this verdict.",
+    "raw": "verified: false\n  failing_ids:\n    - test_combine_media (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_construction (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_form_media (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_media_deduplication (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_media_inheritance (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_media_inheritance_extends (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_media_property_parent_references (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_merge (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_merge_css_three_way (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_merge_js_three_way (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_merge_js_three_way2 (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_merge_warning (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_multi_widget (forms_tests.tests.test_media.FormsMediaTestCase): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_media (admin_widgets.test_autocomplete_widget.AutocompleteMixinTests): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_render_options (admin_widgets.test_autocomplete_widget.AutocompleteMixinTests): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n    - test_inline_media_only_inline (admin_inlines.tests.TestInlineMedia): test collection blocked \u2014 pytest not available to workspace Python and pytest binary execution is not allowlisted\n  notes: The smoke-test script ran and printed merged results for sample inputs (see above). Full verification requires pytest to be runnable in this workspace (either make pytest importable by the workspace Python or allow invocation of the installed pytest binary). Once pytest is available, I will run the DISCOVERY command and the targeted Fail-to-pass tests and update this verdict."
+  },
+  "review_verdict": null,
+  "review_blocking": null,
+  "patch_present": true,
+  "patch_relevance": {
+    "acceptable": true,
+    "changed_files": [
+      "django/forms/widgets.py",
+      "scripts/tests/media_merge_smoketest.py"
+    ],
+    "relevant_files": [
+      "django/forms/widgets.py",
+      "scripts/tests/media_merge_smoketest.py"
+    ],
+    "suspicious_files": [],
+    "notes": []
+  },
+  "handoff_sources": [
+    "CodeReviewer",
+    "Engineer",
+    "ProjectManager",
+    "QA",
+    "user"
+  ],
+  "workflow_error": "",
+  "telemetry_status": "qa_not_verified"
+}

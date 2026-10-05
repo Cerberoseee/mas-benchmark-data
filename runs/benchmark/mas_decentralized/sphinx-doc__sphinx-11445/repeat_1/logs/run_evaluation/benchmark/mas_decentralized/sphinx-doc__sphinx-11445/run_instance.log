@@ -1,0 +1,47 @@
+2026-05-16 20:35:55,729 - INFO - Environment image sweb.env.py.x86_64.764c21123474adcba1e003:latest found for sphinx-doc__sphinx-11445
+Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest for sphinx-doc__sphinx-11445
+2026-05-16 20:37:01,423 - INFO - Creating container for sphinx-doc__sphinx-11445...
+2026-05-16 20:37:01,488 - INFO - Container for sphinx-doc__sphinx-11445 created: b412e973674e17b6f5d310aba6ed6d9a8734434bc345d78703291e3925ab99ad
+2026-05-16 20:37:01,668 - INFO - Container for sphinx-doc__sphinx-11445 started: b412e973674e17b6f5d310aba6ed6d9a8734434bc345d78703291e3925ab99ad
+2026-05-16 20:37:01,668 - INFO - Intermediate patch for sphinx-doc__sphinx-11445 written to logs/run_evaluation/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/patch.diff, now applying to container...
+2026-05-16 20:37:01,793 - INFO - >>>>> Applied Patch:
+Checking patch sphinx/util/rst.py...
+Applied patch sphinx/util/rst.py cleanly.
+
+2026-05-16 20:37:01,974 - INFO - Git diff before:
+diff --git a/sphinx/util/rst.py b/sphinx/util/rst.py
+index 7a1538325..d95747a0c 100644
+--- a/sphinx/util/rst.py
++++ b/sphinx/util/rst.py
+@@ -25,7 +25,7 @@ except ImportError:
+ 
+ logger = logging.getLogger(__name__)
+ 
+-docinfo_re = re.compile(':\\w+:.*?')
++docinfo_re = re.compile(':\\w+:(?:\\s|$).*')
+ symbols_re = re.compile(r'([!-\-/:-@\[-`{-~])')  # symbols without dot(0x2e)
+ SECTIONING_CHARS = ['=', '-', '~']
+2026-05-16 20:37:01,974 - INFO - Eval script for sphinx-doc__sphinx-11445 written to logs/run_evaluation/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/eval.sh; copying to container...
+2026-05-16 20:37:04,574 - INFO - Test runtime: 2.54 seconds
+2026-05-16 20:37:04,574 - INFO - Test output for sphinx-doc__sphinx-11445 written to logs/run_evaluation/benchmark/mas_decentralized/sphinx-doc__sphinx-11445/test_output.txt
+2026-05-16 20:37:04,637 - INFO - Git diff after:
+diff --git a/sphinx/util/rst.py b/sphinx/util/rst.py
+index 7a1538325..d95747a0c 100644
+--- a/sphinx/util/rst.py
++++ b/sphinx/util/rst.py
+@@ -25,7 +25,7 @@ except ImportError:
+ 
+ logger = logging.getLogger(__name__)
+ 
+-docinfo_re = re.compile(':\\w+:.*?')
++docinfo_re = re.compile(':\\w+:(?:\\s|$).*')
+ symbols_re = re.compile(r'([!-\-/:-@\[-`{-~])')  # symbols without dot(0x2e)
+ SECTIONING_CHARS = ['=', '-', '~']
+2026-05-16 20:37:04,637 - INFO - Grading answer for sphinx-doc__sphinx-11445...
+2026-05-16 20:37:04,638 - INFO - report: {'sphinx-doc__sphinx-11445': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline'], 'failure': []}, 'PASS_TO_PASS': {'success': ['tests/test_util_rst.py::test_escape', 'tests/test_util_rst.py::test_append_epilog', 'tests/test_util_rst.py::test_prepend_prolog', 'tests/test_util_rst.py::test_prepend_prolog_with_CR', 'tests/test_util_rst.py::test_prepend_prolog_without_CR', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections', 'tests/test_util_rst.py::test_textwidth', 'tests/test_util_rst.py::test_heading'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sphinx-doc__sphinx-11445: resolved: True
+2026-05-16 20:37:04,638 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-11445.benchmark...
+2026-05-16 20:37:19,873 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-11445.benchmark...
+2026-05-16 20:37:19,908 - INFO - Container sweb.eval.sphinx-doc__sphinx-11445.benchmark removed.
+2026-05-16 20:37:19,908 - INFO - Attempting to remove image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest...
+2026-05-16 20:37:20,109 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest removed.

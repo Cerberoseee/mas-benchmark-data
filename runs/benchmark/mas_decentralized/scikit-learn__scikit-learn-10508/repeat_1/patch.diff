@@ -1,0 +1,35 @@
+diff --git a/sklearn/preprocessing/label.py b/sklearn/preprocessing/label.py
+index 61b8d4a21..277b6b2c4 100644
+--- a/sklearn/preprocessing/label.py
++++ b/sklearn/preprocessing/label.py
+@@ -127,6 +127,12 @@ class LabelEncoder(BaseEstimator, TransformerMixin):
+         check_is_fitted(self, 'classes_')
+         y = column_or_1d(y, warn=True)
+ 
++        # Return empty array early to avoid dtype-casting issues with
++        # numpy.searchsorted when y is empty but classes_ have a
++        # different dtype (e.g. strings).
++        if y.size == 0:
++            return np.array([])
++
+         classes = np.unique(y)
+         if len(np.intersect1d(classes, self.classes_)) < len(classes):
+             diff = np.setdiff1d(classes, self.classes_)
+@@ -148,6 +154,17 @@ class LabelEncoder(BaseEstimator, TransformerMixin):
+         """
+         check_is_fitted(self, 'classes_')
+ 
++        # Ensure y is a 1d array and raise on scalar inputs (e.g. "")
++        # column_or_1d will raise a ValueError with message 'bad input shape ()'
++        # which matches the tests' expectations.
++        y = column_or_1d(y, warn=True)
++
++        # Return empty array early to avoid indexing/type issues when y is
++        # empty (e.g. [] -> float dtype) which would otherwise cause
++        # errors when used to index classes_.
++        if y.size == 0:
++            return np.array([])
++
+         diff = np.setdiff1d(y, np.arange(len(self.classes_)))
+         if len(diff):
+             raise ValueError(

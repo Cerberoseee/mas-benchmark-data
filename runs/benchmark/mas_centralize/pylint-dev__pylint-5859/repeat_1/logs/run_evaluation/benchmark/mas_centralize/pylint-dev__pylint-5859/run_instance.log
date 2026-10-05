@@ -1,0 +1,53 @@
+2026-05-16 17:26:47,727 - INFO - Environment image sweb.env.py.x86_64.c3d5426e71acc908b5e9f9:latest found for pylint-dev__pylint-5859
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-5859:latest for pylint-dev__pylint-5859
+2026-05-16 17:27:13,171 - INFO - Creating container for pylint-dev__pylint-5859...
+2026-05-16 17:27:13,232 - INFO - Container for pylint-dev__pylint-5859 created: 592c5f0d99e678a5022b1af750b2193b76b7f9dd440e59d39b8fa95fd5c6f141
+2026-05-16 17:27:13,412 - INFO - Container for pylint-dev__pylint-5859 started: 592c5f0d99e678a5022b1af750b2193b76b7f9dd440e59d39b8fa95fd5c6f141
+2026-05-16 17:27:13,412 - INFO - Intermediate patch for pylint-dev__pylint-5859 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-5859/patch.diff, now applying to container...
+2026-05-16 17:27:13,515 - INFO - >>>>> Applied Patch:
+Checking patch pylint/checkers/misc.py...
+Applied patch pylint/checkers/misc.py cleanly.
+
+2026-05-16 17:27:13,649 - INFO - Git diff before:
+diff --git a/pylint/checkers/misc.py b/pylint/checkers/misc.py
+index 69149e61..3e19efcf 100644
+--- a/pylint/checkers/misc.py
++++ b/pylint/checkers/misc.py
+@@ -121,9 +121,9 @@ class EncodingChecker(BaseChecker):
+ 
+         notes = "|".join(re.escape(note) for note in self.config.notes)
+         if self.config.notes_rgx:
+-            regex_string = rf"#\s*({notes}|{self.config.notes_rgx})\b"
++            regex_string = rf"#\s*({notes}|{self.config.notes_rgx})(?=(?:\b|:|\s|$))"
+         else:
+-            regex_string = rf"#\s*({notes})\b"
++            regex_string = rf"#\s*({notes})(?=(?:\b|:|\s|$))"
+ 
+         self._fixme_pattern = re.compile(regex_string, re.I)
+2026-05-16 17:27:13,649 - INFO - Eval script for pylint-dev__pylint-5859 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-5859/eval.sh; copying to container...
+2026-05-16 17:27:16,128 - INFO - Test runtime: 2.43 seconds
+2026-05-16 17:27:16,128 - INFO - Test output for pylint-dev__pylint-5859 written to logs/run_evaluation/benchmark/mas_centralize/pylint-dev__pylint-5859/test_output.txt
+2026-05-16 17:27:16,186 - INFO - Git diff after:
+diff --git a/pylint/checkers/misc.py b/pylint/checkers/misc.py
+index 69149e61..3e19efcf 100644
+--- a/pylint/checkers/misc.py
++++ b/pylint/checkers/misc.py
+@@ -121,9 +121,9 @@ class EncodingChecker(BaseChecker):
+ 
+         notes = "|".join(re.escape(note) for note in self.config.notes)
+         if self.config.notes_rgx:
+-            regex_string = rf"#\s*({notes}|{self.config.notes_rgx})\b"
++            regex_string = rf"#\s*({notes}|{self.config.notes_rgx})(?=(?:\b|:|\s|$))"
+         else:
+-            regex_string = rf"#\s*({notes})\b"
++            regex_string = rf"#\s*({notes})(?=(?:\b|:|\s|$))"
+ 
+         self._fixme_pattern = re.compile(regex_string, re.I)
+2026-05-16 17:27:16,186 - INFO - Grading answer for pylint-dev__pylint-5859...
+2026-05-16 17:27:16,187 - INFO - report: {'pylint-dev__pylint-5859': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/checkers/unittest_misc.py::TestFixme::test_non_alphanumeric_codetag'], 'failure': []}, 'PASS_TO_PASS': {'success': ['tests/checkers/unittest_misc.py::TestFixme::test_fixme_with_message', 'tests/checkers/unittest_misc.py::TestFixme::test_todo_without_message', 'tests/checkers/unittest_misc.py::TestFixme::test_xxx_without_space', 'tests/checkers/unittest_misc.py::TestFixme::test_xxx_middle', 'tests/checkers/unittest_misc.py::TestFixme::test_without_space_fixme', 'tests/checkers/unittest_misc.py::TestFixme::test_absent_codetag', 'tests/checkers/unittest_misc.py::TestFixme::test_other_present_codetag', 'tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_not_trigger', 'tests/checkers/unittest_misc.py::TestFixme::test_issue_2321_should_trigger', 'tests/checkers/unittest_misc.py::TestFixme::test_dont_trigger_on_todoist'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-5859: resolved: True
+2026-05-16 17:27:16,187 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-5859.benchmark...
+2026-05-16 17:27:31,442 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-5859.benchmark...
+2026-05-16 17:27:31,474 - INFO - Container sweb.eval.pylint-dev__pylint-5859.benchmark removed.
+2026-05-16 17:27:31,474 - INFO - Attempting to remove image sweb.eval.x86_64.pylint-dev__pylint-5859:latest...
+2026-05-16 17:27:31,584 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-5859:latest removed.

@@ -1,0 +1,40 @@
+{
+  "status": "ok",
+  "final_message": "PROJECT COMPLETE\n\nQA verified all Fail-to-pass tests and Engineer produced a non-empty patch.\nQA notes: All listed Fail-to-pass tests were collected and passed after the patch that maps socket.error to requests.exceptions.ConnectionError in Response.iter_content.\nCode review: Patch correctly and minimally wraps socket.error raised during Response.iter_content into requests.exceptions.ConnectionError with low regression risk.",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/psf__requests-2148/repeat_1/patch.diff",
+  "completion_valid": true,
+  "completion_failures": [],
+  "qa_verdict": {
+    "verified": true,
+    "failing_ids": [],
+    "notes": "All listed Fail-to-pass tests were collected and passed after the patch that maps socket.error to requests.exceptions.ConnectionError in Response.iter_content.",
+    "raw": "verified: true\n  failing_ids: []\n  notes: All listed Fail-to-pass tests were collected and passed after the patch that maps socket.error to requests.exceptions.ConnectionError in Response.iter_content."
+  },
+  "review_verdict": {
+    "blocking_findings": false,
+    "notes": "Patch correctly and minimally wraps socket.error raised during Response.iter_content into requests.exceptions.ConnectionError with low regression risk.",
+    "raw": "blocking_findings: false\n  notes: Patch correctly and minimally wraps socket.error raised during Response.iter_content into requests.exceptions.ConnectionError with low regression risk."
+  },
+  "review_blocking": null,
+  "patch_present": true,
+  "patch_relevance": {
+    "acceptable": true,
+    "changed_files": [
+      "requests/models.py"
+    ],
+    "relevant_files": [
+      "requests/models.py"
+    ],
+    "suspicious_files": [],
+    "notes": []
+  },
+  "handoff_sources": [
+    "CodeReviewer",
+    "Engineer",
+    "ProjectManager",
+    "QA",
+    "user"
+  ],
+  "workflow_error": "",
+  "telemetry_status": "success"
+}

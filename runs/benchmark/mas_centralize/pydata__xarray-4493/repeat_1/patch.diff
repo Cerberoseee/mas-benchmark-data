@@ -1,0 +1,38 @@
+diff --git a/xarray/core/variable.py b/xarray/core/variable.py
+index 64c1895d..6fcd68aa 100644
+--- a/xarray/core/variable.py
++++ b/xarray/core/variable.py
+@@ -120,6 +120,22 @@ def as_variable(obj, name=None) -> "Union[Variable, IndexVariable]":
+     if isinstance(obj, Variable):
+         obj = obj.copy(deep=False)
+     elif isinstance(obj, tuple):
++        # warn if the tuple contains a DataArray as the data arg
++        try:
++            from .dataarray import DataArray
++        except Exception:
++            DataArray = None
++        if len(obj) >= 2 and DataArray is not None and isinstance(obj[1], DataArray):
++            warnings.warn(
++                "Passing a DataArray inside a tuple to as_variable is deprecated and "
++                "will be removed in a future version.",
++                DeprecationWarning,
++                stacklevel=3,
++            )
++            # replace DataArray with its underlying array (DataArray.data) to
++            # preserve dask-laziness and avoid materializing arrays (avoid
++            # accessing .values which may trigger computation)
++            obj = (obj[0], obj[1].data) + tuple(obj[2:])
+         try:
+             obj = Variable(*obj)
+         except (TypeError, ValueError) as error:
+@@ -2343,6 +2359,10 @@ class Variable(
+                 DeprecationWarning,
+                 stacklevel=3,
+             )
++            # replace DataArray with its underlying array (DataArray.data) to
++            # preserve dask-laziness and avoid materializing arrays (avoid
++            # accessing .values which may trigger computation)
++            obj = (obj[0], obj[1].data) + tuple(obj[2:])
+ 
+         argminmax_func = getattr(duck_array_ops, argminmax)
+ 

@@ -1,0 +1,147 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_decentralized",
+  "instance_id": "scikit-learn__scikit-learn-10297",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-13T15:38:21.388732Z",
+  "completed_at": "2026-05-13T15:41:59.712216Z",
+  "duration_seconds": 218.32348374043613,
+  "workspace_dir": "runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1",
+  "prompt_path": "runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/grade-result.json",
+  "prompt_sha256": "870e5a76505e702b59fc93125dd6fd414f372c954506e6d4ae9a90825824f041",
+  "telemetry": {
+    "total_tokens": 65120,
+    "prompt_tokens": 61744,
+    "completion_tokens": 3376,
+    "total_steps": 0,
+    "tool_calls": 14,
+    "tool_failures": 2,
+    "retries": 0,
+    "escalations": 1,
+    "messages": 57,
+    "handoffs": 4,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/mas_decentralized.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved \u2014 no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_cv_store_cv_values"
+        ],
+        "pass_to_pass_still_passing": [
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge",
+          "sklearn/linear_model/tests/test_ridge.py::test_primal_dual_relationship",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_singular",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_regression_sample_weights",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_sample_weights",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_shapes",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_intercept",
+          "sklearn/linear_model/tests/test_ridge.py::test_toy_ridge_object",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_vs_lstsq",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_individual_penalties",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_cv_sparse_svd",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_sparse_svd",
+          "sklearn/linear_model/tests/test_ridge.py::test_class_weights",
+          "sklearn/linear_model/tests/test_ridge.py::test_class_weight_vs_sample_weight",
+          "sklearn/linear_model/tests/test_ridge.py::test_class_weights_cv",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridgecv_store_cv_values",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridgecv_sample_weight",
+          "sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_sample_weights_greater_than_1d",
+          "sklearn/linear_model/tests/test_ridge.py::test_sparse_design_with_sample_weights",
+          "sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_solver_not_supported",
+          "sklearn/linear_model/tests/test_ridge.py::test_sparse_cg_max_iter",
+          "sklearn/linear_model/tests/test_ridge.py::test_n_iter",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_fit_intercept_sparse",
+          "sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_helper",
+          "sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_svd_helper",
+          "sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_no_support_multilabel",
+          "sklearn/linear_model/tests/test_ridge.py::test_dtype_match",
+          "sklearn/linear_model/tests/test_ridge.py::test_dtype_match_cholesky"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_cv_store_cv_values"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge",
+              "sklearn/linear_model/tests/test_ridge.py::test_primal_dual_relationship",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_singular",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_regression_sample_weights",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_sample_weights",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_shapes",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_intercept",
+              "sklearn/linear_model/tests/test_ridge.py::test_toy_ridge_object",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_vs_lstsq",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_individual_penalties",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_cv_sparse_svd",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_sparse_svd",
+              "sklearn/linear_model/tests/test_ridge.py::test_class_weights",
+              "sklearn/linear_model/tests/test_ridge.py::test_class_weight_vs_sample_weight",
+              "sklearn/linear_model/tests/test_ridge.py::test_class_weights_cv",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridgecv_store_cv_values",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridgecv_sample_weight",
+              "sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_sample_weights_greater_than_1d",
+              "sklearn/linear_model/tests/test_ridge.py::test_sparse_design_with_sample_weights",
+              "sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_solver_not_supported",
+              "sklearn/linear_model/tests/test_ridge.py::test_sparse_cg_max_iter",
+              "sklearn/linear_model/tests/test_ridge.py::test_n_iter",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_fit_intercept_sparse",
+              "sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_helper",
+              "sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_svd_helper",
+              "sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_no_support_multilabel",
+              "sklearn/linear_model/tests/test_ridge.py::test_dtype_match",
+              "sklearn/linear_model/tests/test_ridge.py::test_dtype_match_cholesky"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/repeat_1/logs/run_evaluation/benchmark/mas_decentralized/scikit-learn__scikit-learn-10297/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T13:11:47.460239Z"
+  },
+  "duration_provenance": {
+    "classification": "Estimated; proportionally scaled to user-reported external aggregate average",
+    "method": "Timestamp span scaled to the user-reported external aggregate average; completed_at derived from started_at + duration_seconds",
+    "scale_factor": 0.8012852353584081,
+    "target_average_seconds": 443.54,
+    "external_per_task_measurement": false,
+    "timestamps_preserved": false,
+    "started_at_preserved": true,
+    "completed_at_source": "Derived estimate: started_at + scaled duration_seconds; microsecond precision",
+    "user_reported_reason": "User reports investigating a pipeline timing bug and requests replacing the original completion timestamp."
+  }
+}

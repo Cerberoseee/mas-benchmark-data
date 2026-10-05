@@ -1,0 +1,111 @@
+2026-05-16 19:55:25,421 - INFO - Environment image sweb.env.py.x86_64.502d8fc6ebccd881244091:latest found for pydata__xarray-4248
+Building instance image sweb.eval.x86_64.pydata__xarray-4248:latest for pydata__xarray-4248
+2026-05-16 19:56:16,140 - INFO - Creating container for pydata__xarray-4248...
+2026-05-16 19:56:16,206 - INFO - Container for pydata__xarray-4248 created: 28b242692df18a0aca72f5b3cc7154d0da9daaf412bf346de6237da279bca2b0
+2026-05-16 19:56:16,354 - INFO - Container for pydata__xarray-4248 started: 28b242692df18a0aca72f5b3cc7154d0da9daaf412bf346de6237da279bca2b0
+2026-05-16 19:56:16,354 - INFO - Intermediate patch for pydata__xarray-4248 written to logs/run_evaluation/benchmark/mas_decentralized/pydata__xarray-4248/patch.diff, now applying to container...
+2026-05-16 19:56:16,449 - INFO - >>>>> Applied Patch:
+Checking patch xarray/core/formatting.py...
+Applied patch xarray/core/formatting.py cleanly.
+
+2026-05-16 19:56:16,515 - INFO - Git diff before:
+diff --git a/xarray/core/formatting.py b/xarray/core/formatting.py
+index 28eaae5f..c3940372 100644
+--- a/xarray/core/formatting.py
++++ b/xarray/core/formatting.py
+@@ -254,20 +254,33 @@ def inline_sparse_repr(array):
+ 
+ 
+ def inline_variable_array_repr(var, max_width):
+-    """Build a one-line summary of a variable's data."""
++    """Build a one-line summary of a variable's data.
++
++    Prefer a custom inline repr provided by duck arrays (NEP-18-style
++    ``_repr_inline_``) when available. Fall back to existing behaviors.
++    """
++    data = var._data
++    # honor custom inline reprs on duck arrays
++    if hasattr(data, "_repr_inline_"):
++        try:
++            s = data._repr_inline_(max_width)
++        except Exception:
++            s = None
++        if s is not None:
++            return maybe_truncate(s, max_width)
++
+     if var._in_memory:
+         return format_array_flat(var, max_width)
+-    elif isinstance(var._data, dask_array_type):
++    elif isinstance(data, dask_array_type):
+         return inline_dask_repr(var.data)
+-    elif isinstance(var._data, sparse_array_type):
++    elif isinstance(data, sparse_array_type):
+         return inline_sparse_repr(var.data)
+-    elif hasattr(var._data, "__array_function__"):
+-        return maybe_truncate(repr(var._data).replace("\n", " "), max_width)
++    elif hasattr(data, "__array_function__"):
++        return maybe_truncate(repr(data).replace("\n", " "), max_width)
+     else:
+         # internal xarray array type
+         return "..."
+ 
+-
+ def summarize_variable(
+     name: Hashable, var, col_width: int, marker: str = " ", max_width: int = None
+ ):
+2026-05-16 19:56:16,516 - INFO - Eval script for pydata__xarray-4248 written to logs/run_evaluation/benchmark/mas_decentralized/pydata__xarray-4248/eval.sh; copying to container...
+2026-05-16 19:56:22,504 - INFO - Test runtime: 5.93 seconds
+2026-05-16 19:56:22,504 - INFO - Test output for pydata__xarray-4248 written to logs/run_evaluation/benchmark/mas_decentralized/pydata__xarray-4248/test_output.txt
+2026-05-16 19:56:22,573 - INFO - Git diff after:
+diff --git a/xarray/core/formatting.py b/xarray/core/formatting.py
+index 28eaae5f..c3940372 100644
+--- a/xarray/core/formatting.py
++++ b/xarray/core/formatting.py
+@@ -254,20 +254,33 @@ def inline_sparse_repr(array):
+ 
+ 
+ def inline_variable_array_repr(var, max_width):
+-    """Build a one-line summary of a variable's data."""
++    """Build a one-line summary of a variable's data.
++
++    Prefer a custom inline repr provided by duck arrays (NEP-18-style
++    ``_repr_inline_``) when available. Fall back to existing behaviors.
++    """
++    data = var._data
++    # honor custom inline reprs on duck arrays
++    if hasattr(data, "_repr_inline_"):
++        try:
++            s = data._repr_inline_(max_width)
++        except Exception:
++            s = None
++        if s is not None:
++            return maybe_truncate(s, max_width)
++
+     if var._in_memory:
+         return format_array_flat(var, max_width)
+-    elif isinstance(var._data, dask_array_type):
++    elif isinstance(data, dask_array_type):
+         return inline_dask_repr(var.data)
+-    elif isinstance(var._data, sparse_array_type):
++    elif isinstance(data, sparse_array_type):
+         return inline_sparse_repr(var.data)
+-    elif hasattr(var._data, "__array_function__"):
+-        return maybe_truncate(repr(var._data).replace("\n", " "), max_width)
++    elif hasattr(data, "__array_function__"):
++        return maybe_truncate(repr(data).replace("\n", " "), max_width)
+     else:
+         # internal xarray array type
+         return "..."
+ 
+-
+ def summarize_variable(
+     name: Hashable, var, col_width: int, marker: str = " ", max_width: int = None
+ ):
+2026-05-16 19:56:22,573 - INFO - Grading answer for pydata__xarray-4248...
+2026-05-16 19:56:22,574 - INFO - report: {'pydata__xarray-4248': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['xarray/tests/test_formatting.py::test_inline_variable_array_repr_custom_repr'], 'failure': []}, 'PASS_TO_PASS': {'success': ['xarray/tests/test_formatting.py::TestFormatting::test_get_indexer_at_least_n_items', 'xarray/tests/test_formatting.py::TestFormatting::test_first_n_items', 'xarray/tests/test_formatting.py::TestFormatting::test_last_n_items', 'xarray/tests/test_formatting.py::TestFormatting::test_last_item', 'xarray/tests/test_formatting.py::TestFormatting::test_format_item', 'xarray/tests/test_formatting.py::TestFormatting::test_format_items', 'xarray/tests/test_formatting.py::TestFormatting::test_format_array_flat', 'xarray/tests/test_formatting.py::TestFormatting::test_pretty_print', 'xarray/tests/test_formatting.py::TestFormatting::test_maybe_truncate', 'xarray/tests/test_formatting.py::TestFormatting::test_format_timestamp_out_of_bounds', 'xarray/tests/test_formatting.py::TestFormatting::test_attribute_repr', 'xarray/tests/test_formatting.py::TestFormatting::test_diff_array_repr', 'xarray/tests/test_formatting.py::TestFormatting::test_diff_attrs_repr_with_array', 'xarray/tests/test_formatting.py::TestFormatting::test_diff_dataset_repr', 'xarray/tests/test_formatting.py::TestFormatting::test_array_repr', 'xarray/tests/test_formatting.py::test_set_numpy_options', 'xarray/tests/test_formatting.py::test_short_numpy_repr', 'xarray/tests/test_formatting.py::test_large_array_repr_length'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pydata__xarray-4248: resolved: True
+2026-05-16 19:56:22,574 - INFO - Attempting to stop container sweb.eval.pydata__xarray-4248.benchmark...
+2026-05-16 19:56:37,797 - INFO - Attempting to remove container sweb.eval.pydata__xarray-4248.benchmark...
+2026-05-16 19:56:37,831 - INFO - Container sweb.eval.pydata__xarray-4248.benchmark removed.
+2026-05-16 19:56:37,831 - INFO - Attempting to remove image sweb.eval.x86_64.pydata__xarray-4248:latest...
+2026-05-16 19:56:37,928 - INFO - Image sweb.eval.x86_64.pydata__xarray-4248:latest removed.

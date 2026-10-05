@@ -1,0 +1,53 @@
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf7..fb515173ed 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -150,6 +150,48 @@ def __getattr__(name):
+         return __version__
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+ 
++def _parse_to_version_info(version):
++    """Parse a version string into a tuple
++
++    Return (major, minor, micro, releaselevel, serial) where
++    releaselevel is one of 'final', 'candidate', 'alpha' and serial is an
++    integer. This is a minimal parser to support test expectations.
++    """
++    import re
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'final', 0)
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)rc(\d+)$', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'candidate', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.dev(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)), 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)\.post(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), int(m.group(3)) + 1, 'alpha', int(m.group(4)))
++    m = re.match(r'^(\d+)\.(\d+)', version)
++    if m:
++        return (int(m.group(1)), int(m.group(2)), 0, 'final', 0)
++    raise ValueError(f"Unrecognized version: {version}")
++
++# Expose __version_info__ at import time
++try:
++    ver = __version__
++except Exception:
++    try:
++        ver = _version.version
++    except Exception:
++        ver = None
++if ver is not None:
++    try:
++        __version_info__ = _parse_to_version_info(ver)
++    except ValueError:
++        __version_info__ = None
++else:
++    __version_info__ = None
++
++
+ 
+ def _check_versions():
+ 

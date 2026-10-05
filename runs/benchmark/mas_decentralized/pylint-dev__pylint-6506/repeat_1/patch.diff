@@ -1,0 +1,37 @@
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a73..4b3b4dde7 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,7 +82,10 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        # Print usage and a helpful error message to stderr, and exit
++        print(linter.help(), file=sys.stderr)
++        print(f"Unrecognized option found: {msg} (unrecognized-option)", file=sys.stderr)
++        sys.exit(2)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
+diff --git a/pylint/testutils/primer.py b/pylint/testutils/primer.py
+index ec3c4913a..536bf1108 100644
+--- a/pylint/testutils/primer.py
++++ b/pylint/testutils/primer.py
+@@ -7,8 +7,6 @@ from __future__ import annotations
+ import logging
+ from pathlib import Path
+ 
+-import git
+-
+ PRIMER_DIRECTORY_PATH = Path(".pylint_primer_tests")
+ 
+ 
+@@ -84,6 +82,7 @@ class PackageToLint:
+         primer locally.
+         """
+         logging.info("Lazy cloning %s", self.url)
++        import git
+         if not self.clone_directory.exists():
+             options: dict[str, str | int] = {
+                 "url": self.url,

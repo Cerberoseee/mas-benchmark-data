@@ -1,0 +1,69 @@
+diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
+index b657a35cf7..c38f414428 100644
+--- a/lib/matplotlib/__init__.py
++++ b/lib/matplotlib/__init__.py
+@@ -104,6 +104,38 @@ import warnings
+ import numpy
+ from packaging.version import parse as parse_version
+ 
++def _parse_to_version_info(version):
++    import re
++    version = str(version)
++    # drop local version segments starting with +
++    version = version.split('+', 1)[0]
++    m = re.match(r'^(\d+)\.(\d+)\.(\d+)(.*)$', version)
++    if not m:
++        raise ValueError(f"Cannot parse version: {version!r}")
++    major, minor, micro, rest = m.groups()
++    major, minor, micro = int(major), int(minor), int(micro)
++    stage = 'final'
++    stage_num = 0
++    # rc -> candidate
++    if rest.startswith('rc'):
++        m2 = re.match(r'rc(\d+)', rest)
++        if m2:
++            stage = 'candidate'
++            stage_num = int(m2.group(1))
++    elif '.dev' in rest:
++        m2 = re.search(r'dev(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++    elif '.post' in rest:
++        m2 = re.search(r'post(\d+)', rest)
++        if m2:
++            stage = 'alpha'
++            stage_num = int(m2.group(1))
++            micro += 1
++    return (major, minor, micro, stage, stage_num)
++
++
+ # cbook must import matplotlib only within function
+ # definitions, so it is safe to import from it here.
+ from . import _api, _version, cbook, docstring, rcsetup
+@@ -131,9 +163,9 @@ __bibtex__ = r"""@Article{Hunter:2007,
+ 
+ 
+ def __getattr__(name):
+-    if name == "__version__":
++    if name in ("__version__", "__version_info__"):
+         import setuptools_scm
+-        global __version__  # cache it.
++        global __version__
+         # Only shell out to a git subprocess if really needed, and not on a
+         # shallow clone, such as those used by CI, as the latter would trigger
+         # a warning from setuptools_scm.
+@@ -147,7 +179,12 @@ def __getattr__(name):
+             )
+         else:  # Get the version from the _version.py setuptools_scm file.
+             __version__ = _version.version
+-        return __version__
++        try:
++            vi = _parse_to_version_info(__version__)
++        except Exception:
++            vi = None
++        globals()['__version_info__'] = vi
++        return __version__ if name == "__version__" else vi
+     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+ 
+ 

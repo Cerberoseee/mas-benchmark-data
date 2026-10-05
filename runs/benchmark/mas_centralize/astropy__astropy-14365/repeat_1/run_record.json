@@ -1,0 +1,96 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "astropy__astropy-14365",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-15T09:47:34.025259Z",
+  "completed_at": "2026-05-15T09:50:59.070534Z",
+  "duration_seconds": 205.045275,
+  "workspace_dir": "runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/grade-result.json",
+  "prompt_sha256": "85fa1f86cf4e4efbf9f659468970335c47872ab31636b87bb5e64d042b2d4b45",
+  "telemetry": {
+    "total_tokens": 64645,
+    "prompt_tokens": 60456,
+    "completion_tokens": 4189,
+    "total_steps": 0,
+    "tool_calls": 12,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 51,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "astropy/io/ascii/tests/test_qdp.py::test_roundtrip[True]"
+        ],
+        "pass_to_pass_still_passing": [
+          "astropy/io/ascii/tests/test_qdp.py::test_get_tables_from_qdp_file",
+          "astropy/io/ascii/tests/test_qdp.py::test_roundtrip[False]",
+          "astropy/io/ascii/tests/test_qdp.py::test_read_example",
+          "astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example",
+          "astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example_comma",
+          "astropy/io/ascii/tests/test_qdp.py::test_read_write_simple",
+          "astropy/io/ascii/tests/test_qdp.py::test_read_write_simple_specify_name",
+          "astropy/io/ascii/tests/test_qdp.py::test_get_lines_from_qdp"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "astropy/io/ascii/tests/test_qdp.py::test_roundtrip[True]"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "astropy/io/ascii/tests/test_qdp.py::test_get_tables_from_qdp_file",
+              "astropy/io/ascii/tests/test_qdp.py::test_roundtrip[False]",
+              "astropy/io/ascii/tests/test_qdp.py::test_read_example",
+              "astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example",
+              "astropy/io/ascii/tests/test_qdp.py::test_roundtrip_example_comma",
+              "astropy/io/ascii/tests/test_qdp.py::test_read_write_simple",
+              "astropy/io/ascii/tests/test_qdp.py::test_read_write_simple_specify_name",
+              "astropy/io/ascii/tests/test_qdp.py::test_get_lines_from_qdp"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/astropy__astropy-14365/repeat_1/logs/run_evaluation/benchmark/mas_centralize/astropy__astropy-14365/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T06:47:53.717723Z"
+  }
+}

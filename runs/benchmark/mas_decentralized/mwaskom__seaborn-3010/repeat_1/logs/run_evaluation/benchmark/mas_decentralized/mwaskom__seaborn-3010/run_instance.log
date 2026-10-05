@@ -1,0 +1,57 @@
+2026-05-16 19:38:23,518 - INFO - Environment image sweb.env.py.x86_64.a0efca7a0fe6719dbf65c2:latest found for mwaskom__seaborn-3010
+Building instance image sweb.eval.x86_64.mwaskom__seaborn-3010:latest for mwaskom__seaborn-3010
+2026-05-16 19:39:10,110 - INFO - Creating container for mwaskom__seaborn-3010...
+2026-05-16 19:39:10,172 - INFO - Container for mwaskom__seaborn-3010 created: 1c47504127184c30c8718ea92ea0d88c6e5376da926d49ce791d74b608daf101
+2026-05-16 19:39:10,353 - INFO - Container for mwaskom__seaborn-3010 started: 1c47504127184c30c8718ea92ea0d88c6e5376da926d49ce791d74b608daf101
+2026-05-16 19:39:10,353 - INFO - Intermediate patch for mwaskom__seaborn-3010 written to logs/run_evaluation/benchmark/mas_decentralized/mwaskom__seaborn-3010/patch.diff, now applying to container...
+2026-05-16 19:39:10,493 - INFO - >>>>> Applied Patch:
+Checking patch seaborn/_stats/regression.py...
+Applied patch seaborn/_stats/regression.py cleanly.
+
+2026-05-16 19:39:10,558 - INFO - Git diff before:
+diff --git a/seaborn/_stats/regression.py b/seaborn/_stats/regression.py
+index 7b7ddc8..de413f4 100644
+--- a/seaborn/_stats/regression.py
++++ b/seaborn/_stats/regression.py
+@@ -23,7 +23,11 @@ class PolyFit(Stat):
+ 
+         x = data["x"]
+         y = data["y"]
+-        if x.nunique() <= self.order:
++        # Drop missing data pairs
++        mask = x.notna() & y.notna()
++        x = x[mask]
++        y = y[mask]
++        if x.size == 0 or x.nunique() <= self.order:
+             # TODO warn?
+             xx = yy = []
+         else:
+2026-05-16 19:39:10,558 - INFO - Eval script for mwaskom__seaborn-3010 written to logs/run_evaluation/benchmark/mas_decentralized/mwaskom__seaborn-3010/eval.sh; copying to container...
+2026-05-16 19:39:13,085 - INFO - Test runtime: 2.47 seconds
+2026-05-16 19:39:13,086 - INFO - Test output for mwaskom__seaborn-3010 written to logs/run_evaluation/benchmark/mas_decentralized/mwaskom__seaborn-3010/test_output.txt
+2026-05-16 19:39:13,140 - INFO - Git diff after:
+diff --git a/seaborn/_stats/regression.py b/seaborn/_stats/regression.py
+index 7b7ddc8..de413f4 100644
+--- a/seaborn/_stats/regression.py
++++ b/seaborn/_stats/regression.py
+@@ -23,7 +23,11 @@ class PolyFit(Stat):
+ 
+         x = data["x"]
+         y = data["y"]
+-        if x.nunique() <= self.order:
++        # Drop missing data pairs
++        mask = x.notna() & y.notna()
++        x = x[mask]
++        y = y[mask]
++        if x.size == 0 or x.nunique() <= self.order:
+             # TODO warn?
+             xx = yy = []
+         else:
+2026-05-16 19:39:13,140 - INFO - Grading answer for mwaskom__seaborn-3010...
+2026-05-16 19:39:13,141 - INFO - report: {'mwaskom__seaborn-3010': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/_stats/test_regression.py::TestPolyFit::test_missing_data'], 'failure': []}, 'PASS_TO_PASS': {'success': ['tests/_stats/test_regression.py::TestPolyFit::test_no_grouper', 'tests/_stats/test_regression.py::TestPolyFit::test_one_grouper'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for mwaskom__seaborn-3010: resolved: True
+2026-05-16 19:39:13,141 - INFO - Attempting to stop container sweb.eval.mwaskom__seaborn-3010.benchmark...
+2026-05-16 19:39:28,377 - INFO - Attempting to remove container sweb.eval.mwaskom__seaborn-3010.benchmark...
+2026-05-16 19:39:28,410 - INFO - Container sweb.eval.mwaskom__seaborn-3010.benchmark removed.
+2026-05-16 19:39:28,410 - INFO - Attempting to remove image sweb.eval.x86_64.mwaskom__seaborn-3010:latest...
+2026-05-16 19:39:28,546 - INFO - Image sweb.eval.x86_64.mwaskom__seaborn-3010:latest removed.

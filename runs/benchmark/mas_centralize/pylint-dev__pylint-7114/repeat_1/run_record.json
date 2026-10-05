@@ -1,0 +1,46 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "pylint-dev__pylint-7114",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-15T15:43:24.939353Z",
+  "completed_at": "2026-05-15T16:01:47.057949Z",
+  "duration_seconds": 1102.118596,
+  "workspace_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/grade-result.json",
+  "prompt_sha256": "dbadf887275883ce8eebd3ed1a115d87203145cc4c00136ff26f0f70d686443f",
+  "telemetry": {
+    "total_tokens": 342351,
+    "prompt_tokens": 332954,
+    "completion_tokens": 9397,
+    "total_steps": 0,
+    "tool_calls": 33,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 3,
+    "messages": 136,
+    "handoffs": 7,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pylint-dev__pylint-7114/repeat_1/mas_centralize.benchmark.json"
+    },
+    "graded_at": "2026-05-16T10:34:11.897902Z"
+  }
+}

@@ -1,0 +1,14 @@
+diff --git a/sympy/functions/elementary/trigonometric.py b/sympy/functions/elementary/trigonometric.py
+index b2a3f3d6a7..3dfc242215 100644
+--- a/sympy/functions/elementary/trigonometric.py
++++ b/sympy/functions/elementary/trigonometric.py
+@@ -1817,7 +1817,8 @@ def _eval_rewrite_as_jn(self, arg):
+         return jn(0, arg)
+ 
+     def _eval_rewrite_as_sin(self, arg):
+-        return sin(arg) / arg
++        from sympy import Piecewise, Ne, S
++        return Piecewise((sin(arg)/arg, Ne(arg, 0)), (S.One, True))
+ 
+ 
+ ###############################################################################

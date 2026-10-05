@@ -1,0 +1,38 @@
+diff --git a/requests/models.py b/requests/models.py
+index 0dc55568..f0264254 100644
+--- a/requests/models.py
++++ b/requests/models.py
+@@ -640,10 +640,32 @@ class Response(object):
+                     raise ChunkedEncodingError(e)
+                 except DecodeError as e:
+                     raise ContentDecodingError(e)
++                except Exception as e:
++                    # Convert socket errors to ConnectionError, but re-raise others.
++                    try:
++                        import socket as _socket
++                        _socket_error = _socket.error
++                    except Exception:
++                        _socket_error = None
++                    if _socket_error is not None and isinstance(e, _socket_error):
++                        from .exceptions import ConnectionError as _ConnectionError
++                        raise _ConnectionError(e)
++                    raise
+             except AttributeError:
+                 # Standard file-like object.
+                 while True:
+-                    chunk = self.raw.read(chunk_size)
++                    try:
++                        chunk = self.raw.read(chunk_size)
++                    except Exception as e:
++                        try:
++                            import socket as _socket
++                            _socket_error = _socket.error
++                        except Exception:
++                            _socket_error = None
++                        if _socket_error is not None and isinstance(e, _socket_error):
++                            from .exceptions import ConnectionError as _ConnectionError
++                            raise _ConnectionError(e)
++                        raise
+                     if not chunk:
+                         break
+                     yield chunk

@@ -1,0 +1,116 @@
+diff --git a/sphinx/ext/autodoc/typehints.py b/sphinx/ext/autodoc/typehints.py
+index d912cd7d5..a142a14f9 100644
+--- a/sphinx/ext/autodoc/typehints.py
++++ b/sphinx/ext/autodoc/typehints.py
+@@ -96,17 +96,25 @@ def modify_field_list(node: nodes.field_list, annotations: Dict[str, str],
+         if parts[0] == 'param':
+             if len(parts) == 2:
+                 # :param xxx:
+-                arg = arguments.setdefault(parts[1], {})
++                raw = parts[1]
++                name = raw.lstrip('*')
++                arg = arguments.setdefault(name, {})
++                # remember how it was written in the doc (with stars)
++                arg['doc_name'] = raw
+                 arg['param'] = True
+             elif len(parts) > 2:
+                 # :param xxx yyy:
+-                name = ' '.join(parts[2:])
++                raw = ' '.join(parts[2:])
++                name = raw.lstrip('*')
+                 arg = arguments.setdefault(name, {})
++                arg['doc_name'] = raw
+                 arg['param'] = True
+                 arg['type'] = True
+         elif parts[0] == 'type':
+-            name = ' '.join(parts[1:])
++            raw = ' '.join(parts[1:])
++            name = raw.lstrip('*')
+             arg = arguments.setdefault(name, {})
++            arg['doc_name'] = raw
+             arg['type'] = True
+         elif parts[0] == 'rtype':
+             arguments['return'] = {'type': True}
+@@ -116,14 +124,15 @@ def modify_field_list(node: nodes.field_list, annotations: Dict[str, str],
+             continue
+ 
+         arg = arguments.get(name, {})
++        doc_name = arg.get('doc_name', name)
+         if not arg.get('type'):
+             field = nodes.field()
+-            field += nodes.field_name('', 'type ' + name)
++            field += nodes.field_name('', 'type ' + doc_name)
+             field += nodes.field_body('', nodes.paragraph('', annotation))
+             node += field
+         if not arg.get('param'):
+             field = nodes.field()
+-            field += nodes.field_name('', 'param ' + name)
++            field += nodes.field_name('', 'param ' + doc_name)
+             field += nodes.field_body('', nodes.paragraph('', ''))
+             node += field
+ 
+@@ -146,33 +155,60 @@ def augment_descriptions_with_types(
+     fields = cast(Iterable[nodes.field], node)
+     has_description = set()  # type: Set[str]
+     has_type = set()  # type: Set[str]
++    doc_name_map = {}  # type: Dict[str, str]
+     for field in fields:
+         field_name = field[0].astext()
+         parts = re.split(' +', field_name)
+         if parts[0] == 'param':
+             if len(parts) == 2:
+                 # :param xxx:
+-                has_description.add(parts[1])
++                raw = parts[1]
++                name = raw.lstrip('*')
++                doc_name_map[name] = raw
++                has_description.add(name)
+             elif len(parts) > 2:
+                 # :param xxx yyy:
+-                name = ' '.join(parts[2:])
++                raw = ' '.join(parts[2:])
++                name = raw.lstrip('*')
++                doc_name_map[name] = raw
+                 has_description.add(name)
+                 has_type.add(name)
+         elif parts[0] == 'type':
+-            name = ' '.join(parts[1:])
++            raw = ' '.join(parts[1:])
++            name = raw.lstrip('*')
++            doc_name_map[name] = raw
+             has_type.add(name)
+         elif parts[0] in ('return', 'returns'):
+             has_description.add('return')
+         elif parts[0] == 'rtype':
+             has_type.add('return')
++        else:
++            # Handle Napoleon-style single field where parameter lines are
++            # embedded in the field body text (e.g. 'Parameters' section).
++            try:
++                body_text = ''.join(x.astext() for x in field[1].traverse(nodes.Text))
++            except Exception:
++                body_text = field[1].astext()
++            # Find parameter entries like 'name (type) -- description' or
++            # 'name -- description'. This will also capture '*args' and '**kwargs'.
++            for m in re.finditer(r"(\*{0,2}[A-Za-z_][A-Za-z0-9_]*)\s*(?:\([^)]*\))?\s*(?:--|:)",
++                                 body_text):
++                raw = m.group(1)
++                name = raw.lstrip('*')
++                doc_name_map[name] = raw
++                has_description.add(name)
++                # if a type is present in parentheses, mark has_type
++                if re.search(re.escape(raw) + r"\s*\([^)]*\)", body_text):
++                    has_type.add(name)
+ 
+     # Add 'type' for parameters with a description but no declared type.
+     for name in annotations:
+         if name in ('return', 'returns'):
+             continue
+         if name in has_description and name not in has_type:
++            doc_name = doc_name_map.get(name, name)
+             field = nodes.field()
+-            field += nodes.field_name('', 'type ' + name)
++            field += nodes.field_name('', 'type ' + doc_name)
+             field += nodes.field_body('', nodes.paragraph('', annotations[name]))
+             node += field
+ 

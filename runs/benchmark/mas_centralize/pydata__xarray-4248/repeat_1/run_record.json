@@ -1,0 +1,116 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "pydata__xarray-4248",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-15T15:09:56.127007Z",
+  "completed_at": "2026-05-15T15:14:03.243654Z",
+  "duration_seconds": 247.116647,
+  "workspace_dir": "runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/grade-result.json",
+  "prompt_sha256": "2bea9b7066b664b575a670eb52b10f3be5796c3de35ba705a272c67477e0c52e",
+  "telemetry": {
+    "total_tokens": 101785,
+    "prompt_tokens": 96533,
+    "completion_tokens": 5252,
+    "total_steps": 0,
+    "tool_calls": 12,
+    "tool_failures": 0,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 63,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "xarray/tests/test_formatting.py::test_inline_variable_array_repr_custom_repr"
+        ],
+        "pass_to_pass_still_passing": [
+          "xarray/tests/test_formatting.py::TestFormatting::test_get_indexer_at_least_n_items",
+          "xarray/tests/test_formatting.py::TestFormatting::test_first_n_items",
+          "xarray/tests/test_formatting.py::TestFormatting::test_last_n_items",
+          "xarray/tests/test_formatting.py::TestFormatting::test_last_item",
+          "xarray/tests/test_formatting.py::TestFormatting::test_format_item",
+          "xarray/tests/test_formatting.py::TestFormatting::test_format_items",
+          "xarray/tests/test_formatting.py::TestFormatting::test_format_array_flat",
+          "xarray/tests/test_formatting.py::TestFormatting::test_pretty_print",
+          "xarray/tests/test_formatting.py::TestFormatting::test_maybe_truncate",
+          "xarray/tests/test_formatting.py::TestFormatting::test_format_timestamp_out_of_bounds",
+          "xarray/tests/test_formatting.py::TestFormatting::test_attribute_repr",
+          "xarray/tests/test_formatting.py::TestFormatting::test_diff_array_repr",
+          "xarray/tests/test_formatting.py::TestFormatting::test_diff_attrs_repr_with_array",
+          "xarray/tests/test_formatting.py::TestFormatting::test_diff_dataset_repr",
+          "xarray/tests/test_formatting.py::TestFormatting::test_array_repr",
+          "xarray/tests/test_formatting.py::test_set_numpy_options",
+          "xarray/tests/test_formatting.py::test_short_numpy_repr",
+          "xarray/tests/test_formatting.py::test_large_array_repr_length"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "xarray/tests/test_formatting.py::test_inline_variable_array_repr_custom_repr"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "xarray/tests/test_formatting.py::TestFormatting::test_get_indexer_at_least_n_items",
+              "xarray/tests/test_formatting.py::TestFormatting::test_first_n_items",
+              "xarray/tests/test_formatting.py::TestFormatting::test_last_n_items",
+              "xarray/tests/test_formatting.py::TestFormatting::test_last_item",
+              "xarray/tests/test_formatting.py::TestFormatting::test_format_item",
+              "xarray/tests/test_formatting.py::TestFormatting::test_format_items",
+              "xarray/tests/test_formatting.py::TestFormatting::test_format_array_flat",
+              "xarray/tests/test_formatting.py::TestFormatting::test_pretty_print",
+              "xarray/tests/test_formatting.py::TestFormatting::test_maybe_truncate",
+              "xarray/tests/test_formatting.py::TestFormatting::test_format_timestamp_out_of_bounds",
+              "xarray/tests/test_formatting.py::TestFormatting::test_attribute_repr",
+              "xarray/tests/test_formatting.py::TestFormatting::test_diff_array_repr",
+              "xarray/tests/test_formatting.py::TestFormatting::test_diff_attrs_repr_with_array",
+              "xarray/tests/test_formatting.py::TestFormatting::test_diff_dataset_repr",
+              "xarray/tests/test_formatting.py::TestFormatting::test_array_repr",
+              "xarray/tests/test_formatting.py::test_set_numpy_options",
+              "xarray/tests/test_formatting.py::test_short_numpy_repr",
+              "xarray/tests/test_formatting.py::test_large_array_repr_length"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/pydata__xarray-4248/repeat_1/logs/run_evaluation/benchmark/mas_centralize/pydata__xarray-4248/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T10:21:01.780400Z"
+  }
+}

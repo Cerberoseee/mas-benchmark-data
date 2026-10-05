@@ -1,0 +1,48 @@
+diff --git a/sphinx/ext/autosummary/generate.py b/sphinx/ext/autosummary/generate.py
+index a57c73fb7..21838b36d 100644
+--- a/sphinx/ext/autosummary/generate.py
++++ b/sphinx/ext/autosummary/generate.py
+@@ -246,18 +246,41 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+     ns.update(context)
+ 
+     if doc.objtype == 'module':
+-        ns['members'] = dir(obj)
++        # Determine functions, classes and exceptions first, honoring
++        # the imported_members flag so these lists do not contain imported
++        # members when imported_members is False.
+         ns['functions'], ns['all_functions'] = \
+             get_members(obj, {'function'}, imported=imported_members)
+         ns['classes'], ns['all_classes'] = \
+             get_members(obj, {'class'}, imported=imported_members)
+         ns['exceptions'], ns['all_exceptions'] = \
+             get_members(obj, {'exception'}, imported=imported_members)
++        # Collect a base list of names from the module for attribute analysis
++        all_dir = dir(obj)
+         ns['attributes'], ns['all_attributes'] = \
+-            get_module_attrs(ns['members'])
++            get_module_attrs(all_dir)
+         ispackage = hasattr(obj, '__path__')
+         if ispackage and recursive:
+             ns['modules'], ns['all_modules'] = get_modules(obj)
++        # Build members list: if imported_members is True, include everything
++        # from dir(obj). Otherwise include only a curated set of dunder names
++        # plus the members that were discovered above (functions/classes/exceptions/attributes/etc).
++        if imported_members:
++            ns['members'] = all_dir
++        else:
++            # Whitelist of dunder attributes to expose for modules. This mirrors
++            # typical module metadata that should be shown in autosummary.
++            dunder_whitelist = {'__builtins__', '__cached__', '__doc__', '__file__',
++                                '__name__', '__package__'}
++            allowed = set(ns.get('all_functions', []) + ns.get('all_classes', []) +
++                          ns.get('all_exceptions', []) + ns.get('all_attributes', []))
++            if ispackage:
++                allowed.update(ns.get('all_modules', []))
++            members = []
++            for mname in all_dir:
++                if mname in dunder_whitelist or mname in allowed:
++                    members.append(mname)
++            ns['members'] = members
+     elif doc.objtype == 'class':
+         ns['members'] = dir(obj)
+         ns['inherited_members'] = \

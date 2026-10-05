@@ -1,0 +1,67 @@
+diff --git a/pylint/config/argument.py b/pylint/config/argument.py
+index 3c2951517..d98273cfa 100644
+--- a/pylint/config/argument.py
++++ b/pylint/config/argument.py
+@@ -99,11 +99,38 @@ def _py_version_transformer(value: str) -> tuple[int, ...]:
+     return version
+ 
+ 
++def _format_re_error(pattern: str, e: Exception) -> str:
++    """Format a friendly regex error message."""
++    msg = str(e)
++    pos = None
++    # try extract "at position N" suffix
++    if isinstance(e, Exception) and hasattr(e, 'args') and e.args:
++        full = e.args[0]
++        full = str(full)
++        if ' at position ' in full:
++            try:
++                before, after = full.rsplit(' at position ', 1)
++                pos = int(after)
++                msg = before
++            except Exception:
++                msg = full
++    if pos is None and hasattr(e, 'pos'):
++        try:
++            pos = int(getattr(e, 'pos'))
++        except Exception:
++            pos = None
++    pos_str = str(pos) if pos is not None else 'unknown'
++    return f"Error in provided regular expression: {pattern} beginning at index {pos_str}: {msg}"
++
++
+ def _regexp_csv_transfomer(value: str) -> Sequence[Pattern[str]]:
+     """Transforms a comma separated list of regular expressions."""
+     patterns: list[Pattern[str]] = []
+     for pattern in _csv_transformer(value):
+-        patterns.append(re.compile(pattern))
++        try:
++            patterns.append(re.compile(pattern))
++        except re.error as e:
++            raise argparse.ArgumentTypeError(_format_re_error(pattern, e)) from e
+     return patterns
+ 
+ 
+@@ -120,6 +147,13 @@ def _regexp_paths_csv_transfomer(value: str) -> Sequence[Pattern[str]]:
+         )
+     return patterns
+ 
++def _regexp_transformer(value: str) -> Pattern[str]:
++    """Transforms a regular expression, raising argparse.ArgumentTypeError on failure."""
++    try:
++        return re.compile(value)
++    except re.error as e:
++        raise argparse.ArgumentTypeError(_format_re_error(value, e)) from e
++
+ 
+ _TYPE_TRANSFORMERS: dict[str, Callable[[str], _ArgumentTypes]] = {
+     "choice": str,
+@@ -130,7 +164,7 @@ _TYPE_TRANSFORMERS: dict[str, Callable[[str], _ArgumentTypes]] = {
+     "non_empty_string": _non_empty_string_transformer,
+     "path": _path_transformer,
+     "py_version": _py_version_transformer,
+-    "regexp": re.compile,
++    "regexp": lambda v: _regexp_transformer(v),
+     "regexp_csv": _regexp_csv_transfomer,
+     "regexp_paths_csv": _regexp_paths_csv_transfomer,
+     "string": pylint_utils._unquote,

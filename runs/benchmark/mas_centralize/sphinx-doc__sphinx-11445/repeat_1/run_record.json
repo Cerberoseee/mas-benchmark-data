@@ -1,0 +1,98 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "sphinx-doc__sphinx-11445",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "none",
+  "note": "",
+  "started_at": "2026-05-15T12:22:19.687258Z",
+  "completed_at": "2026-05-15T12:35:07.466383Z",
+  "duration_seconds": 767.779125,
+  "workspace_dir": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/grade-result.json",
+  "prompt_sha256": "4036c8b330dc16e3f48cccbe44d72f824aa1dff6400a584b7126afa5005af79f",
+  "telemetry": {
+    "total_tokens": 60748,
+    "prompt_tokens": 56805,
+    "completion_tokens": 3943,
+    "total_steps": 0,
+    "tool_calls": 11,
+    "tool_failures": 1,
+    "retries": 0,
+    "escalations": 2,
+    "messages": 49,
+    "handoffs": 5,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": true,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "Marked resolved — no failing regressions or stuck fail_to_pass outcomes in report.",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline",
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline"
+        ],
+        "pass_to_pass_still_passing": [
+          "tests/test_util_rst.py::test_escape",
+          "tests/test_util_rst.py::test_append_epilog",
+          "tests/test_util_rst.py::test_prepend_prolog",
+          "tests/test_util_rst.py::test_prepend_prolog_with_CR",
+          "tests/test_util_rst.py::test_prepend_prolog_without_CR",
+          "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections",
+          "tests/test_util_rst.py::test_textwidth",
+          "tests/test_util_rst.py::test_heading"
+        ],
+        "pass_to_pass_regressions": [],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline",
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "tests/test_util_rst.py::test_escape",
+              "tests/test_util_rst.py::test_append_epilog",
+              "tests/test_util_rst.py::test_prepend_prolog",
+              "tests/test_util_rst.py::test_prepend_prolog_with_CR",
+              "tests/test_util_rst.py::test_prepend_prolog_without_CR",
+              "tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections",
+              "tests/test_util_rst.py::test_textwidth",
+              "tests/test_util_rst.py::test_heading"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sphinx-doc__sphinx-11445/repeat_1/logs/run_evaluation/benchmark/mas_centralize/sphinx-doc__sphinx-11445/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T11:14:06.040138Z"
+  }
+}

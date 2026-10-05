@@ -1,0 +1,205 @@
+2026-05-17 00:11:49,541 - INFO - Environment image sweb.env.py.x86_64.764c21123474adcba1e003:latest found for sphinx-doc__sphinx-7686
+Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-7686:latest for sphinx-doc__sphinx-7686
+2026-05-17 00:13:11,901 - INFO - Creating container for sphinx-doc__sphinx-7686...
+2026-05-17 00:13:12,000 - INFO - Container for sphinx-doc__sphinx-7686 created: ad6df159de6b4982cf3518b4dfda27dc0b5a1372fdf651cfbce1743aa80ea764
+2026-05-17 00:13:12,198 - INFO - Container for sphinx-doc__sphinx-7686 started: ad6df159de6b4982cf3518b4dfda27dc0b5a1372fdf651cfbce1743aa80ea764
+2026-05-17 00:13:12,198 - INFO - Intermediate patch for sphinx-doc__sphinx-7686 written to logs/run_evaluation/benchmark/mas_centralize/sphinx-doc__sphinx-7686/patch.diff, now applying to container...
+2026-05-17 00:13:12,346 - INFO - >>>>> Applied Patch:
+Checking patch sphinx/ext/autosummary/generate.py...
+Applied patch sphinx/ext/autosummary/generate.py cleanly.
+
+2026-05-17 00:13:12,587 - INFO - Git diff before:
+diff --git a/sphinx/ext/autosummary/generate.py b/sphinx/ext/autosummary/generate.py
+index a57c73fb7..3333c3b3c 100644
+--- a/sphinx/ext/autosummary/generate.py
++++ b/sphinx/ext/autosummary/generate.py
+@@ -246,26 +246,63 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+     ns.update(context)
+ 
+     if doc.objtype == 'module':
+-        ns['members'] = dir(obj)
+-        ns['functions'], ns['all_functions'] = \
+-            get_members(obj, {'function'}, imported=imported_members)
+-        ns['classes'], ns['all_classes'] = \
+-            get_members(obj, {'class'}, imported=imported_members)
+-        ns['exceptions'], ns['all_exceptions'] = \
+-            get_members(obj, {'exception'}, imported=imported_members)
+-        ns['attributes'], ns['all_attributes'] = \
+-            get_module_attrs(ns['members'])
++        # Build the members list. If imported_members is True, include all
++        # names from dir(obj). Otherwise, only include names defined in the
++        # module, certain dunder names, and module-level attributes detected
++        # by ModuleAnalyzer. Then respect autodoc-skip-member handlers.
++        if imported_members:
++            members = list(dir(obj))
++        else:
++            module_name = name
++            members = []
++            module_attrs = set()
++            try:
++                analyzer = ModuleAnalyzer.for_module(module_name)
++                attr_docs = analyzer.find_attr_docs()
++                for namespace, attr_name in attr_docs:
++                    if namespace == '' and attr_name:
++                        module_attrs.add(attr_name)
++            except PycodeError:
++                pass
++            keep_dunder = {'__builtins__', '__cached__', '__doc__', '__file__',
++                           '__name__', '__package__'}
++            for attr in dir(obj):
++                try:
++                    value = safe_getattr(obj, attr)
++                except AttributeError:
++                    continue
++                if getattr(value, '__module__', None) == module_name or attr in keep_dunder or attr in module_attrs:
++                    members.append(attr)
++        # respect autodoc-skip-member event handlers
++        filtered = []
++        for attr in members:
++            try:
++                value = safe_getattr(obj, attr)
++            except AttributeError:
++                continue
++            try:
++                documenter = get_documenter(app, value, obj)
++                objtype = documenter.objtype
++            except Exception:
++                objtype = None
++            skipped = skip_member(value, attr, objtype)
++            if skipped is True:
++                continue
++            filtered.append(attr)
++        ns['members'] = filtered
++
++        ns['functions'], ns['all_functions'] =             get_members(obj, {'function'}, imported=imported_members)
++        ns['classes'], ns['all_classes'] =             get_members(obj, {'class'}, imported=imported_members)
++        ns['exceptions'], ns['all_exceptions'] =             get_members(obj, {'exception'}, imported=imported_members)
++        ns['attributes'], ns['all_attributes'] =             get_module_attrs(ns['members'])
+         ispackage = hasattr(obj, '__path__')
+         if ispackage and recursive:
+             ns['modules'], ns['all_modules'] = get_modules(obj)
+     elif doc.objtype == 'class':
+         ns['members'] = dir(obj)
+-        ns['inherited_members'] = \
+-            set(dir(obj)) - set(obj.__dict__.keys())
+-        ns['methods'], ns['all_methods'] = \
+-            get_members(obj, {'method'}, ['__init__'])
+-        ns['attributes'], ns['all_attributes'] = \
+-            get_members(obj, {'attribute', 'property'})
++        ns['inherited_members'] =             set(dir(obj)) - set(obj.__dict__.keys())
++        ns['methods'], ns['all_methods'] =             get_members(obj, {'method'}, ['__init__'])
++        ns['attributes'], ns['all_attributes'] =             get_members(obj, {'attribute', 'property'})
+ 
+     modname, qualname = split_full_qualified_name(name)
+     if doc.objtype in ('method', 'attribute', 'property'):
+@@ -289,7 +326,6 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+     else:
+         return template.render(doc.objtype, ns)
+ 
+-
+ def generate_autosummary_docs(sources: List[str], output_dir: str = None,
+                               suffix: str = '.rst', warn: Callable = None,
+                               info: Callable = None, base_path: str = None,
+2026-05-17 00:13:12,588 - INFO - Eval script for sphinx-doc__sphinx-7686 written to logs/run_evaluation/benchmark/mas_centralize/sphinx-doc__sphinx-7686/eval.sh; copying to container...
+2026-05-17 00:13:15,879 - INFO - Test runtime: 3.23 seconds
+2026-05-17 00:13:15,880 - INFO - Test output for sphinx-doc__sphinx-7686 written to logs/run_evaluation/benchmark/mas_centralize/sphinx-doc__sphinx-7686/test_output.txt
+2026-05-17 00:13:15,950 - INFO - Git diff after:
+diff --git a/sphinx/ext/autosummary/generate.py b/sphinx/ext/autosummary/generate.py
+index a57c73fb7..3333c3b3c 100644
+--- a/sphinx/ext/autosummary/generate.py
++++ b/sphinx/ext/autosummary/generate.py
+@@ -246,26 +246,63 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+     ns.update(context)
+ 
+     if doc.objtype == 'module':
+-        ns['members'] = dir(obj)
+-        ns['functions'], ns['all_functions'] = \
+-            get_members(obj, {'function'}, imported=imported_members)
+-        ns['classes'], ns['all_classes'] = \
+-            get_members(obj, {'class'}, imported=imported_members)
+-        ns['exceptions'], ns['all_exceptions'] = \
+-            get_members(obj, {'exception'}, imported=imported_members)
+-        ns['attributes'], ns['all_attributes'] = \
+-            get_module_attrs(ns['members'])
++        # Build the members list. If imported_members is True, include all
++        # names from dir(obj). Otherwise, only include names defined in the
++        # module, certain dunder names, and module-level attributes detected
++        # by ModuleAnalyzer. Then respect autodoc-skip-member handlers.
++        if imported_members:
++            members = list(dir(obj))
++        else:
++            module_name = name
++            members = []
++            module_attrs = set()
++            try:
++                analyzer = ModuleAnalyzer.for_module(module_name)
++                attr_docs = analyzer.find_attr_docs()
++                for namespace, attr_name in attr_docs:
++                    if namespace == '' and attr_name:
++                        module_attrs.add(attr_name)
++            except PycodeError:
++                pass
++            keep_dunder = {'__builtins__', '__cached__', '__doc__', '__file__',
++                           '__name__', '__package__'}
++            for attr in dir(obj):
++                try:
++                    value = safe_getattr(obj, attr)
++                except AttributeError:
++                    continue
++                if getattr(value, '__module__', None) == module_name or attr in keep_dunder or attr in module_attrs:
++                    members.append(attr)
++        # respect autodoc-skip-member event handlers
++        filtered = []
++        for attr in members:
++            try:
++                value = safe_getattr(obj, attr)
++            except AttributeError:
++                continue
++            try:
++                documenter = get_documenter(app, value, obj)
++                objtype = documenter.objtype
++            except Exception:
++                objtype = None
++            skipped = skip_member(value, attr, objtype)
++            if skipped is True:
++                continue
++            filtered.append(attr)
++        ns['members'] = filtered
++
++        ns['functions'], ns['all_functions'] =             get_members(obj, {'function'}, imported=imported_members)
++        ns['classes'], ns['all_classes'] =             get_members(obj, {'class'}, imported=imported_members)
++        ns['exceptions'], ns['all_exceptions'] =             get_members(obj, {'exception'}, imported=imported_members)
++        ns['attributes'], ns['all_attributes'] =             get_module_attrs(ns['members'])
+         ispackage = hasattr(obj, '__path__')
+         if ispackage and recursive:
+             ns['modules'], ns['all_modules'] = get_modules(obj)
+     elif doc.objtype == 'class':
+         ns['members'] = dir(obj)
+-        ns['inherited_members'] = \
+-            set(dir(obj)) - set(obj.__dict__.keys())
+-        ns['methods'], ns['all_methods'] = \
+-            get_members(obj, {'method'}, ['__init__'])
+-        ns['attributes'], ns['all_attributes'] = \
+-            get_members(obj, {'attribute', 'property'})
++        ns['inherited_members'] =             set(dir(obj)) - set(obj.__dict__.keys())
++        ns['methods'], ns['all_methods'] =             get_members(obj, {'method'}, ['__init__'])
++        ns['attributes'], ns['all_attributes'] =             get_members(obj, {'attribute', 'property'})
+ 
+     modname, qualname = split_full_qualified_name(name)
+     if doc.objtype in ('method', 'attribute', 'property'):
+@@ -289,7 +326,6 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+     else:
+         return template.render(doc.objtype, ns)
+ 
+-
+ def generate_autosummary_docs(sources: List[str], output_dir: str = None,
+                               suffix: str = '.rst', warn: Callable = None,
+                               info: Callable = None, base_path: str = None,
+2026-05-17 00:13:15,950 - INFO - Grading answer for sphinx-doc__sphinx-7686...
+2026-05-17 00:13:15,953 - INFO - report: {'sphinx-doc__sphinx-7686': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module', 'tests/test_ext_autosummary.py::test_autosummary_generate_content_for_module_skipped']}, 'PASS_TO_PASS': {'success': [], 'failure': ['tests/test_ext_autosummary.py::test_mangle_signature', 'tests/test_ext_autosummary.py::test_escaping', 'tests/test_ext_autosummary.py::test_autosummary_generate', 'tests/test_ext_autosummary.py::test_autosummary_generate_overwrite1', 'tests/test_ext_autosummary.py::test_autosummary_generate_overwrite2', 'tests/test_ext_autosummary.py::test_autosummary_recursive', 'tests/test_ext_autosummary.py::test_autosummary_latex_table_colspec', 'tests/test_ext_autosummary.py::test_import_by_name', 'tests/test_ext_autosummary.py::test_autosummary_imported_members', 'tests/test_ext_autosummary.py::test_generate_autosummary_docs_property', 'tests/test_ext_autosummary.py::test_autosummary_skip_member', 'tests/test_ext_autosummary.py::test_autosummary_template', 'tests/test_ext_autosummary.py::test_empty_autosummary_generate', 'tests/test_ext_autosummary.py::test_invalid_autosummary_generate', 'tests/test_ext_autosummary.py::test_autogen']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sphinx-doc__sphinx-7686: resolved: False
+2026-05-17 00:13:15,954 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-7686.benchmark...
+2026-05-17 00:13:31,225 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-7686.benchmark...
+2026-05-17 00:13:31,261 - INFO - Container sweb.eval.sphinx-doc__sphinx-7686.benchmark removed.
+2026-05-17 00:13:31,261 - INFO - Attempting to remove image sweb.eval.x86_64.sphinx-doc__sphinx-7686:latest...
+2026-05-17 00:13:31,497 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-7686:latest removed.

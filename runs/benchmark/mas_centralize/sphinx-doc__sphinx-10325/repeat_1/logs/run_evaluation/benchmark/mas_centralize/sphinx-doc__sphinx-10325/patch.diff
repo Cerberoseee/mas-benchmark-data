@@ -1,0 +1,33 @@
+diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
+index 62631f7ff..fe83ddd28 100644
+--- a/sphinx/ext/autodoc/__init__.py
++++ b/sphinx/ext/autodoc/__init__.py
+@@ -681,11 +681,24 @@ class Documenter:
+         """
+         def is_filtered_inherited_member(name: str, obj: Any) -> bool:
+             if inspect.isclass(self.object):
++                inherited = self.options.inherited_members
++                # normalize inherited to a set of names
++                names = set()
++                if inherited:
++                    if isinstance(inherited, str):
++                        names = {x.strip() for x in inherited.split(',') if x.strip()}
++                    else:
++                        try:
++                            names = {x for x in inherited if x is not None}
++                        except TypeError:
++                            # not iterable
++                            names = {str(inherited)}
+                 for cls in self.object.__mro__:
+-                    if cls.__name__ == self.options.inherited_members and cls != self.object:
+-                        # given member is a member of specified *super class*
+-                        return True
+-                    elif name in cls.__dict__:
++                    if names:
++                        if cls.__name__ in names and cls != self.object:
++                            # given member is a member of specified *super class*
++                            return True
++                    if name in cls.__dict__:
+                         return False
+                     elif name in self.get_attr(cls, '__annotations__', {}):
+                         return False

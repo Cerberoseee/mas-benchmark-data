@@ -1,0 +1,98 @@
+{
+  "run_id": "benchmark",
+  "arm": "mas_centralize",
+  "instance_id": "sympy__sympy-12171",
+  "repeat_index": 0,
+  "status": "success",
+  "failure_class": "graded_fail",
+  "note": "",
+  "started_at": "2026-05-15T18:15:20.072674Z",
+  "completed_at": "2026-05-15T18:34:40.460513Z",
+  "duration_seconds": 1160.387839,
+  "workspace_dir": "runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/workspace",
+  "run_dir": "runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1",
+  "prompt_path": "runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/prompt.txt",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/patch.diff",
+  "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/stdout.log",
+  "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/stderr.log",
+  "telemetry_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/telemetry.json",
+  "result_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/result.json",
+  "grade_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/grade-result.json",
+  "prompt_sha256": "5d6f9c01a5623d9907bddc9702e1191ba40c593d8c01319343a932add6c258b1",
+  "telemetry": {
+    "total_tokens": 1417753,
+    "prompt_tokens": 1388594,
+    "completion_tokens": 29159,
+    "total_steps": 0,
+    "tool_calls": 24,
+    "tool_failures": 3,
+    "retries": 0,
+    "escalations": 4,
+    "messages": 154,
+    "handoffs": 9,
+    "extra": {}
+  },
+  "grade": {
+    "resolved": false,
+    "status": "graded",
+    "details": {
+      "returncode": 0,
+      "stdout_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/grade.stdout.log",
+      "stderr_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/grade.stderr.log",
+      "swebench_report_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/mas_centralize.benchmark.json",
+      "swebench_grading": {
+        "summary": "1 pass_to_pass test(s) regressed (should still pass)",
+        "fail_to_pass_still_failing": [],
+        "fail_to_pass_now_passing": [
+          "test_Derivative"
+        ],
+        "pass_to_pass_still_passing": [
+          "test_Integer",
+          "test_Rational",
+          "test_Function",
+          "test_Mul",
+          "test_constants",
+          "test_containers",
+          "test_Integral"
+        ],
+        "pass_to_pass_regressions": [
+          "test_Pow"
+        ],
+        "pass_to_fail": [],
+        "fail_to_fail": [],
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "test_Derivative"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "test_Integer",
+              "test_Rational",
+              "test_Function",
+              "test_Mul",
+              "test_constants",
+              "test_containers",
+              "test_Integral"
+            ],
+            "failure": [
+              "test_Pow"
+            ]
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        },
+        "report_json_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/sympy__sympy-12171/repeat_1/logs/run_evaluation/benchmark/mas_centralize/sympy__sympy-12171/report.json"
+      }
+    },
+    "graded_at": "2026-05-16T11:30:49.807764Z"
+  }
+}

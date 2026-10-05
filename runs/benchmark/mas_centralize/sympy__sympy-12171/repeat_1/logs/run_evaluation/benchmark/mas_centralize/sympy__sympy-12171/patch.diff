@@ -1,0 +1,39 @@
+diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
+index 4c2ffd81e1..4f8f31f557 100644
+--- a/sympy/printing/mathematica.py
++++ b/sympy/printing/mathematica.py
+@@ -110,6 +110,34 @@ def _print_Sum(self, expr):
+         return "Hold[Sum[" + ', '.join(self.doprint(a) for a in expr.args) + "]]"
+ 
+ 
++    def _print_Derivative(self, expr):
++        """Print Derivative objects as Mathematica D[] calls, expanding integer
++        orders into repeated variables and wrap in Hold[] like other constructs."""
++        # first arg is the function being differentiated
++        func = expr.args[0]
++        func_str = self.doprint(func)
++        vars_list = []
++        prev = None
++        from sympy import Integer
++        for a in expr.args[1:]:
++            if isinstance(a, Integer):
++                if prev is None:
++                    # nothing to repeat; skip
++                    continue
++                for _ in range(int(a)):
++                    vars_list.append(prev)
++            else:
++                s = self.doprint(a)
++                vars_list.append(s)
++                prev = s
++        return "Hold[D[" + ", ".join([func_str] + vars_list) + "]]"
++
++    def _print_Float(self, expr):
++        """Print Float numbers in Mathematica scientific notation using *^."""
++        # Use str to get python's representation and replace e/E with *^ for Mathematica
++        res = str(expr)
++        return res.replace('E', '*^').replace('e', '*^')
++
+ def mathematica_code(expr, **settings):
+     r"""Converts an expr to a string of the Wolfram Mathematica code
+ 

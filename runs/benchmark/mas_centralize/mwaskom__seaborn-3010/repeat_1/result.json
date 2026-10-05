@@ -1,0 +1,37 @@
+{
+  "status": "incomplete",
+  "final_message": "PROJECT COMPLETE\n\nFinal summary:\n- Problem: PolyFit crashed on inputs with missing data (NaN/None) because numpy.polyfit was called with arrays containing NaNs, raising an SVD LinAlgError.\n- Fix: In seaborn/_stats/regression.py, PolyFit._fit_predict now removes observations with missing x or y before fitting (mask = x.notna() & y.notna()).\n- Commit: ad6cfe302cb15b16e1960c71f04e9be0066c4140\n- Validation:\n  - Non-empty patch confirmed.\n  - Code review: approved.\n  - QA: targeted PolyFit tests passed.\n\nOutcome: Bug fixed.",
+  "patch_path": "/home/cerberose/mas-evaluate-script/runs/benchmark/mas_centralize/mwaskom__seaborn-3010/repeat_1/patch.diff",
+  "completion_valid": false,
+  "completion_failures": [
+    "No QA_VERDICT block was produced."
+  ],
+  "qa_verdict": null,
+  "review_verdict": {
+    "blocking_findings": false,
+    "notes": "Drops rows with missing x or y before fitting to avoid SVD errors from np.polyfit; change is minimal, correct, and low risk.",
+    "raw": "blocking_findings: false\n  notes: Drops rows with missing x or y before fitting to avoid SVD errors from np.polyfit; change is minimal, correct, and low risk."
+  },
+  "review_blocking": null,
+  "patch_present": true,
+  "patch_relevance": {
+    "acceptable": true,
+    "changed_files": [
+      "seaborn/_stats/regression.py"
+    ],
+    "relevant_files": [
+      "seaborn/_stats/regression.py"
+    ],
+    "suspicious_files": [],
+    "notes": []
+  },
+  "handoff_sources": [
+    "CodeReviewer",
+    "Engineer",
+    "ProjectManager",
+    "QA",
+    "user"
+  ],
+  "workflow_error": "",
+  "telemetry_status": "qa_not_verified"
+}
